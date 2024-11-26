@@ -50,5 +50,3 @@ EXPOSE 8080 8888
 # Start services
 # CMD service ssh start && \
 #     jupyter notebook --port=8888 --ip=0.0.0.0 --no-browser --allow-root
-# CMD /bin/bash -c "service ssh start && jupyter notebook --port=8888 --ip=0.0.0.0 --no-browser --allow-root"
-CMD ["/bin/bash"]
