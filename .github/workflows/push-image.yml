@@ -63,5 +63,5 @@ jobs:
         uses: ./.github/actions/push
         with:
           image: davidh_image  # this is the tag of the image we just built in the previous step
-          beaker: davidh_image_auto  # this is the name of the image on Beaker
+          beaker: davidh-interactive  # this is the name of the image on Beaker
           latest: true  # this flag says we should also push this as the 'latest' version to GHCR

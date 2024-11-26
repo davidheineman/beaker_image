@@ -3,6 +3,17 @@ ENV CUDA_HOME=/opt/conda
 
 WORKDIR /stage/
 
+# Install necessary packages
+RUN apt-get update && apt-get install -y \
+    openssh-server \
+    figlet \
+    lolcat \
+    && apt-get clean
+
+# Configure OpenSSH
+RUN mkdir -p /run/sshd && chmod 755 /run/sshd && \
+    sed -i 's/^#PubkeyAuthentication/PubkeyAuthentication/; s/^#AuthorizedKeysFile/AuthorizedKeysFile/' /etc/ssh/sshd_config
+
 COPY requirements_beaker.txt .
 
 # Run core requirements here
@@ -18,6 +29,23 @@ RUN pip install git+https://github.com/allenai/OLMo.git@main && pip cache purge
 
 ARG GIT_REF=""
 ENV GIT_REF=${GIT_REF}
+
+# Disable welcome messages
+RUN chmod -x /etc/update-motd.d/* && \
+    touch /etc/hushlogin
+
+# Configure OpenSSH to run on port 8080
+RUN sed -i 's/#Port 22/Port 8080/' /etc/ssh/sshd_config
+
+# Install Jupyter Notebook
+RUN pip install notebook
+
+# Expose OpenSSH and Jupyter ports
+EXPOSE 8080 8888
+
+# Start services
+CMD service ssh start && \
+    jupyter notebook --port=8888 --ip=0.0.0.0 --no-browser --allow-root
 
 # Install source python pkg
 # COPY pyproject.toml .
