@@ -3,6 +3,9 @@ ENV CUDA_HOME=/opt/conda
 
 WORKDIR /stage/
 
+# Disable welcome messages
+RUN chmod -x /etc/update-motd.d/* && touch /etc/hushlogin
+
 # Install necessary packages
 RUN apt-get update && apt-get install -y \
     openssh-server \
@@ -14,35 +17,30 @@ RUN apt-get update && apt-get install -y \
 RUN mkdir -p /run/sshd && chmod 755 /run/sshd && \
     sed -i 's/^#PubkeyAuthentication/PubkeyAuthentication/; s/^#AuthorizedKeysFile/AuthorizedKeysFile/' /etc/ssh/sshd_config
 
+# Configure OpenSSH to run on port 8080
+RUN sed -i 's/#Port 22/Port 8080/' /etc/ssh/sshd_config
+
 COPY requirements_beaker.txt .
 
 # Run core requirements here
 RUN pip install -r requirements_beaker.txt  && pip cache purge
 RUN python -m nltk.downloader punkt
 
-# Custom installation for vllm for easier debugging (0.6.2 actually installs pytorch 2.4.1)
+# Custom installation for vllm (0.6.2 actually installs pytorch 2.4.1)
 RUN pip install "vllm>=0.6.2,<0.6.4" && pip cache purge
 RUN pip install xformers && pip cache purge
 
-# Install ai2-olmo from github to get latest needed for torch >= 2.4
+# Install latest ai2-olmo from github 
 RUN pip install git+https://github.com/allenai/OLMo.git@main && pip cache purge
 
 ARG GIT_REF=""
 ENV GIT_REF=${GIT_REF}
-
-# Disable welcome messages
-RUN chmod -x /etc/update-motd.d/* && \
-    touch /etc/hushlogin
-
-# Configure OpenSSH to run on port 8080
-RUN sed -i 's/#Port 22/Port 8080/' /etc/ssh/sshd_config
 
 # Install Jupyter Notebook
 RUN pip install notebook
 
 # Expose OpenSSH and Jupyter ports
 EXPOSE 8080 8888
-
 
 # Install source python pkg
 # COPY pyproject.toml .
@@ -52,4 +50,5 @@ EXPOSE 8080 8888
 # Start services
 # CMD service ssh start && \
 #     jupyter notebook --port=8888 --ip=0.0.0.0 --no-browser --allow-root
-CMD /bin/bash -c "service ssh start && jupyter notebook --port=8888 --ip=0.0.0.0 --no-browser --allow-root"
+# CMD /bin/bash -c "service ssh start && jupyter notebook --port=8888 --ip=0.0.0.0 --no-browser --allow-root"
+CMD ["/bin/bash"]
