@@ -1,0 +1,10 @@
+numpy
+lm_eval
+transformers
+torch
+einops
+pygsheets
+bitsandbytes
+fsspec
+wandb
+nltk

@@ -1,0 +1,25 @@
+FROM ghcr.io/allenai/pytorch:2.4.0-cuda12.1-python3.11
+ENV CUDA_HOME=/opt/conda
+
+WORKDIR /stage/
+
+COPY requirements_beaker.txt .
+
+# Run core requirements here
+RUN pip install -r requirements_beaker.txt  && pip cache purge
+RUN python -m nltk.downloader punkt
+
+# Custom installation for vllm for easier debugging (0.6.2 actually installs pytorch 2.4.1)
+RUN pip install "vllm>=0.6.2,<0.6.4" && pip cache purge
+RUN pip install xformers && pip cache purge
+
+# Install ai2-olmo from github to get latest needed for torch >= 2.4
+RUN pip install git+https://github.com/allenai/OLMo.git@main && pip cache purge
+
+ARG GIT_REF=""
+ENV GIT_REF=${GIT_REF}
+
+# Install source python pkg
+# COPY pyproject.toml .
+# COPY oe_eval oe_eval
+# RUN pip install -e . && pip cache purge

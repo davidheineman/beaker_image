@@ -1,0 +1,66 @@
+name: Build davidh Image
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+on:
+  push:
+    # Run this workflow anytime anytime these paths update 
+    # (+ anytime there's a new release tag for this image)
+    paths:
+      - 'pyproject.toml'
+      - 'requirements_beaker.txt'
+      - 'Dockerfile_beaker'
+      - .github/workflows/push-image.yml
+    branches:
+      - main
+  # pull_request:
+  #   branches: [main]
+  #   paths:
+  #     - 'requirements.txt'
+  #     - 'Dockerfile'
+  workflow_dispatch:  # allow manual triggers on GitHub UI
+
+env:
+  DOCKER_BUILDKIT: "1"
+
+jobs:
+  build:
+    name: davidh_image
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    if: (github.event_name != 'workflow_run') || (github.event.workflow_run.conclusion == 'success')
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup environment
+        uses: ./.github/actions/setup
+        with:
+          beaker_token: ${{ secrets.BEAKER_TOKEN }}
+          # ghcr_token: ${{ secrets.GHCR_TOKEN }}
+          # ghcr_user: ${{ secrets.GHCR_USER }}
+
+      # big images fail, trying this
+      - name: Delete huge unnecessary tools folder
+        run: rm -rf /opt/hostedtoolcache
+
+      - name: Build image
+        run: |
+          docker buildx build \
+              --build-arg BUILDKIT_INLINE_CACHE=1 \
+              --build-arg GIT_REF=$(git rev-parse HEAD) \
+              -f Dockerfile_beaker \
+              -t davidh_image \
+
+      - name: Check image
+        run: |
+          docker run --rm davidh_image
+
+      - name: Push image
+        # if: github.event_name != 'pull_request'
+        uses: ./.github/actions/push
+        with:
+          image: davidh_image  # this is the tag of the image we just built in the previous step
+          beaker: davidh_image_auto  # this is the name of the image on Beaker
+          latest: true  # this flag says we should also push this as the 'latest' version to GHCR
