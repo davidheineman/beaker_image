@@ -52,6 +52,7 @@ jobs:
               --build-arg GIT_REF=$(git rev-parse HEAD) \
               -f Dockerfile_beaker \
               -t davidh_image \
+              .
 
       - name: Check image
         run: |
