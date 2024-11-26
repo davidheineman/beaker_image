@@ -43,11 +43,13 @@ RUN pip install notebook
 # Expose OpenSSH and Jupyter ports
 EXPOSE 8080 8888
 
-# Start services
-CMD service ssh start && \
-    jupyter notebook --port=8888 --ip=0.0.0.0 --no-browser --allow-root
 
 # Install source python pkg
 # COPY pyproject.toml .
 # COPY oe_eval oe_eval
 # RUN pip install -e . && pip cache purge
+
+# Start services
+# CMD service ssh start && \
+#     jupyter notebook --port=8888 --ip=0.0.0.0 --no-browser --allow-root
+CMD /bin/bash -c "service ssh start && jupyter notebook --port=8888 --ip=0.0.0.0 --no-browser --allow-root"
