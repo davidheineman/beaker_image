@@ -28,9 +28,10 @@ EXPOSE 8080 8888
 RUN mkdir -p /run/sshd && chmod 755 /run/sshd && \
     sed -i 's/^#PubkeyAuthentication/PubkeyAuthentication/; s/^#AuthorizedKeysFile/AuthorizedKeysFile/' /etc/ssh/sshd_config
 RUN sed -i 's/#Port 22/Port 8080/' /etc/ssh/sshd_config
-ENTRYPOINT []
-SHELL ["/bin/bash", "-c"]
-CMD ["/usr/sbin/sshd", "-D"]
+# ENTRYPOINT []
+# SHELL ["/bin/bash", "-c"]
+# CMD ["/usr/sbin/sshd", "-D"]
+ENTRYPOINT ["/usr/sbin/sshd", "-D"]
 
 # Add SSH pubkeys
 COPY .ssh/authorized_keys /root/.ssh/authorized_keys
