@@ -4,10 +4,9 @@ Personal container for Beaker interactive sessions.
 
 ### Setup
 
-1. Clone this repo
-2. Update references for `davidh` to your workspace/image name
+1. Fork this repo
+2. Update references for `davidh` to your workspace/desired image name
 3. Set `BEAKER_TOKEN` secret in https://github.com/[user]/[repo]/settings/secrets/actions
-
 4. Add secrets to your beaker workspace:
 ```sh
 cat ~/.ssh/id_rsa | beaker secret write ssh-key
@@ -16,17 +15,18 @@ echo $HF_TOKEN | beaker secret write HF_TOKEN
 echo $OPENAI_API_KEY | beaker secret write OPENAI_API_KEY
 echo $ANTHROPIC_API_KEY | beaker secret write ANTHROPIC_API_KEY
 echo $BEAKER_TOKEN | beaker secret write BEAKER_TOKEN
-# to use git, add the pubkey for ~/.ssh/id_rsa to: https://github.com/settings/keys
 beaker secret list
 ```
+5. To use git on the remote, add your pubkey `~/.ssh/id_rsa.pub` to your GitHub account: https://github.com/settings/keys
+
 
 ### TODO
-- Install this .bashrc (instead of using remote bashrc)
-- Install vscode server locally (with extensions)?
-- Hook up secrets in env: HF_TOKEN, OPENAI_API_KEY
-- Hook up secrets for applications: Git, Beaker user_token
-- Install authorized_keys (as ssh pubkeys) in docker
-- Install bin/ files
+[X] Install this .bashrc (instead of using remote bashrc)
+[X] Install authorized_keys (as ssh pubkeys) in docker
+[X] Hook up secrets in env: HF_TOKEN, OPENAI_API_KEY
+[X] Hook up secrets for applications: Git, Beaker user_token
+[X] Install bin/ files
+[ ] Install vscode server locally (with extensions)?
 
 - Install the cuda toolkit
 ```sh
