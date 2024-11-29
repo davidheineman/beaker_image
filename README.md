@@ -21,10 +21,11 @@ beaker secret list
 6. [Optional] Test your build locally:
 ```sh
 docker build -f Dockerfile_beaker -t davidh-interactive .
-docker run -it -p 8080:8080 davidh-interactive
+# docker run -it -p 8080:8080 davidh-interactive
+docker run --rm davidh-interactive
 ssh -p 8080 root@127.0.0.1
-beaker image delete davidh/oe-eval-para
-beaker image create --name oe-eval-para oe-eval-para
+beaker image delete davidh/davidh-interactive
+beaker image create --name davidh-interactive davidh-interactive
 ```
 
 

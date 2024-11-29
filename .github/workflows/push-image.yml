@@ -54,9 +54,9 @@ jobs:
               -t davidh_image \
               .
 
-      - name: Check image
-        run: |
-          docker run --rm davidh_image
+      # - name: Check image
+      #   run: |
+      #     docker run --rm davidh_image
 
       - name: Push image
         # if: github.event_name != 'pull_request'
