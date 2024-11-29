@@ -23,6 +23,7 @@ RUN apt-get update && apt-get install -y curl sudo && \
 RUN mkdir -p /run/sshd && chmod 755 /run/sshd && \
     sed -i 's/^#PubkeyAuthentication/PubkeyAuthentication/; s/^#AuthorizedKeysFile/AuthorizedKeysFile/' /etc/ssh/sshd_config
 RUN sed -i 's/#Port 22/Port 8080/' /etc/ssh/sshd_config
+CMD ["/usr/sbin/sshd", "-D"]
 
 # Add SSH pubkeys
 COPY .ssh/authorized_keys /root/.ssh/authorized_keys
@@ -56,6 +57,7 @@ COPY bin/ /root/bin/
 
 # # Install Jupyter Notebook
 # RUN pip install notebook
+# jupyter notebook --port 8888 --ip 0.0.0.0 --no-browser --allow-root
 
 # Expose OpenSSH and Jupyter ports
 EXPOSE 8080 8888

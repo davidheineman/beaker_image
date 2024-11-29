@@ -71,8 +71,8 @@ condacreate() {
 }
 alias nv='nvidia-smi'
 
-beaker config set user_token $BEAKER_TOKEN
-beaker config set default_workspace ai2/davidh
+# beaker config set user_token $BEAKER_TOKEN
+# beaker config set default_workspace ai2/davidh
 
 if [ "$PWD" = "$HOME" ]; then
     cd ~/ai2
