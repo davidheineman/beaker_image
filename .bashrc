@@ -28,7 +28,7 @@ export PYTHONIOENCODING=utf8
 export PATH="/root/bin:$PATH"
 
 # Overwrite home .bashrc with this one
-echo "source /input/oe-eval-default/davidh/.bashrc" > ~/.bashrc
+# echo "source /input/oe-eval-default/davidh/.bashrc" > ~/.bashrc
 
 # Change conda dir to remote
 rm -rf /root/.conda

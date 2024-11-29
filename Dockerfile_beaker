@@ -1,10 +1,12 @@
+# FROM ubuntu
 FROM ghcr.io/allenai/pytorch:2.4.0-cuda12.1-python3.11
+# docker pull ghcr.io/allenai/cuda:12.1-cudnn8-dev-ubuntu20.04-v1.2.118
 ENV CUDA_HOME=/opt/conda
 
 WORKDIR /root
 
 # Disable welcome messages
-RUN chmod -x /etc/update-motd.d/* && touch /etc/hushlogin
+RUN chmod -x /etc/update-motd.d/* && touch ~/.hushlogin && touch /root/.hushlogin
 
 # Install apt packages
 RUN apt-get update && apt-get install -y \
@@ -14,7 +16,7 @@ RUN apt-get update && apt-get install -y \
     tree \
     && apt-get clean
 
-# Install Docker
+# Install Beaker
 RUN apt-get update && apt-get install -y curl sudo && \
     curl -s 'https://beaker.org/api/v3/release/cli?os=linux&arch=amd64' | sudo tar -zxv -C /usr/local/bin ./beaker && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
@@ -38,19 +40,16 @@ RUN chmod 644 /root/.bashrc
 # Add custom commands (like ChatGPT!)
 RUN mkdir -p /root/bin
 COPY bin/ /root/bin/
+RUN chmod +x /root/bin/*
 
+# # Install core python dependencies
 # COPY requirements_beaker.txt .
-
-# # Run core requirements here
-# RUN pip install -r requirements_beaker.txt  && pip cache purge
+# RUN pip install -r requirements_beaker.txt
 # RUN python -m nltk.downloader punkt
-
-# # Custom installation for vllm (0.6.2 actually installs pytorch 2.4.1)
-# RUN pip install "vllm>=0.6.2,<0.6.4" && pip cache purge
-# RUN pip install xformers && pip cache purge
-
-# # Install latest ai2-olmo from github 
-# RUN pip install git+https://github.com/allenai/OLMo.git@main && pip cache purge
+# RUN pip install "vllm>=0.6.2,<0.6.4" # Custom installation for vllm (0.6.2 actually installs pytorch 2.4.1)
+# RUN pip install xformers
+# RUN pip install git+https://github.com/allenai/OLMo.git@main # Install latest ai2-olmo from github 
+# RUN pip cache purge
 
 # ARG GIT_REF=""
 # ENV GIT_REF=${GIT_REF}
