@@ -1,0 +1,6 @@
+[user]
+    name = David Heineman
+    email = dheineman3@gatech.edu
+
+[safe]
+    directory = /input/oe-eval-default/davidh

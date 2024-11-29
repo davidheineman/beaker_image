@@ -1,52 +1,56 @@
 FROM ghcr.io/allenai/pytorch:2.4.0-cuda12.1-python3.11
 ENV CUDA_HOME=/opt/conda
 
-WORKDIR /stage/
+WORKDIR /root
 
 # Disable welcome messages
 RUN chmod -x /etc/update-motd.d/* && touch /etc/hushlogin
 
-# Install necessary packages
+# Install apt packages
 RUN apt-get update && apt-get install -y \
     openssh-server \
     figlet \
     lolcat \
+    tree \
     && apt-get clean
 
-# Configure OpenSSH
+# Configure OpenSSH (allow external connections, port 8080)
 RUN mkdir -p /run/sshd && chmod 755 /run/sshd && \
     sed -i 's/^#PubkeyAuthentication/PubkeyAuthentication/; s/^#AuthorizedKeysFile/AuthorizedKeysFile/' /etc/ssh/sshd_config
-
-# Configure OpenSSH to run on port 8080
 RUN sed -i 's/#Port 22/Port 8080/' /etc/ssh/sshd_config
 
-COPY requirements_beaker.txt .
+# Add SSH pubkeys
+COPY .ssh/authorized_keys /root/.ssh/authorized_keys
 
-# Run core requirements here
-RUN pip install -r requirements_beaker.txt  && pip cache purge
-RUN python -m nltk.downloader punkt
+# Add .gitconfig
+COPY .gitconfig /root/.gitconfig
 
-# Custom installation for vllm (0.6.2 actually installs pytorch 2.4.1)
-RUN pip install "vllm>=0.6.2,<0.6.4" && pip cache purge
-RUN pip install xformers && pip cache purge
+# Add .bashrc
+COPY bashrc /root/.bashrc
+RUN chmod 644 /root/.bashrc
 
-# Install latest ai2-olmo from github 
-RUN pip install git+https://github.com/allenai/OLMo.git@main && pip cache purge
+# Add custom commands (like ChatGPT!)
+RUN mkdir -p /root/bin
+COPY bin/ /root/bin/
 
-ARG GIT_REF=""
-ENV GIT_REF=${GIT_REF}
+# COPY requirements_beaker.txt .
 
-# Install Jupyter Notebook
-RUN pip install notebook
+# # Run core requirements here
+# RUN pip install -r requirements_beaker.txt  && pip cache purge
+# RUN python -m nltk.downloader punkt
+
+# # Custom installation for vllm (0.6.2 actually installs pytorch 2.4.1)
+# RUN pip install "vllm>=0.6.2,<0.6.4" && pip cache purge
+# RUN pip install xformers && pip cache purge
+
+# # Install latest ai2-olmo from github 
+# RUN pip install git+https://github.com/allenai/OLMo.git@main && pip cache purge
+
+# ARG GIT_REF=""
+# ENV GIT_REF=${GIT_REF}
+
+# # Install Jupyter Notebook
+# RUN pip install notebook
 
 # Expose OpenSSH and Jupyter ports
 EXPOSE 8080 8888
-
-# Install source python pkg
-# COPY pyproject.toml .
-# COPY oe_eval oe_eval
-# RUN pip install -e . && pip cache purge
-
-# Start services
-# CMD service ssh start && \
-#     jupyter notebook --port=8888 --ip=0.0.0.0 --no-browser --allow-root
