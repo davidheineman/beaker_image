@@ -16,6 +16,7 @@ echo $OPENAI_API_KEY | beaker secret write OPENAI_API_KEY
 echo $ANTHROPIC_API_KEY | beaker secret write ANTHROPIC_API_KEY
 echo $BEAKER_TOKEN | beaker secret write BEAKER_TOKEN
 beaker secret list
+# beaker secret read OPENAI_API_KEY
 ```
 5. To use git on the remote, add your pubkey `~/.ssh/id_rsa.pub` to your GitHub account: https://github.com/settings/keys
 6. [Optional] Test your build locally:

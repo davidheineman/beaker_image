@@ -43,12 +43,9 @@ ln -sfn /input/oe-eval-default/davidh/.cache ~/.cache || true
 # Verify github
 # I wish this could be run with .bashrc, but it causes
 gitlogin() {
-    cp /input/oe-eval-default/davidh/.ssh_david/id_rsa ~/.ssh/id_rsa
-    chmod 600 /root/.ssh/id_rsa
     ssh-keyscan -H github.com >> ~/.ssh/known_hosts
     ssh -T git@github.com
 }
-alias gitlogin='gitlogin'
 
 # Make directory safe
 git config --global --add safe.directory /input/oe-eval-default/davidh
