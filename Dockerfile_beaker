@@ -21,10 +21,15 @@ RUN apt-get update && apt-get install -y curl sudo && \
     curl -s 'https://beaker.org/api/v3/release/cli?os=linux&arch=amd64' | sudo tar -zxv -C /usr/local/bin ./beaker && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
+# Expose OpenSSH and Jupyter ports
+EXPOSE 8080 8888
+
 # Configure OpenSSH (allow external connections, port 8080)
 RUN mkdir -p /run/sshd && chmod 755 /run/sshd && \
     sed -i 's/^#PubkeyAuthentication/PubkeyAuthentication/; s/^#AuthorizedKeysFile/AuthorizedKeysFile/' /etc/ssh/sshd_config
 RUN sed -i 's/#Port 22/Port 8080/' /etc/ssh/sshd_config
+ENTRYPOINT []
+SHELL ["/bin/bash", "-c"]
 CMD ["/usr/sbin/sshd", "-D"]
 
 # Add SSH pubkeys
@@ -57,6 +62,3 @@ RUN chmod +x /root/bin/*
 # # Install Jupyter Notebook
 # RUN pip install notebook
 # jupyter notebook --port 8888 --ip 0.0.0.0 --no-browser --allow-root
-
-# Expose OpenSSH and Jupyter ports
-EXPOSE 8080 8888
