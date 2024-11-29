@@ -4,11 +4,11 @@ Personal container for Beaker interactive sessions.
 
 ### Setup
 
-- Clone this repo
-- Update references for 'davidh' to your workspace/image name
-- Set `BEAKER_TOKEN` secret in https://github.com/[user]/[repo]/settings/secrets/actions
+1. Clone this repo
+2. Update references for `davidh` to your workspace/image name
+3. Set `BEAKER_TOKEN` secret in https://github.com/[user]/[repo]/settings/secrets/actions
 
-- Add secrets to your workspace:
+4. Add secrets to your beaker workspace:
 ```sh
 cat ~/.ssh/id_rsa | beaker secret write ssh-key
 cat ~/.aws/credentials | beaker secret write aws-creds
