@@ -31,7 +31,7 @@ export PATH="/root/bin:$PATH"
 # echo "source /oe-eval-default/davidh/.bashrc" > ~/.bashrc
 
 # Change conda dir to remote
-ln -sfn /oe-eval-default/davidh/miniconda3 /root/.conda || true
+ln -sfn /oe-eval-default/davidh/miniconda3 /root/.conda-remote || true
 source /root/.conda_init
 
 # Link NFS directory to home
