@@ -2,6 +2,7 @@
 FROM ghcr.io/allenai/pytorch:2.4.0-cuda12.1-python3.11
 # docker pull ghcr.io/allenai/cuda:12.1-cudnn8-dev-ubuntu20.04-v1.2.118
 ENV CUDA_HOME=/opt/conda
+ENV DEBIAN_FRONTEND=noninteractive
 
 WORKDIR /root
 
@@ -17,6 +18,10 @@ RUN apt-get update && apt-get install -y \
     tree \
     nano \
     jq \
+    curl \
+    wget \
+    git \
+    software-properties-common \
     && apt-get clean
 
 # Install Beaker
@@ -24,7 +29,16 @@ RUN apt-get update && apt-get install -y curl sudo && \
     curl -s 'https://beaker.org/api/v3/release/cli?os=linux&arch=amd64' | sudo tar -zxv -C /usr/local/bin ./beaker && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Expose OpenSSH and Jupyter ports
+# Install VSCode Server
+ENV PATH="/root/.vscode-server/bin:$PATH"
+RUN mkdir -p /root/.vscode-server
+RUN curl -fsSL https://update.code.visualstudio.com/latest/server-linux-x64/stable \
+    -o /root/.vscode-server/code-server.tar.gz && \
+    mkdir -p /root/.vscode-server/bin && \
+    tar -xzf /root/.vscode-server/code-server.tar.gz -C /root/.vscode-server/bin --strip-components 1 && \
+    rm /root/.vscode-server/code-server.tar.gz
+
+# Expose OpenSSH/VS Code and Jupyter ports
 EXPOSE 8080 8888
 
 # Configure OpenSSH (allow external connections, port 8080)
