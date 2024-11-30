@@ -15,6 +15,7 @@ echo $HF_TOKEN | beaker secret write HF_TOKEN
 echo $OPENAI_API_KEY | beaker secret write OPENAI_API_KEY
 echo $ANTHROPIC_API_KEY | beaker secret write ANTHROPIC_API_KEY
 echo $BEAKER_TOKEN | beaker secret write BEAKER_TOKEN
+echo $WANDB_API_KEY | beaker secret write WANDB_API_KEY
 beaker secret list
 # beaker secret read OPENAI_API_KEY
 ```
@@ -36,9 +37,9 @@ beaker image create --name davidh-interactive davidh-interactive
 [X] Hook up secrets in env: HF_TOKEN, OPENAI_API_KEY
 [X] Hook up secrets for applications: Git, Beaker user_token
 [X] Install bin/ files
-[ ] Install vscode server locally (with extensions)?
-
-- Install the cuda toolkit
+[X] Install vscode server locally
+[ ] Install vscode extensions
+[ ] Install the nvcc toolkit
 ```sh
 sudo apt-get -y install cuda-toolkit-12-0
 echo 'export LD_LIBRARY_PATH=/usr/local/cuda-12.0/lib64${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}' >> ~/.bashrc
