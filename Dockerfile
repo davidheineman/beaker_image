@@ -1,6 +1,6 @@
 # FROM ubuntu
-FROM ghcr.io/allenai/pytorch:2.4.0-cuda12.1-python3.11
-# docker pull ghcr.io/allenai/cuda:12.1-cudnn8-dev-ubuntu20.04-v1.2.118
+# FROM ghcr.io/allenai/pytorch:2.4.0-cuda12.1-python3.11
+FROM ghcr.io/allenai/cuda:12.1-cudnn8-dev-ubuntu20.04-v1.2.118
 ENV CUDA_HOME=/opt/conda
 ENV DEBIAN_FRONTEND=noninteractive
 
@@ -24,6 +24,7 @@ RUN apt-get update && apt-get install -y \
     software-properties-common \
     pkg-config \
     libsentencepiece-dev \
+    docker.io \
     && apt-get clean
 
 # Install Beaker

@@ -1,0 +1,56 @@
+version: v2
+budget: ai2/oe-eval
+description: YOUR_DESCRIPTION
+retry:
+  allowedTaskRetries: 3
+tasks:
+  - name: YOUR_TASK_NAME
+    image:
+      beaker: davidh/YOUR_IMAGE_NAME
+    command: [bash, -c, ./SCRIPT.sh]
+    envVars:
+      # secrets
+      - name: HF_TOKEN
+        secret: HF_TOKEN
+      - name: OPENAI_API_KEY
+        secret: OPENAI_API_KEY
+      - name: ANTHROPIC_API_KEY
+        secret: ANTHROPIC_API_KEY
+      - name: BEAKER_TOKEN
+        secret: BEAKER_TOKEN
+      # arguments
+      - name: MODEL_STEP
+        value: 100000    
+    # arguments: [0]
+    datasets:
+      - mountPath: /root/.ssh/id_rsa
+        source:
+          secret: SECRET_NAME
+      - mountPath: /oe-data-default
+        source:
+          weka: oe-data-default
+      - mountPath: /oe-adapt-default
+        source:
+          weka: oe-adapt-default
+      - mountPath: /oe-eval-default
+        source:
+          weka: oe-eval-default
+      - mountPath: /oe-training-default
+        source:
+          weka: oe-training-default
+    result:
+      path: /output
+    resources:
+      gpuCount: 1
+    context:
+      priority: low
+      preemptible: true
+    constraints:
+      cluster:
+        # - ai2/allennlp-cirrascale # no weka
+        # - ai2/general-cirrascale # no weka
+        # - ai2/pluto-cirrascale # no weka
+        - ai2/jupiter-cirrascale-2 # h100
+        - ai2/saturn-cirrascale # a100
+        - ai2/allennlp-elara-cirrascale # h100
+        - ai2/neptune-cirrascale # a100
