@@ -1,5 +1,5 @@
 # Setup commands
-# mkdir -p ~/ai2/miniconda3 && wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/ai2/miniconda3/miniconda.sh
+# mkdir -p ~/ai2/miniconda3 && wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/ai2/miniconda.sh && chmod +x ~/ai2/miniconda.sh && ./miniconda.sh
 
 # CLI color coding
 PS1_RESET='\[\e[0m\]'
@@ -31,9 +31,8 @@ export PATH="/root/bin:$PATH"
 # echo "source /oe-eval-default/davidh/.bashrc" > ~/.bashrc
 
 # Change conda dir to remote
-rm -rf /root/.conda
-source /oe-eval-default/davidh/.conda_init
-ln -s ~/ai2/miniconda3 /root/.conda || true
+ln -s /oe-eval-default/davidh/miniconda3 /root/.conda || true
+source /root/.conda_init
 
 # Link NFS directory to home
 ln -sfn /oe-eval-default/davidh ~/ai2 || true

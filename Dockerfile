@@ -56,7 +56,9 @@ COPY .gitconfig /root/.gitconfig
 
 # Add .bashrc
 COPY .bashrc /root/.bashrc
+COPY .conda_init /root/.conda_init
 RUN chmod 644 /root/.bashrc
+RUN chmod 644 /root/.conda_init
 
 # Add custom commands (like ChatGPT!)
 RUN mkdir -p /root/bin
