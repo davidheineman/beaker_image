@@ -19,8 +19,14 @@ echo $WANDB_API_KEY | beaker secret write WANDB_API_KEY
 beaker secret list
 # beaker secret read OPENAI_API_KEY
 ```
-5. To use git on the remote, add your pubkey `~/.ssh/id_rsa.pub` to your GitHub account: https://github.com/settings/keys
-6. [Optional] Test your build locally:
+5. To use git on the remote, add your pubkey `~/.ssh/id_rsa.pub` to your GitHub account: https://github.com/settings/keys (and update the email in .gitconfig)
+6. [Optional] Install conda on remote
+```sh
+wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda.sh 
+chmod +x ~/miniconda.sh 
+./miniconda.sh # install to ~/ai2/miniconda3
+```
+7. [Optional] Test your build locally:
 ```sh
 docker build -t davidh-interactive .
 docker run -it -p 8080:8080 davidh-interactive
@@ -32,14 +38,14 @@ beaker image create --name davidh-interactive davidh-interactive
 
 
 ### TODO
-[X] Install this .bashrc (instead of using remote bashrc)
-[X] Install authorized_keys (as ssh pubkeys) in docker
-[X] Hook up secrets in env: HF_TOKEN, OPENAI_API_KEY
-[X] Hook up secrets for applications: Git, Beaker user_token
-[X] Install bin/ files
-[X] Install vscode server locally
-[ ] Install vscode extensions
-[ ] Install the nvcc toolkit
+- [X] Install this .bashrc (instead of using remote bashrc)
+- [X] Install authorized_keys (as ssh pubkeys) in docker
+- [X] Hook up secrets in env: HF_TOKEN, OPENAI_API_KEY
+- [X] Hook up secrets for applications: Git, Beaker user_token
+- [X] Install bin/ files
+- [X] Install vscode server locally
+- [ ] Install vscode extensions
+- [ ] Install the nvcc toolkit
 ```sh
 sudo apt-get -y install cuda-toolkit-12-0
 echo 'export LD_LIBRARY_PATH=/usr/local/cuda-12.0/lib64${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}' >> ~/.bashrc

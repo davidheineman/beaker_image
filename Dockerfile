@@ -22,6 +22,8 @@ RUN apt-get update && apt-get install -y \
     wget \
     git \
     software-properties-common \
+    pkg-config \
+    libsentencepiece-dev \
     && apt-get clean
 
 # Install Beaker
