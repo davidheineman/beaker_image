@@ -11,7 +11,7 @@ on:
     paths:
       - 'pyproject.toml'
       - 'requirements_beaker.txt'
-      - 'Dockerfile_beaker'
+      - 'Dockerfile'
       - .github/workflows/push-image.yml
     branches:
       - main
@@ -50,7 +50,7 @@ jobs:
           docker buildx build \
               --build-arg BUILDKIT_INLINE_CACHE=1 \
               --build-arg GIT_REF=$(git rev-parse HEAD) \
-              -f Dockerfile_beaker \
+              -f Dockerfile \
               -t davidh_image \
               .
 

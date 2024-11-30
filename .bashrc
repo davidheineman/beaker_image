@@ -16,10 +16,10 @@ export LSCOLORS=ExFxBxDxCxegedabagacad
 export force_color_prompt=yes
 
 # Change HF caches
-# export TRANSFORMERS_CACHE="/input/oe-eval-default/davidh/.cache/huggingface/hub"
-export HF_DATASETS_CACHE="/input/oe-eval-default/davidh/.cache/huggingface/datasets"
-export HUGGINGFACE_HUB_CACHE="/input/oe-eval-default/davidh/.cache/huggingface/hub"
-export HF_HOME="/input/oe-eval-default/davidh/.cache/huggingface/hub"
+# export TRANSFORMERS_CACHE="/oe-eval-default/davidh/.cache/huggingface/hub"
+export HF_DATASETS_CACHE="/oe-eval-default/davidh/.cache/huggingface/datasets"
+export HUGGINGFACE_HUB_CACHE="/oe-eval-default/davidh/.cache/huggingface/hub"
+export HF_HOME="/oe-eval-default/davidh/.cache/huggingface/hub"
 
 # Change terminal formatting to UTF-8 for Python
 export PYTHONIOENCODING=utf8
@@ -28,17 +28,17 @@ export PYTHONIOENCODING=utf8
 export PATH="/root/bin:$PATH"
 
 # Overwrite home .bashrc with this one
-# echo "source /input/oe-eval-default/davidh/.bashrc" > ~/.bashrc
+# echo "source /oe-eval-default/davidh/.bashrc" > ~/.bashrc
 
 # Change conda dir to remote
 rm -rf /root/.conda
-source /input/oe-eval-default/davidh/.conda_init
+source /oe-eval-default/davidh/.conda_init
 ln -s ~/ai2/miniconda3 /root/.conda || true
 
 # Link NFS directory to home
-ln -sfn /input/oe-eval-default/davidh ~/ai2 || true
-ln -sfn /input/oe-eval-default/davidh/.aws ~/.aws || true
-ln -sfn /input/oe-eval-default/davidh/.cache ~/.cache || true
+ln -sfn /oe-eval-default/davidh ~/ai2 || true
+ln -sfn /oe-eval-default/davidh/.aws ~/.aws || true
+ln -sfn /oe-eval-default/davidh/.cache ~/.cache || true
 
 # Verify github
 # I wish this could be run with .bashrc, but it causes
@@ -48,7 +48,7 @@ gitlogin() {
 }
 
 # Make directory safe
-git config --global --add safe.directory /input/oe-eval-default/davidh
+git config --global --add safe.directory /oe-eval-default/davidh
 
 # Welcome command!
 if command -v figlet &> /dev/null && command -v lolcat &> /dev/null; then
@@ -78,3 +78,19 @@ fi
 # experimental: kill current vscode servers (not a great solution but it works)
 # rm -rf ~/.vscode-server/cli/servers
 alias vscodereset="rm -rf ~/.vscode-server/cli/servers"
+
+# Hacky: Copy env variables from docker process
+process_info=$(ps -e -o user,pid,cmd | grep "/usr/sbin/sshd -D" | grep "^root")
+pids=$(echo "$process_info" | awk '{print $2}')
+for pid in $pids; do
+    env_vars=$(cat /proc/$pid/environ 2>/dev/null | tr '\0' '\n')
+    for env_var in $env_vars; do
+        key=$(echo "$env_var" | cut -d= -f1)
+        value=$(echo "$env_var" | cut -d= -f2-)
+        if [[ "$key" =~ ^[a-zA-Z_][a-zA-Z0-9_]*$ ]]; then
+            if [ -z "${!key}" ]; then
+                export "$env_var"
+            fi
+        fi
+    done
+done

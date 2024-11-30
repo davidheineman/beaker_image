@@ -15,6 +15,8 @@ RUN apt-get update && apt-get install -y \
     lolcat \
     cowsay \
     tree \
+    nano \
+    jq \
     && apt-get clean
 
 # Install Beaker
@@ -30,6 +32,7 @@ RUN mkdir -p /run/sshd && chmod 755 /run/sshd && \
     sed -i 's/^#PubkeyAuthentication/PubkeyAuthentication/; s/^#AuthorizedKeysFile/AuthorizedKeysFile/' /etc/ssh/sshd_config
 RUN sed -i 's/#Port 22/Port 8080/' /etc/ssh/sshd_config
 RUN sed -i '$ a\AcceptEnv *' /etc/ssh/sshd_config
+RUN echo "PermitUserEnvironment yes" >> /etc/ssh/sshd_config
 
 # Add SSH pubkeys
 COPY .ssh/authorized_keys /root/.ssh/authorized_keys

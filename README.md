@@ -21,9 +21,9 @@ beaker secret list
 5. To use git on the remote, add your pubkey `~/.ssh/id_rsa.pub` to your GitHub account: https://github.com/settings/keys
 6. [Optional] Test your build locally:
 ```sh
-docker build -f Dockerfile_beaker -t davidh-interactive .
-# docker run -it -p 8080:8080 davidh-interactive
-docker run --rm davidh-interactive
+docker build -t davidh-interactive .
+docker run -it -p 8080:8080 davidh-interactive
+# docker run --rm davidh-interactive
 ssh -p 8080 root@127.0.0.1
 beaker image delete davidh/davidh-interactive
 beaker image create --name davidh-interactive davidh-interactive
