@@ -44,13 +44,10 @@ beaker image create --name davidh-interactive davidh-interactive
 - [X] Hook up secrets for applications: Git, Beaker user_token
 - [X] Install bin/ files
 - [X] Install vscode server locally
-- [ ] Install vscode extensions
-- [ ] Install the nvcc toolkit
-```sh
-sudo apt-get -y install cuda-toolkit-12-0
-echo 'export LD_LIBRARY_PATH=/usr/local/cuda-12.0/lib64${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}' >> ~/.bashrc
-echo 'export PATH=/usr/local/cuda-12.0/bin${PATH: ~/.bashrc}' >> ~/.bashrc
-```
+- [X] Install vscode extensions
+- [X] Install the nvcc toolkit
+- [X] Add experiment template
+- [ ] Use a lightweight container instead of provided container
 
 How to reference secrets in a normal setup
 ```sh
