@@ -9,13 +9,18 @@ Personal container for Beaker interactive sessions.
 3. Set `BEAKER_TOKEN` secret in https://github.com/[user]/[repo]/settings/secrets/actions
 4. Add secrets to your beaker workspace:
 ```sh
-cat ~/.ssh/id_rsa | beaker secret write ssh-key
-cat ~/.aws/credentials | beaker secret write aws-creds
-echo $HF_TOKEN | beaker secret write HF_TOKEN
-echo $OPENAI_API_KEY | beaker secret write OPENAI_API_KEY
-echo $ANTHROPIC_API_KEY | beaker secret write ANTHROPIC_API_KEY
-echo $BEAKER_TOKEN | beaker secret write BEAKER_TOKEN
-echo $WANDB_API_KEY | beaker secret write WANDB_API_KEY
+cat ~/.ssh/id_rsa | beaker secret write --workspace ai2/davidh ssh-key
+cat ~/.aws/credentials | beaker secret write --workspace ai2/davidh aws-creds
+echo $HF_TOKEN | beaker secret write --workspace ai2/davidh HF_TOKEN
+echo $OPENAI_API_KEY | beaker secret write --workspace ai2/davidh OPENAI_API_KEY
+echo $ANTHROPIC_API_KEY | beaker secret write --workspace ai2/davidh ANTHROPIC_API_KEY
+echo $BEAKER_TOKEN | beaker secret write --workspace ai2/davidh BEAKER_TOKEN
+echo $WANDB_API_KEY | beaker secret write --workspace ai2/davidh WANDB_API_KEY
+echo $WANDB_API_KEY | beaker secret write --workspace ai2/davidh DAVIH_WANDB_API_KEY
+echo $AWS_SECRET_ACCESS_KEY | beaker secret write --workspace ai2/davidh AWS_SECRET_ACCESS_KEY
+echo $AWS_ACCESS_KEY_ID | beaker secret write --workspace ai2/davidh AWS_ACCESS_KEY_ID
+echo $AWS_SECRET_ACCESS_KEY | beaker secret write --workspace ai2/davidh DAVIDH_AWS_SECRET_ACCESS_KEY
+echo $AWS_ACCESS_KEY_ID | beaker secret write --workspace ai2/davidh DAVIDH_AWS_ACCESS_KEY_ID
 beaker secret list
 # beaker secret read OPENAI_API_KEY
 ```
@@ -36,7 +41,6 @@ beaker image delete davidh/davidh-interactive
 beaker image create --name davidh-interactive davidh-interactive
 ```
 
-
 ### TODO
 - [X] Install this .bashrc (instead of using remote bashrc)
 - [X] Install authorized_keys (as ssh pubkeys) in docker
@@ -48,6 +52,7 @@ beaker image create --name davidh-interactive davidh-interactive
 - [X] Install the nvcc toolkit
 - [X] Add experiment template
 - [ ] Use a lightweight container instead of provided container
+- [ ] Figure out why a newline is added when secrets are used in containers
 
 How to reference secrets in a normal setup
 ```sh

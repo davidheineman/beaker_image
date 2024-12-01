@@ -15,6 +15,7 @@ RUN apt-get update && apt-get install -y \
     openssh-server \
     figlet \
     lolcat \
+    sl \
     cowsay \
     tree \
     nano \
@@ -22,6 +23,7 @@ RUN apt-get update && apt-get install -y \
     curl \
     wget \
     git \
+    git-lfs \
     software-properties-common \
     pkg-config \
     libsentencepiece-dev \
