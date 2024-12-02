@@ -1,7 +1,9 @@
+# https://github.com/allenai/docker-images/blob/main/cuda/Dockerfile
+
 # FROM ubuntu
 # FROM ghcr.io/allenai/pytorch:2.4.0-cuda12.1-python3.11
-FROM ghcr.io/allenai/cuda:12.1-cudnn8-dev-ubuntu20.04-v1.2.118
-# FROM ghcr.io/allenai/cuda:12.1-dev-ubuntu20.04-v1.2.118
+# FROM ghcr.io/allenai/cuda:12.1-cudnn8-dev-ubuntu20.04-v1.2.118
+FROM ghcr.io/allenai/cuda:12.1-dev-ubuntu20.04-v1.2.118
 ENV CUDA_HOME=/usr/local/cuda
 ENV DEBIAN_FRONTEND=noninteractive
 
