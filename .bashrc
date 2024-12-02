@@ -40,6 +40,7 @@ ln -sfn /oe-eval-default/davidh/.aws ~/.aws || true
 ln -sfn /oe-eval-default/davidh/.cache ~/.cache || true
 
 # Some scripts use /weka/oe-training-default. Create symlink for this
+mkdir -p /weka
 ln -sfn /oe-training-default /weka/oe-training-default
 
 # Verify github
