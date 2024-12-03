@@ -10,6 +10,8 @@ FROM ghcr.io/allenai/cuda:12.1-cudnn8-dev-ubuntu20.04-v1.2.118
 # ENV CUDA_HOME=/usr/local/cuda
 ENV DEBIAN_FRONTEND=noninteractive
 
+ENV PATH="/usr/local/cuda/bin:$PATH"
+
 WORKDIR /root
 
 # Disable welcome messages
