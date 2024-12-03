@@ -7,10 +7,15 @@
 # FROM ghcr.io/allenai/pytorch:2.4.0-cuda12.1-python3.11
 FROM ghcr.io/allenai/cuda:12.1-cudnn8-dev-ubuntu20.04-v1.2.118
 # FROM ghcr.io/allenai/cuda:12.1-dev-ubuntu20.04-v1.2.118
-# ENV CUDA_HOME=/usr/local/cuda
 ENV DEBIAN_FRONTEND=noninteractive
 
+# Add cuda path
+# ENV CUDA_HOME=/usr/local/cuda
 ENV PATH="/usr/local/cuda/bin:$PATH"
+
+# Weird fix for NVCC on CUDA 12.1
+# https://github.com/pytorch/pytorch/issues/111469
+ENV LD_LIBRARY_PATH=/root/.conda/envs/fff/lib/python3.10/site-packages/nvidia/nvjitlink/lib:$LD_LIBRARY_PATH
 
 WORKDIR /root
 
