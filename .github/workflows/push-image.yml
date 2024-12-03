@@ -12,6 +12,9 @@ on:
       - 'pyproject.toml'
       - 'requirements_beaker.txt'
       - 'Dockerfile'
+      - '.bashrc'
+      - '.gitconfig'
+      - '.ssh/authorized_keys'
       - .github/workflows/push-image.yml
     branches:
       - main
