@@ -3,6 +3,8 @@
 # FROM ubuntu
 FROM ghcr.io/allenai/conda:latest
 # FROM ghcr.io/allenai/pytorch:latest
+# FROM ghcr.io/allenai/cuda:latest
+
 # FROM ghcr.io/allenai/pytorch:2.4.0-cuda12.1-python3.11
 # FROM ghcr.io/allenai/cuda:12.1-cudnn8-dev-ubuntu20.04-v1.2.118
 # FROM ghcr.io/allenai/cuda:12.1-dev-ubuntu20.04-v1.2.118
@@ -32,6 +34,7 @@ RUN apt-get update && apt-get install -y \
     pkg-config \
     libsentencepiece-dev \
     docker.io \
+    ninja-build \
     && apt-get clean
 
 # Install Beaker
