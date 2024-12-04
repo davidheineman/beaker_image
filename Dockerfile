@@ -15,7 +15,8 @@ ENV PATH="/usr/local/cuda/bin:$PATH"
 
 # Weird fix for NVCC on CUDA 12.1
 # https://github.com/pytorch/pytorch/issues/111469
-ENV LD_LIBRARY_PATH="/root/.conda/envs/fff/lib/python3.10/site-packages/nvidia/nvjitlink/lib:$LD_LIBRARY_PATH"
+RUN conda install -c nvidia libnvjitlink -y
+ENV LD_LIBRARY_PATH="/root/.conda/envs/base/lib/python3.10/site-packages/nvidia/nvjitlink/lib:$LD_LIBRARY_PATH"
 
 WORKDIR /root
 
