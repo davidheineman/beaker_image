@@ -54,6 +54,10 @@ beaker image create --name davidh-interactive davidh-interactive
 - [ ] Use a lightweight container instead of provided container
 - [ ] Figure out why a newline is added when secrets are used in containers
 
+- [ ] Fix LD_LIBRARY_PATH
+- [ ] Prevent /root/.conda (for new enviornment installs)
+- [ ] Ensure pytorch works on a fresh image
+
 How to reference secrets in a normal setup
 ```sh
 # envVars:

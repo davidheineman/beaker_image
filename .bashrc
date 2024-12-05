@@ -27,14 +27,12 @@ export PYTHONIOENCODING=utf8
 # Add ChatGPT!
 export PATH="/root/bin:$PATH"
 
-rm -rf /root/.conda
-
-# Overwrite home .bashrc with this one
-# echo "source /oe-eval-default/davidh/.bashrc" > ~/.bashrc
-
 # Change conda dir to remote
+rm -rf /root/.conda # <- Will exist on some beaker images
 ln -sfn /oe-eval-default/davidh/miniconda3 /root/.conda-remote || true
 source /root/.conda_init
+export CONDA_ENVS_DIRS=/root/.conda-remote/envs
+export CONDA_PKGS_DIRS=/root/.conda-remote/pkgs
 
 # Link NFS directory to home
 ln -sfn /oe-eval-default/davidh ~/ai2 || true
