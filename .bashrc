@@ -27,6 +27,8 @@ export PYTHONIOENCODING=utf8
 # Add ChatGPT!
 export PATH="/root/bin:$PATH"
 
+rm -rf /root/.conda
+
 # Overwrite home .bashrc with this one
 # echo "source /oe-eval-default/davidh/.bashrc" > ~/.bashrc
 
