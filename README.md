@@ -11,16 +11,16 @@ Personal container for Beaker interactive sessions.
 ```sh
 cat ~/.ssh/id_rsa | beaker secret write --workspace ai2/davidh ssh-key
 cat ~/.aws/credentials | beaker secret write --workspace ai2/davidh aws-creds
-echo $HF_TOKEN | beaker secret write --workspace ai2/davidh HF_TOKEN
-echo $OPENAI_API_KEY | beaker secret write --workspace ai2/davidh OPENAI_API_KEY
-echo $ANTHROPIC_API_KEY | beaker secret write --workspace ai2/davidh ANTHROPIC_API_KEY
-echo $BEAKER_TOKEN | beaker secret write --workspace ai2/davidh BEAKER_TOKEN
-echo $WANDB_API_KEY | beaker secret write --workspace ai2/davidh WANDB_API_KEY
-echo $WANDB_API_KEY | beaker secret write --workspace ai2/davidh DAVIH_WANDB_API_KEY
-echo $AWS_SECRET_ACCESS_KEY | beaker secret write --workspace ai2/davidh AWS_SECRET_ACCESS_KEY
-echo $AWS_ACCESS_KEY_ID | beaker secret write --workspace ai2/davidh AWS_ACCESS_KEY_ID
-echo $AWS_SECRET_ACCESS_KEY | beaker secret write --workspace ai2/davidh DAVIDH_AWS_SECRET_ACCESS_KEY
-echo $AWS_ACCESS_KEY_ID | beaker secret write --workspace ai2/davidh DAVIDH_AWS_ACCESS_KEY_ID
+echo -n $HF_TOKEN | beaker secret write --workspace ai2/davidh HF_TOKEN
+echo -n $OPENAI_API_KEY | beaker secret write --workspace ai2/davidh OPENAI_API_KEY
+echo -n $ANTHROPIC_API_KEY | beaker secret write --workspace ai2/davidh ANTHROPIC_API_KEY
+echo -n $BEAKER_TOKEN | beaker secret write --workspace ai2/davidh BEAKER_TOKEN
+echo -n $WANDB_API_KEY | beaker secret write --workspace ai2/davidh WANDB_API_KEY
+echo -n $WANDB_API_KEY | beaker secret write --workspace ai2/davidh DAVIH_WANDB_API_KEY
+echo -n $AWS_SECRET_ACCESS_KEY | beaker secret write --workspace ai2/davidh AWS_SECRET_ACCESS_KEY
+echo -n $AWS_ACCESS_KEY_ID | beaker secret write --workspace ai2/davidh AWS_ACCESS_KEY_ID
+echo -n $AWS_SECRET_ACCESS_KEY | beaker secret write --workspace ai2/davidh DAVIDH_AWS_SECRET_ACCESS_KEY
+echo -n $AWS_ACCESS_KEY_ID | beaker secret write --workspace ai2/davidh DAVIDH_AWS_ACCESS_KEY_ID
 beaker secret list
 # beaker secret read OPENAI_API_KEY
 ```
