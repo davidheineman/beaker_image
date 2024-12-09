@@ -44,6 +44,7 @@ RUN apt-get update && apt-get install -y \
     libsentencepiece-dev \
     docker.io \
     ninja-build \
+    smem \
     && apt-get clean
 
 # Install Beaker

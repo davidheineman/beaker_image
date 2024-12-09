@@ -12,6 +12,7 @@ Personal container for Beaker interactive sessions.
 cat ~/.ssh/id_rsa | beaker secret write --workspace ai2/davidh ssh-key
 cat ~/.aws/credentials | beaker secret write --workspace ai2/davidh aws-creds
 echo -n $HF_TOKEN | beaker secret write --workspace ai2/davidh HF_TOKEN
+echo -n $HF_TOKEN | beaker secret write --workspace ai2/davidh HF_TOKEN_READ_ONLY # <- for oe-eval
 echo -n $OPENAI_API_KEY | beaker secret write --workspace ai2/davidh OPENAI_API_KEY
 echo -n $ANTHROPIC_API_KEY | beaker secret write --workspace ai2/davidh ANTHROPIC_API_KEY
 echo -n $BEAKER_TOKEN | beaker secret write --workspace ai2/davidh BEAKER_TOKEN
