@@ -101,3 +101,13 @@ done
 # # add cuda to path
 # export PATH=/usr/local/cuda/bin:$PATH
 # export LD_LIBRARY_PATH=/usr/local/cuda/lib64:$LD_LIBRARY_PATH
+
+# testing: Configure docker cache path
+# sudo systemctl stop docker
+# sudo rsync -aP /var/lib/docker/ /oe-eval-default/davidh/.docker/
+# sudo systemctl start docker
+
+# write to /root/.docker/daemon.json
+# {
+#     "data-root": "/oe-eval-default/davidh/.docker"
+# }
