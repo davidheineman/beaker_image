@@ -69,7 +69,7 @@ condacreate() {
     conda install -y -n "$env_name" python=3.10
     conda activate "$env_name"
 }
-alias nv='nvidia-smi'
+alias nv='nvidia-smi | lolcat'
 
 # beaker config set user_token $BEAKER_TOKEN
 # beaker config set default_workspace ai2/davidh
