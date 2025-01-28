@@ -111,7 +111,8 @@ RUN code-server \
     --install-extension twxs.cmake \
     --install-extension vue.volar \
     --install-extension wekex.jsonlint \
-    --install-extension bierner.markdown-preview-github-styles
+    --install-extension bierner.markdown-preview-github-styles \
+    --install-extension tyriar.sort-lines
 
 # Expose OpenSSH/VS Code and Jupyter ports
 EXPOSE 8080 8888
