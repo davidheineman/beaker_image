@@ -9,20 +9,22 @@ Personal container for Beaker interactive sessions.
 3. Set `BEAKER_TOKEN` secret in https://github.com/[user]/[repo]/settings/secrets/actions
 4. Add secrets to your beaker workspace:
 ```sh
-cat ~/.ssh/id_rsa | beaker secret write --workspace ai2/davidh ssh-key
-cat ~/.aws/credentials | beaker secret write --workspace ai2/davidh aws-creds
-echo -n $HF_TOKEN | beaker secret write --workspace ai2/davidh HF_TOKEN
-echo -n $HF_TOKEN | beaker secret write --workspace ai2/davidh HF_TOKEN_READ_ONLY # <- for oe-eval
-echo -n $OPENAI_API_KEY | beaker secret write --workspace ai2/davidh OPENAI_API_KEY
-echo -n $ANTHROPIC_API_KEY | beaker secret write --workspace ai2/davidh ANTHROPIC_API_KEY
-echo -n $BEAKER_TOKEN | beaker secret write --workspace ai2/davidh BEAKER_TOKEN
-echo -n $WANDB_API_KEY | beaker secret write --workspace ai2/davidh WANDB_API_KEY
-echo -n $WANDB_API_KEY | beaker secret write --workspace ai2/davidh DAVIH_WANDB_API_KEY
-echo -n $AWS_SECRET_ACCESS_KEY | beaker secret write --workspace ai2/davidh AWS_SECRET_ACCESS_KEY
-echo -n $AWS_ACCESS_KEY_ID | beaker secret write --workspace ai2/davidh AWS_ACCESS_KEY_ID
-echo -n $AWS_SECRET_ACCESS_KEY | beaker secret write --workspace ai2/davidh DAVIDH_AWS_SECRET_ACCESS_KEY
-echo -n $AWS_ACCESS_KEY_ID | beaker secret write --workspace ai2/davidh DAVIDH_AWS_ACCESS_KEY_ID
-beaker secret list
+WORKSPACE_NAME=ai2/ladder-evals
+cat ~/.ssh/id_rsa | beaker secret write -w $WORKSPACE_NAME ssh-key
+cat ~/.aws/credentials | beaker secret write -w $WORKSPACE_NAME aws-creds
+echo -n $HF_TOKEN | beaker secret write -w $WORKSPACE_NAME HF_TOKEN
+echo -n $HF_TOKEN | beaker secret write -w $WORKSPACE_NAME HF_TOKEN_READ_ONLY # <- for oe-eval
+echo -n $OPENAI_API_KEY | beaker secret write -w $WORKSPACE_NAME OPENAI_API_KEY
+echo -n $ANTHROPIC_API_KEY | beaker secret write -w $WORKSPACE_NAME ANTHROPIC_API_KEY
+echo -n $BEAKER_TOKEN | beaker secret write -w $WORKSPACE_NAME BEAKER_TOKEN
+echo -n $WANDB_API_KEY | beaker secret write -w $WORKSPACE_NAME WANDB_API_KEY
+echo -n $WANDB_API_KEY | beaker secret write -w $WORKSPACE_NAME DAVIH_WANDB_API_KEY
+echo -n $AWS_SECRET_ACCESS_KEY | beaker secret write -w $WORKSPACE_NAME AWS_SECRET_ACCESS_KEY
+echo -n $AWS_ACCESS_KEY_ID | beaker secret write -w $WORKSPACE_NAME AWS_ACCESS_KEY_ID
+echo -n $AWS_SECRET_ACCESS_KEY | beaker secret write -w $WORKSPACE_NAME DAVIDH_AWS_SECRET_ACCESS_KEY
+echo -n $AWS_ACCESS_KEY_ID | beaker secret write -w $WORKSPACE_NAME DAVIDH_AWS_ACCESS_KEY_ID
+beaker secret list -w $WORKSPACE_NAME
+
 # beaker secret read OPENAI_API_KEY
 ```
 5. To use git on the remote, add your pubkey `~/.ssh/id_rsa.pub` to your GitHub account: https://github.com/settings/keys (and update the email in .gitconfig)
