@@ -114,6 +114,10 @@ RUN code-server \
     --install-extension bierner.markdown-preview-github-styles \
     --install-extension tyriar.sort-lines
 
+# Uninstall some default extensions
+RUN code-server \
+    --uninstall-extension davidanson.vscode-markdownlint || true
+
 # Expose OpenSSH/VS Code and Jupyter ports
 EXPOSE 8080 8888
 
