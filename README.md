@@ -9,7 +9,7 @@ Personal container for Beaker interactive sessions.
 3. Set `BEAKER_TOKEN` secret in https://github.com/[user]/[repo]/settings/secrets/actions
 4. Add secrets to your beaker workspace:
 ```sh
-WORKSPACE_NAME=ai2/ladder-evals
+WORKSPACE_NAME=ai2/davidh
 cat ~/.ssh/id_rsa | beaker secret write -w $WORKSPACE_NAME ssh-key
 cat ~/.aws/credentials | beaker secret write -w $WORKSPACE_NAME aws-creds
 echo -n $HF_TOKEN | beaker secret write -w $WORKSPACE_NAME HF_TOKEN
@@ -23,6 +23,7 @@ echo -n $AWS_SECRET_ACCESS_KEY | beaker secret write -w $WORKSPACE_NAME AWS_SECR
 echo -n $AWS_ACCESS_KEY_ID | beaker secret write -w $WORKSPACE_NAME AWS_ACCESS_KEY_ID
 echo -n $AWS_SECRET_ACCESS_KEY | beaker secret write -w $WORKSPACE_NAME DAVIDH_AWS_SECRET_ACCESS_KEY
 echo -n $AWS_ACCESS_KEY_ID | beaker secret write -w $WORKSPACE_NAME DAVIDH_AWS_ACCESS_KEY_ID
+echo -n $GOOGLE_API_KEY | beaker secret write -w $WORKSPACE_NAME GOOGLE_API_KEY
 beaker secret list -w $WORKSPACE_NAME
 
 # beaker secret read OPENAI_API_KEY

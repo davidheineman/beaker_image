@@ -45,7 +45,13 @@ RUN apt-get update && apt-get install -y \
     docker.io \
     ninja-build \
     smem \
+    build-essential cmake \
+    protobuf-compiler \
+    libssl-dev \
     && apt-get clean
+
+# Install rust
+RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
 
 # Install Beaker
 RUN apt-get update && apt-get install -y curl sudo && \
