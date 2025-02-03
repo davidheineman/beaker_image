@@ -50,8 +50,9 @@ RUN apt-get update && apt-get install -y \
     libssl-dev \
     && apt-get clean
 
-# Install rust
+# Install rust (I think you need the second thing to complete the install)
 RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+RUN . "$HOME/.cargo/env"
 
 # Install Beaker
 RUN apt-get update && apt-get install -y curl sudo && \
