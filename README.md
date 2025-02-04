@@ -10,6 +10,7 @@ Personal container for Beaker interactive sessions.
 4. Add secrets to your beaker workspace:
 ```sh
 WORKSPACE_NAME=ai2/davidh
+WORKSPACE_NAME=ai2/ladder-evals
 cat ~/.ssh/id_rsa | beaker secret write -w $WORKSPACE_NAME ssh-key
 cat ~/.aws/credentials | beaker secret write -w $WORKSPACE_NAME aws-creds
 echo -n $HF_TOKEN | beaker secret write -w $WORKSPACE_NAME HF_TOKEN
@@ -18,7 +19,7 @@ echo -n $OPENAI_API_KEY | beaker secret write -w $WORKSPACE_NAME OPENAI_API_KEY
 echo -n $ANTHROPIC_API_KEY | beaker secret write -w $WORKSPACE_NAME ANTHROPIC_API_KEY
 echo -n $BEAKER_TOKEN | beaker secret write -w $WORKSPACE_NAME BEAKER_TOKEN
 echo -n $WANDB_API_KEY | beaker secret write -w $WORKSPACE_NAME WANDB_API_KEY
-echo -n $WANDB_API_KEY | beaker secret write -w $WORKSPACE_NAME DAVIH_WANDB_API_KEY
+echo -n $WANDB_API_KEY | beaker secret write -w $WORKSPACE_NAME DAVIDH_WANDB_API_KEY
 echo -n $AWS_SECRET_ACCESS_KEY | beaker secret write -w $WORKSPACE_NAME AWS_SECRET_ACCESS_KEY
 echo -n $AWS_ACCESS_KEY_ID | beaker secret write -w $WORKSPACE_NAME AWS_ACCESS_KEY_ID
 echo -n $AWS_SECRET_ACCESS_KEY | beaker secret write -w $WORKSPACE_NAME DAVIDH_AWS_SECRET_ACCESS_KEY

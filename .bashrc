@@ -70,6 +70,7 @@ condacreate() {
     conda activate "$env_name"
 }
 alias nv='nvidia-smi | lolcat'
+alias nvwatch="watch -n 1 nvidia-smi"
 
 # beaker config set user_token $BEAKER_TOKEN
 # beaker config set default_workspace ai2/davidh
