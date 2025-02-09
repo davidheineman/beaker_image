@@ -48,6 +48,7 @@ RUN apt-get update && apt-get install -y \
     build-essential cmake \
     protobuf-compiler \
     libssl-dev \
+    rename \
     && apt-get clean
 
 # Install rust (I think you need the second thing to complete the install)
