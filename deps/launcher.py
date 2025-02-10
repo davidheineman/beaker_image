@@ -118,14 +118,20 @@ UPDATE_PORT_CMD = f"source {SCRIPT_DIR}/update_port.sh {{session_id}}"
 
 # this might be a bit much...
 QUOTES = [
-    "Science is what we understand well enough to explain to a computer. Art is everything else we do. (Knuth, 1995)",
+    "Science is what we understand well enough to explain to a computer. Art is everything else we do. (Knuth, 1995)", # https://www2.math.upenn.edu/~wilf/foreword.pdf
     "Science advances whenever an Art becomes a Science. (Knuth, 1995)",
-    "If a machine is expected to be infallible, it cannot also be intelligent. (Turing, 1947)",
+    "If a machine is expected to be infallible, it cannot also be intelligent. (Turing, 1947)", # https://plato.stanford.edu/entries/turing/
     "I believe that in about fifty years' time it will be possible to programme computers, with a storage capacity of about 10^9, to make them play the imitation game so well that an average interrogator will not have more than 70 per cent chance of making the right identification after five minutes of questioning. (Turing, 1950)",
     "Machines take me bv suprise with great frequency. This is largely because I do not do sufficient calculation to decide what to expect them to do, or rather because, although I do a calculation, I do it in a hurried, slipshod fashion, taking risks. (Turing, 1950)",
     "We offer no explanation as to why these architectures seem to work; we attribute their success, as all else, to divine benevolence. (Shazeer, 2020)",
     "OLMo_θ(x)=softmax(H^L W_O), H^L=f^L∘f^{L-1}∘...∘f^1(E), E=W_Ex + W_Pt, Attn(Q,K,V)=softmax( QK^T / √d_k )V, Q=XW_Q, K=XW_K, V=XW_V, H=concat(H_1, ..., H_h)W_O, H^l = LN(H^{l-1} + Attn(Q,K,V)), Z^l = LN(H^l + FFN(H^l)), FFN(x)=max(0, xW_1+b_1)W_2+b_2, L=-∑ylog(ŷ), θ←θ-η∇L",
     "http://ai.mit.edu/lab/gsb/gsl-archive/gsl95-12dec08.html (I found this on Lilian Lee's website)",
+    "Thus we may have knowledge of the past but cannot control it; we may control the future but have no knowledge of it. (Shannon, 1959)", # https://www.gwern.net/docs/cs/1959-shannon.pdf
+    "What's the relation between how I think and how I think I think? (Minsky, 1979)",
+    "My wife still uses Emacs, which is the most contentious point in our marriage. (Weinberger, 2024)", # https://quotes.cs.cornell.edu
+    "Our modest goal is world domination. (Patterson, 2015, describing the RISC-V project)", # https://quotes.cs.cornell.edu/speaker/Dave-Patterson/
+    "A picture is worth a thousand words, a video is worth a thousand pictures and a demo a thousand videos. So we're up to, um, ten to the nine. (LeCun, 2004)", # https://quotes.cs.cornell.edu/speaker/Yann--LeCun/
+    "Although perhaps of no practical importance, the question is of theoretical interest, and it is hoped that a satisfactory solution of this problem will act as a wedge in attacking other problems of a similar nature and of greater significance. (Shannon on Chess, 1950)", # https://vision.unipv.it/IA1/ProgrammingaComputerforPlayingChess.pdf
 ]
 
 
