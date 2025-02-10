@@ -4,7 +4,7 @@ from figlet import Figlet
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 
 CLUSTERS = [
-    # (pretty name, cluster name, description)
+    # (pretty name, cluster name, description, default # GPUs)
     (
         "Any CPU  (CPU, 1wk lim, WEKA)",
         [
@@ -13,20 +13,26 @@ CLUSTERS = [
             "ai2/neptune-cirrascale", 
             "ai2/triton-cirrascale", 
         ],
-        "Any cluster supporting 1 week CPU sessions"),
+        "Any cluster supporting 1 week CPU sessions",
+        0
+    ),
     (
         "Any A100 (80GB A100, 1wk lim, WEKA)", 
         [
             "ai2/saturn-cirrascale", 
         ],
-        "Any cluster with 1 week A100 or H100 sessions"),
+        "Any cluster with 1 week A100 sessions",
+        1
+    ),
     (
         "Any H100 (80GB H100, 2hr lim, WEKA)", 
         [
             "ai2/ceres-cirrascale", 
             "ai2/jupiter-cirrascale-2", 
         ],
-        "Any cluster with 2 hour H100 sessions"),
+        "Any cluster with 2 hour H100 sessions",
+        1
+    ),
     (
         "Any GPU  (A100/L40s, 1wk lim, WEKA)",
         [
@@ -34,40 +40,56 @@ CLUSTERS = [
             "ai2/neptune-cirrascale", 
             "ai2/triton-cirrascale", 
         ],
-        "Any cluster with L40s or A100s"),
+        "Any cluster with L40s or A100s",
+        1
+    ),
     (
         "Phobos   (CPU, 1wk lim, WEKA)",       
         "ai2/phobos-cirrascale", 
-        "Debugging and data transfers - No GPUs, Ethernet (50 Gbps/server), WEKA storage, 1 week timeout"),
+        "Debugging and data transfers - No GPUs, Ethernet (50 Gbps/server), WEKA storage, 1 week timeout",
+        0
+    ),
     (
         "Saturn   (80GB A100, 1wk lim, WEKA)", 
         "ai2/saturn-cirrascale", 
-        "Small experiments before using Jupiter - 208 NVIDIA A100 (80 GB) GPUs, Ethernet (50 Gbps/server), WEKA storage, 1 week timeout"),
+        "Small experiments before using Jupiter - 208 NVIDIA A100 (80 GB) GPUs, Ethernet (50 Gbps/server), WEKA storage, 1 week timeout",
+        1
+    ),
     (
         "Ceres    (80GB H100, 2hr lim, WEKA)", 
         "ai2/ceres-cirrascale", 
-        "Small distributed jobs - 88 NVIDIA H100 GPUs (80 GB), 4x NVIDIA InfiniBand (200 Gbps/GPU), WEKA storage, 2 hour timeout"),
+        "Small distributed jobs - 88 NVIDIA H100 GPUs (80 GB), 4x NVIDIA InfiniBand (200 Gbps/GPU), WEKA storage, 2 hour timeout",
+        1
+    ),
     (
         "Jupiter  (80GB H100, 2hr lim, WEKA)", 
         "ai2/jupiter-cirrascale-2", 
-        "Large distributed jobs - 1024 NVIDIA H100 (80 GB) GPUs, 8x NVIDIA InfiniBand (400 Gbps/GPU), WEKA storage, 2 hour timeout"),
+        "Large distributed jobs - 1024 NVIDIA H100 (80 GB) GPUs, 8x NVIDIA InfiniBand (400 Gbps/GPU), WEKA storage, 2 hour timeout",
+        1
+    ),
     (
         "Neptune  (40GB L40s, 1wk lim, WEKA)", 
         "ai2/neptune-cirrascale", 
-        "Small experiments (≤ 40 GB memory) - 112 NVIDIA L40 (40 GB) GPUs, Ethernet (50 Gbps/server), WEKA storage, 1 week timeout"),
+        "Small experiments (≤ 40 GB memory) - 112 NVIDIA L40 (40 GB) GPUs, Ethernet (50 Gbps/server), WEKA storage, 1 week timeout",
+        1
+    ),
     (
         "Triton   (40GB L40s, 1wk lim, WEKA)", 
         "ai2/triton-cirrascale", 
-        "Session-only - 16 NVIDIA L40 (40 GB) GPUs, Ethernet (50 Gbps/server), WEKA storage, 1 week timeout"),
+        "Session-only - 16 NVIDIA L40 (40 GB) GPUs, Ethernet (50 Gbps/server), WEKA storage, 1 week timeout",
+        1
+    ),
     (
         "Augusta  (80GB H100, 2hr lim, GCS)",  
         "ai2/augusta-gcp", 
-        "Large distributed jobs - 1280 NVIDIA H100 (80 GB) GPUs, TCPXO (200 Gbps/server), Google Cloud Storage, 2 hour timeout"),
+        "Large distributed jobs - 1280 NVIDIA H100 (80 GB) GPUs, TCPXO (200 Gbps/server), Google Cloud Storage, 2 hour timeout",
+        1
+    ),
 ]
 
 LAUNCH_COMMAND = """\
 beaker session create \
-    --name '👋 davidh 👋' \
+    --name 👋davidh👋 \
     {gpu_command} \
     {cluster_command} \
     --image beaker://davidh/davidh-interactive \
@@ -116,6 +138,7 @@ class ClusterSelector:
         fonts = ["rozzo"]
         random.shuffle(fonts)
         self.figlet.setFont(font=fonts[0])
+        self.bg_color = curses.COLOR_BLACK
         try:
             import darkdetect # pip install darkdetect
             self.is_dark_mode = darkdetect.isDark()
@@ -124,16 +147,16 @@ class ClusterSelector:
 
     def setup_colors(self):
         # Define colors based on theme
-        bg_color = curses.COLOR_BLACK if self.is_dark_mode else -1
+        self.bg_color = curses.COLOR_BLACK if self.is_dark_mode else -1
         if not self.is_dark_mode:
             curses.use_default_colors()
 
         # Set up color pairs
-        curses.init_pair(1, curses.COLOR_GREEN, bg_color)     # Regular text
-        curses.init_pair(2, curses.COLOR_MAGENTA, bg_color)   # Headers/controls
-        curses.init_pair(3, curses.COLOR_MAGENTA, bg_color)   # Borders
-        curses.init_pair(4, curses.COLOR_MAGENTA, bg_color)   # Selected item
-        curses.init_pair(5, curses.COLOR_MAGENTA, bg_color)   # ASCII art
+        curses.init_pair(1, curses.COLOR_GREEN, self.bg_color)     # Regular text
+        curses.init_pair(2, curses.COLOR_MAGENTA, self.bg_color)   # Headers/controls
+        curses.init_pair(3, curses.COLOR_MAGENTA, self.bg_color)   # Borders
+        curses.init_pair(4, curses.COLOR_MAGENTA, self.bg_color)   # Selected item
+        curses.init_pair(5, curses.COLOR_MAGENTA, self.bg_color)   # ASCII art
 
     def draw_ascii_header(self, window):
         max_y, max_x = window.getmaxyx()
@@ -190,12 +213,12 @@ class ClusterSelector:
         window.addstr(max_y - 2, desc_x, "└" + "─" * menu_width + "┘", curses.color_pair(3))
 
         # Draw the clusters
-        for idx, (cluster, _, _) in enumerate(self.clusters):
+        for idx, (cluster, _, _, _) in enumerate(self.clusters):
             style = curses.color_pair(4) | curses.A_BOLD if idx == self.current_selection else curses.color_pair(1)
             window.addstr(start_y + 3 + idx, left_offset + 2, f"{'●' if idx == self.current_selection else '○'} {cluster}", style)
 
         # Draw the description
-        _, _, description = self.clusters[self.current_selection]
+        _, _, description, _ = self.clusters[self.current_selection]
         desc_lines = textwrap.wrap(description, width=menu_width - 4)
         for idx, line in enumerate(desc_lines):
             window.addstr(start_y + 3 + idx, desc_x + 2, line, curses.color_pair(1))
@@ -241,7 +264,7 @@ class ClusterSelector:
         window.addstr(header_height + box_height, 2, "└" + "─" * box_width + "┘", curses.color_pair(3))
         
         # Draw quick start command
-        gpu_flag = " -g 1" if any(gpu_type in str(cluster_name).lower() for gpu_type in ['a100', 'h100', 'l40']) else ""
+        gpu_flag = f" -g {num_gpus}" if num_gpus > 0 else ""
         quick_start = f"blaunch -c {' '.join(cluster_name)}{gpu_flag}"
         window.addstr(header_height + 1, 4, f"Quick start command: {quick_start}", curses.color_pair(2) | curses.A_BOLD)
 
@@ -258,7 +281,7 @@ class ClusterSelector:
             return False
 
         gpu_command = ""
-        if any(gpu_type in str(cluster_name).lower() for gpu_type in ['a100', 'h100', 'l40']):
+        if num_gpus > 0:
             gpu_command = f"--gpus {num_gpus}"  # Use the selected number of GPUs
 
         cluster_command = ""
@@ -308,7 +331,7 @@ class ClusterSelector:
                 current_line_count = len(lines)
                 display_line = lines[-1]
                 try:
-                    add_colored_str(
+                    self.add_colored_str(
                         window,
                         header_height + 2 + min(current_line_count - 1, max_lines - 1),
                         4,
@@ -415,7 +438,7 @@ class ClusterSelector:
                                     curses.color_pair(1)
                                 )
                                 # Then write the new text
-                                add_colored_str(
+                                self.add_colored_str(
                                     window,
                                     header_height + 3 + idx,
                                     4,
@@ -525,7 +548,7 @@ class ClusterSelector:
             # Add number key handling
             elif key in [ord(str(i)) for i in range(1, 9)]:  # Handle keys 1-8
                 num_gpus = int(chr(key))
-                _, cluster_name, _ = self.clusters[self.current_selection]
+                _, cluster_name, _, _ = self.clusters[self.current_selection]
                 success = self.draw_process_output(stdscr, cluster_name, num_gpus)
                 if success:
                     return self.clusters[self.current_selection][0]
@@ -533,75 +556,75 @@ class ClusterSelector:
                     continue
             # Add enter key handling with defaults
             elif key in [ord('\n'), ord(' ')]:
-                _, cluster_name, _ = self.clusters[self.current_selection]
+                _, cluster_name, _, default_n_gpus = self.clusters[self.current_selection]
                 # Default to 1 GPU for GPU clusters, 0 for CPU clusters
-                num_gpus = 1 if any(gpu_type in str(cluster_name).lower() for gpu_type in ['a100', 'h100', 'l40']) else 0
+                num_gpus = default_n_gpus
                 success = self.draw_process_output(stdscr, cluster_name, num_gpus)
                 if success:
                     return self.clusters[self.current_selection][0]
                 else:
                     continue
 
-def parse_ansi_color(text):
-    # ANSI color code mapping to curses colors
-    ansi_to_curses = {
-        '30': curses.COLOR_BLACK,
-        '31': curses.COLOR_RED,
-        '32': curses.COLOR_GREEN,
-        '33': curses.COLOR_YELLOW,
-        '34': curses.COLOR_BLUE,
-        '35': curses.COLOR_MAGENTA,
-        '36': curses.COLOR_CYAN,
-        '37': curses.COLOR_WHITE,
-    }
-    
-    parts = []
-    current_pos = 0
-    current_color = None
-    
-    while True:
-        # Find next color code
-        esc_pos = text.find('\033[', current_pos)
-        if esc_pos == -1:
-            # Add remaining text with current color
-            if current_pos < len(text):
-                parts.append((text[current_pos:], current_color))
-            break
-            
-        # Add text before escape code
-        if esc_pos > current_pos:
-            parts.append((text[current_pos:esc_pos], current_color))
-            
-        # Find end of escape code
-        m_pos = text.find('m', esc_pos)
-        if m_pos == -1:
-            break
-            
-        # Parse color code
-        color_code = text[esc_pos+2:m_pos]
-        if color_code == '00':
-            current_color = None
-        else:
-            current_color = ansi_to_curses.get(color_code)
-            
-        current_pos = m_pos + 1
+    def parse_ansi_color(self, text):
+        # ANSI color code mapping to curses colors
+        ansi_to_curses = {
+            '30': self.bg_color,
+            '31': curses.COLOR_RED,
+            '32': curses.COLOR_GREEN,
+            '33': curses.COLOR_YELLOW,
+            '34': curses.COLOR_BLUE,
+            '35': curses.COLOR_MAGENTA,
+            '36': curses.COLOR_CYAN,
+            '37': curses.COLOR_WHITE,
+        }
         
-    return parts
-
-def add_colored_str(window, y, x, text, default_color):
-    current_x = x
-    for text_part, color in parse_ansi_color(text):
-        try:
-            if color is not None:
-                # Create a new color pair for this color if needed
-                pair_num = color + 10  # Offset to avoid conflicts with existing pairs
-                curses.init_pair(pair_num, color, curses.COLOR_BLACK)
-                window.addstr(y, current_x, text_part, curses.color_pair(pair_num))
+        parts = []
+        current_pos = 0
+        current_color = None
+        
+        while True:
+            # Find next color code
+            esc_pos = text.find('\033[', current_pos)
+            if esc_pos == -1:
+                # Add remaining text with current color
+                if current_pos < len(text):
+                    parts.append((text[current_pos:], current_color))
+                break
+                
+            # Add text before escape code
+            if esc_pos > current_pos:
+                parts.append((text[current_pos:esc_pos], current_color))
+                
+            # Find end of escape code
+            m_pos = text.find('m', esc_pos)
+            if m_pos == -1:
+                break
+                
+            # Parse color code
+            color_code = text[esc_pos+2:m_pos]
+            if color_code == '00':
+                current_color = None
             else:
-                window.addstr(y, current_x, text_part, default_color)
-            current_x += len(text_part)
-        except curses.error:
-            pass
+                current_color = ansi_to_curses.get(color_code)
+                
+            current_pos = m_pos + 1
+            
+        return parts
+
+    def add_colored_str(self, window, y, x, text, default_color):
+        current_x = x
+        for text_part, color in self.parse_ansi_color(text):
+            try:
+                if color is not None:
+                    # Create a new color pair for this color if needed
+                    pair_num = color + 10  # Offset to avoid conflicts with existing pairs
+                    curses.init_pair(pair_num, color, self.bg_color)
+                    window.addstr(y, current_x, text_part, curses.color_pair(pair_num))
+                else:
+                    window.addstr(y, current_x, text_part, default_color)
+                current_x += len(text_part)
+            except curses.error:
+                pass
 
 def main():
     try:

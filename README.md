@@ -30,13 +30,49 @@ beaker secret list -w $WORKSPACE_NAME
 # beaker secret read OPENAI_API_KEY
 ```
 5. To use git on the remote, add your pubkey `~/.ssh/id_rsa.pub` to your GitHub account: https://github.com/settings/keys (and update the email in .gitconfig)
-6. [Optional] Install conda on remote
+6. To allow auto-port updating, add this to your `~/.ssh/config` (the XXXXX will be string replaced by `update_port.sh`):
+```sh
+Host ai2
+    User root
+    Hostname XXXXX
+    IdentityFile ~/.ssh/id_rsa
+    Port XXXXX
+```
+7. Add aliases to your `~/.zshrc` or `~/.bashrc`:
+```sh
+# Beaker utilities
+alias bd='beaker session describe' # show current session
+alias bstop='beaker session stop' # stop current session
+blist() { beaker session list --all --author "$(beaker user current)" | grep running; } # list current sessions
+bport() { source ~/[PATH_TO_YOUR]/beaker_image/deps/update_ai2_port.sh; } # change port for "ai2" host
+bl() { python ~/[PATH_TO_YOUR]/beaker_image/deps/launcher.py; } # use interactive session launcher
+
+# Remote session utilities
+ai2code() {
+    # Connect to remote vscode
+    if [ -z "$1" ]; then
+        code --remote ssh-remote+ai2 /root/ai2
+    else
+        local remote_path="${1:-}"
+        code --remote ssh-remote+ai2 /root/ai2/$remote_path
+    fi
+}
+ai2codereset() {
+    # Remove the remote vscode server folder
+    ai2 'rm -rf ~/.vscode-server/cli/servers'
+}
+ai2cleanup() {
+    # Run standard python linting libraries in AI2 projects
+    isort . && black . && ruff check . && mypy .
+}
+```
+8. [Optional] Install conda on remote
 ```sh
 wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda.sh 
 chmod +x ~/miniconda.sh 
 ./miniconda.sh # install to ~/ai2/miniconda3
 ```
-7. [Optional] Test your build locally:
+9. [Optional] Test your build locally:
 ```sh
 docker build -t davidh-interactive .
 docker run -it -p 8080:8080 davidh-interactive
