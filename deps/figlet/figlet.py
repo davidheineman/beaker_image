@@ -136,7 +136,7 @@ class FigletFont(object):
         font_path = None
         for extension in ('tlf', 'flf'):
             fn = '%s.%s' % (font, extension)
-            path = importlib.resources.files('pyfiglet.fonts').joinpath(fn)
+            path = pathlib.Path(__file__).parent / 'fonts' / fn
             if path.exists():
                 font_path = path
                 break

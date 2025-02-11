@@ -49,6 +49,7 @@ RUN apt-get update && apt-get install -y \
     protobuf-compiler \
     libssl-dev \
     rename \
+    socat \
     && apt-get clean
 
 # Install rust (I think you need the second thing to complete the install)
@@ -136,6 +137,9 @@ RUN sed -i 's/#Port 22/Port 8080/' /etc/ssh/sshd_config
 RUN sed -i '$ a\AcceptEnv *' /etc/ssh/sshd_config
 RUN echo "PermitUserEnvironment yes" >> /etc/ssh/sshd_config
 
+# Re-update apt list
+RUN apt-get update
+
 # Add SSH pubkeys
 COPY .ssh/authorized_keys /root/.ssh/authorized_keys
 
@@ -170,3 +174,9 @@ RUN chmod +x /root/bin/*
 # jupyter notebook --port 8888 --ip 0.0.0.0 --no-browser --allow-root
 
 ENTRYPOINT ["/usr/sbin/sshd", "-D"]
+
+# attempt to get code command working on remote
+# export PATH="/root/.vscode-server/bin/bin/remote-cli:$PATH"
+# nohup code-server --accept-server-license-terms > /tmp/code-server.out 2>&1 &
+# export VSCODE_IPC_HOOK_CLI="/tmp/ipc-0.sock"
+# nc -lU $VSCODE_IPC_HOOK_CLI &
