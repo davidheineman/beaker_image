@@ -50,6 +50,7 @@ RUN apt-get update && apt-get install -y \
     libssl-dev \
     rename \
     socat \
+    redis-server \
     && apt-get clean
 
 # Install rust (I think you need the second thing to complete the install)
