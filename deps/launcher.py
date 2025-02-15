@@ -135,6 +135,11 @@ QUOTES = [
 ]
 
 
+def send_notification(title, message):
+    """ Send a notificaiton on MacOS """
+    os.system(f'''osascript -e 'display notification "{message}" with title "{title}"' ''')
+
+
 class ClusterSelector:
     def __init__(self, max_width=80):
         self.clusters = CLUSTERS
@@ -270,6 +275,7 @@ class ClusterSelector:
         window.addstr(header_height + box_height, 2, "└" + "─" * box_width + "┘", curses.color_pair(3))
         
         # Draw quick start command
+        if not isinstance(cluster_name, list): cluster_name = [cluster_name]
         gpu_flag = f" -g {num_gpus}" if num_gpus > 0 else ""
         quick_start = f"blaunch -c {' '.join(cluster_name)}{gpu_flag}"
         window.addstr(header_height + 1, 4, f"Quick start command: {quick_start}", curses.color_pair(2) | curses.A_BOLD)
@@ -488,26 +494,32 @@ class ClusterSelector:
                 window.nodelay(0)  # Reset to blocking mode
 
                 if port_process.returncode == 0:
+                    updated_notif = f'Session launched with {num_gpus} GPUs ({session_id})'
                     window.addstr(
                         max_y-3,
                         4,
-                        f"✓ Session launched and ports updated! ({session_id})",
+                        f"✓ {updated_notif}",
                         curses.color_pair(2)
                     )
+                    send_notification("Beaker Launch", updated_notif)
                 else:
+                    error_notif = f'Port update failed ({session_id})'
                     window.addstr(
                         max_y-3,
                         4,
-                        f"! Port update failed ({session_id})",
+                        f"! {error_notif}",
                         curses.color_pair(1)
                     )
+                    send_notification("Beaker Launch", error_notif)
             except Exception as e:
+                error_notif = f"Port update error: {str(e)}"
                 window.addstr(
                     max_y-3,
                     4,
-                    f"! Port update error: {str(e)}",
+                    f"! {error_notif}",
                     curses.color_pair(1)
                 )
+                send_notification("Beaker Launch", error_notif)
 
         # Store all output lines for later display
         self.final_output_lines = lines
