@@ -1,5 +1,6 @@
 import textwrap, curses, random, itertools, time, subprocess, threading, queue, sys, os
 from figlet import Figlet
+import argparse, re
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -140,6 +141,18 @@ def send_notification(title, message):
     os.system(f'''osascript -e 'display notification "{message}" with title "{title}"' ''')
 
 
+def get_host_name(session_id):
+    command = ["beaker", "session", "describe"]
+    if session_id:
+        command.append(session_id)
+    
+    result = subprocess.run(command, capture_output=True, text=True)
+    
+    match = re.search(r'[^\s]*\.reviz\.ai2\.in', result.stdout)
+    
+    return match.group(0) if match else None
+
+
 class ClusterSelector:
     def __init__(self, max_width=80):
         self.clusters = CLUSTERS
@@ -277,7 +290,7 @@ class ClusterSelector:
         # Draw quick start command
         if not isinstance(cluster_name, list): cluster_name = [cluster_name]
         gpu_flag = f" -g {num_gpus}" if num_gpus > 0 else ""
-        quick_start = f"blaunch -c {' '.join(cluster_name)}{gpu_flag}"
+        quick_start = f"bl -c {' '.join(cluster_name)}{gpu_flag}"
         window.addstr(header_height + 1, 4, f"Quick start command: {quick_start}", curses.color_pair(2) | curses.A_BOLD)
 
         # Draw title (moved down by 5 lines to add more spacing)
@@ -400,6 +413,9 @@ class ClusterSelector:
 
         if session_id:
             try:
+                # Get the hostname for printing
+                host_name = get_host_name(session_id)
+                
                 # Run the port update script using the same subprocess pattern
                 port_process = subprocess.Popen(
                     UPDATE_PORT_CMD.format(session_id=session_id),
@@ -494,7 +510,7 @@ class ClusterSelector:
                 window.nodelay(0)  # Reset to blocking mode
 
                 if port_process.returncode == 0:
-                    updated_notif = f'Session launched with {num_gpus} GPUs ({session_id})'
+                    updated_notif = f'Session launched with {num_gpus} GPUs on {host_name}'
                     window.addstr(
                         max_y-3,
                         4,
@@ -530,7 +546,7 @@ class ClusterSelector:
         
         return process.returncode == 0
 
-    def run(self, stdscr):
+    def setup(self, stdscr):
         # Setup colors
         curses.start_color()
         self.setup_colors()
@@ -541,6 +557,13 @@ class ClusterSelector:
         
         # Hide the cursor
         curses.curs_set(0)
+
+    def run_direct(self, stdscr, cluster_name, num_gpus):
+        self.setup(stdscr)
+        self.draw_process_output(stdscr, cluster_name, num_gpus)
+
+    def run(self, stdscr):
+        self.setup(stdscr)
         
         while True:
             stdscr.clear()
@@ -646,18 +669,31 @@ class ClusterSelector:
 
 def main():
     try:
+        parser = argparse.ArgumentParser(description='Beaker Launch Tool')
+        parser.add_argument('-c', '--clusters', nargs='+', help='Cluster names')
+        parser.add_argument('-g', '--gpus', type=int, help='Number of GPUs')
+        args = parser.parse_args()
+
         selector = ClusterSelector(max_width=100)
-        selected_cluster = curses.wrapper(selector.run)
-        # Print the captured output from both processes
-        if selected_cluster:
-            # Get the last process's output lines
-            if hasattr(selector, 'final_output_lines'):
+        
+        if args.clusters:
+            # Direct launch with command line arguments
+            success = curses.wrapper(
+                selector.run_direct,
+                args.clusters,
+                args.gpus or 0  # Default to no GPUs if not specified
+            )
+            if success and hasattr(selector, 'final_output_lines'):
+                for line in selector.final_output_lines:
+                    print(line)
+        else:
+            # Interactive menu mode
+            selected_cluster = curses.wrapper(selector.run)
+            if selected_cluster and hasattr(selector, 'final_output_lines'):
                 for line in selector.final_output_lines:
                     print(line)
     except (KeyboardInterrupt, curses.error):
         sys.exit(0)  # Exit cleanly on Ctrl+C
 
 if __name__ == "__main__":
-    # beaker job list --cluster ai2/saturn-cirrascale
-    # globe -snc2 -z 1.5
     main()
