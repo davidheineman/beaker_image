@@ -12,6 +12,8 @@ bport() {
 alias bd='python /Users/dhei/ai2/beaker_image/deps/get_jobs.py --username davidh --sessions-only' # describe sessions
 alias bdall='python /Users/dhei/ai2/beaker_image/deps/get_jobs.py --username davidh' # describe all jobs
 alias bl='python /Users/dhei/ai2/beaker_image/deps/launcher.py' # launch session
+alias blogs='python /Users/dhei/ai2/beaker_image/deps/stream_logs.py -j' # launch session
+alias bstream='python /Users/dhei/ai2/beaker_image/deps/stream_logs.py -s -j' # launch session
 
 bpriority() {
     if [[ $# -lt 2 ]]; then
