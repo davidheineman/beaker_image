@@ -162,7 +162,7 @@ RUN chmod +x /root/.beaker_tools/update_port.sh
 
 # Add custom commands (like ChatGPT!)
 RUN mkdir -p /root/.bin
-COPY bin/ /root/.bin/
+COPY .bin/ /root/.bin/
 RUN chmod +x /root/.bin/*
 
 # Add docker daemon override
