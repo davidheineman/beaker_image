@@ -51,6 +51,7 @@ RUN apt-get update && apt-get install -y \
     rename \
     socat \
     redis-server \
+    psmisc \
     && apt-get clean
 
 # Install rust (I think you need the second thing to complete the install)
@@ -157,6 +158,9 @@ RUN chmod 644 /root/.conda_init
 RUN mkdir -p /root/bin
 COPY bin/ /root/bin/
 RUN chmod +x /root/bin/*
+
+# Add docker daemon override
+COPY etc/docker/daemon.json /etc/docker/daemon.json
 
 # # Install core python dependencies
 # COPY requirements_beaker.txt .
