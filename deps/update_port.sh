@@ -58,8 +58,16 @@ if ! grep -q "Host ai2" "$CONFIG_FILE"; then
     echo "Added 'ai2' host to $CONFIG_FILE"
 fi
 
+# Add ai2 to ssh config, if it doesn't exist
+CONFIG_FILE="$HOME/.ssh/config"
+if ! grep -q "Host ai2-root" "$CONFIG_FILE"; then
+    echo -e "\nHost ai2-root\n    User davidh\n    Hostname XXXXX\n    IdentityFile ~/.ssh/id_rsa" >> "$CONFIG_FILE"
+    echo "Added 'ai2-root' host to $CONFIG_FILE"
+fi
+
 # Replace hostname for ai2
 sed -i '' "/^Host ai2$/,/^$/s/^[[:space:]]*Hostname.*$/    Hostname $HOST_NAME/" ~/.ssh/config
+sed -i '' "/^Host ai2-root$/,/^$/s/^[[:space:]]*Hostname.*$/    Hostname $HOST_NAME/" ~/.ssh/config # also replace for root conifg
 
 # Replace the Port line in ~/.ssh/config for Host ai2 with the new local_port
 hosts=("ai2")

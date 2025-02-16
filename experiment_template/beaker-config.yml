@@ -47,10 +47,6 @@ tasks:
       preemptible: true
     constraints:
       cluster:
-        # - ai2/allennlp-cirrascale # no weka
-        # - ai2/general-cirrascale # no weka
-        # - ai2/pluto-cirrascale # no weka
         - ai2/jupiter-cirrascale-2 # h100
         - ai2/saturn-cirrascale # a100
-        - ai2/allennlp-elara-cirrascale # h100
         - ai2/neptune-cirrascale # a100
