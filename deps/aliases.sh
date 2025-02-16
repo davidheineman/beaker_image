@@ -1,15 +1,16 @@
 # Relevant beaker scripts
 
 alias ai2="ssh ai2"
-alias bd='beaker session describe'
 alias bstop='beaker session stop'
 blist() {
     beaker session list --all --author davidh | grep running
 }
 bport() {
-    source /Users/dhei/ai2/beaker_image/deps/update_ai2_port.sh
+    source /Users/dhei/ai2/beaker_image/deps/update_port.sh
 }
-alias bl='python /Users/dhei/ai2/beaker_image/deps/launcher.py'
+# alias bd='beaker session describe'
+alias bd='python /Users/dhei/ai2/beaker_image/deps/get_jobs.py --username davidh' # describe sessions
+alias bl='python /Users/dhei/ai2/beaker_image/deps/launcher.py' # launch session
 
 bpriority() {
     if [[ $# -lt 2 ]]; then
