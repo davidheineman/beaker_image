@@ -31,7 +31,9 @@ def stream_experiment_logs(job_id: str, do_stream: bool):
                 strict=True,
                 # since=timedelta(minutes=2)
             ):
-                print(line.decode().rstrip(), flush=True)
+                log_line = line.decode('utf-8', errors='replace').rstrip()
+                print(log_line)
+                sys.stdout.flush()
         else:
             log_stream = beaker.experiment.logs(
                 experiment_id, 
@@ -40,9 +42,8 @@ def stream_experiment_logs(job_id: str, do_stream: bool):
             )
             
             for line in log_stream:
-                log_line = line.decode().rstrip()
+                log_line = line.decode('utf-8', errors='replace').rstrip()
                 print(log_line)
-                
                 sys.stdout.flush()
             
     except KeyboardInterrupt:
