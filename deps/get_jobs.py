@@ -23,8 +23,43 @@ except ImportError:
 
 def parse_arguments():
     parser = argparse.ArgumentParser(description='Script to list all running jobs on AI2 through Beaker (for cleaning up those you are done with).')
-    parser.add_argument('--username', type=str, required=True, help='The username to process.')
+    parser.add_argument('--username', '-u', type=str, required=True, help='The username to process.')
+    parser.add_argument('--sessions-only', '-s', action='store_true', help='Only show interactive sessions.')
     return parser.parse_args()
+
+
+def categorize_and_sort_jobs(jobs):
+    """ Sort jobs by date, with excutions, then sessions. """
+    def sort_job_by_date(job):
+        return job["start_date"]
+
+    queued_jobs = []
+    executing_jobs = []
+    queued_sessions = []
+    executing_sessions = []
+
+    for job in jobs:
+        if job["kind"] == "Session":
+            if job["start_date"] is None:
+                queued_sessions.append(job)
+            else:
+                executing_sessions.append(job)
+        else:
+            if job["start_date"] is None:
+                queued_jobs.append(job)
+            else:
+                executing_jobs.append(job)
+
+    # Sort executing jobs/sessions by date
+    executing_jobs.sort(key=sort_job_by_date)
+    executing_sessions.sort(key=sort_job_by_date)
+
+    return (
+        queued_jobs +
+        executing_jobs +
+        queued_sessions +
+        executing_sessions
+    )
 
 
 def main():
@@ -33,25 +68,48 @@ def main():
     client = JobClient(beaker=beaker)
 
     jobs = client.list(
-        kind=JobKind.session,
+        kind=JobKind.session if args.sessions_only else None,
         author=args.username,
         finalized=False,
     )
 
     # Parse job data
-    jobs = [{
-        "id": job.id,
-        "kind": job.kind,
-        "name": job.name,
-        "start_date": job.status.started,
-        "hostname": job.session.env_vars[9].value, # Get hostname from env vars
-        "priority": job.session.priority,
-        "port_mappings": job.port_mappings,
-        "gpus": next((env.value for env in job.session.env_vars if env.name == "BEAKER_ASSIGNED_GPU_COUNT"), "0")
-    } for job in jobs]
+    processed_jobs = []
+    for job in jobs:
+        hostname = ""
+        gpu_count = "0"
+        
+        env_vars = job.session.env_vars if job.session else job.execution.spec.context.priority
+        for env in env_vars:
+            if isinstance(env, str):
+                continue
+            if (env.name == "BEAKER_HOSTNAME" or env.name == "BEAKER_NODE_HOSTNAME") and env.value is not None:
+                hostname = env.value
+            elif env.name == "BEAKER_ASSIGNED_GPU_COUNT":
+                gpu_count = env.value
+
+        if job.execution:
+            gpu_count = str(job.execution.spec.resources.gpu_count)
+        
+        priority = job.session.priority if job.session else job.execution.spec.context.priority
+        
+        processed_job = {
+            "id": job.id,
+            "kind": job.kind,
+            "name": job.name,
+            "start_date": job.status.started,
+            "hostname": hostname,
+            "priority": priority,
+            "port_mappings": job.port_mappings,
+            "gpus": gpu_count,
+            "is_canceling": job.status.canceled is not None
+        }
+        processed_jobs.append(processed_job)
+
+    processed_jobs = categorize_and_sort_jobs(processed_jobs)
 
     console = Console()
-    table = Table(header_style="bold white", box=None)
+    table = Table(header_style="bold", box=None)
 
     table.add_column("ID", style="cyan", no_wrap=True)
     table.add_column("Kind", style="magenta")
@@ -62,15 +120,24 @@ def main():
     table.add_column("GPUs", style="magenta")
     table.add_column("Port Mappings", style="white")
 
-    for job in jobs:
+    for job in processed_jobs:
         port_map_str = ""
         if job["port_mappings"] is not None:
             port_map_str = " ".join(f"{k}->{v}" for k, v in job["port_mappings"].items())
+        
+        if job["is_canceling"]:
+            # status_str = "[red]Canceled[/red]"
+            continue # just skip these
+        elif job["start_date"] is None:
+            status_str = "[blue]Queued[/blue]"
+        else:
+            status_str = job["start_date"].strftime("%Y-%m-%d %H:%M:%S")
+
         table.add_row(
             job["id"],
             job["kind"],
             job["name"],
-            job["start_date"].strftime("%Y-%m-%d %H:%M:%S") if job["start_date"] is not None else "[red]Starting...[/red]",
+            status_str,
             job["hostname"],
             job["priority"],
             job["gpus"],

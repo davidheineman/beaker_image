@@ -9,7 +9,8 @@ bport() {
     source /Users/dhei/ai2/beaker_image/deps/update_port.sh
 }
 # alias bd='beaker session describe'
-alias bd='python /Users/dhei/ai2/beaker_image/deps/get_jobs.py --username davidh' # describe sessions
+alias bd='python /Users/dhei/ai2/beaker_image/deps/get_jobs.py --username davidh --sessions-only' # describe sessions
+alias bdall='python /Users/dhei/ai2/beaker_image/deps/get_jobs.py --username davidh' # describe all jobs
 alias bl='python /Users/dhei/ai2/beaker_image/deps/launcher.py' # launch session
 
 bpriority() {
