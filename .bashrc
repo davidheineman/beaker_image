@@ -25,7 +25,7 @@ export HF_HOME="/oe-eval-default/davidh/.cache/huggingface/hub"
 export PYTHONIOENCODING=utf8
 
 # Add ChatGPT!
-export PATH="/root/bin:$PATH"
+export PATH="/root/.bin:$PATH"
 
 # Change conda dir to remote
 rm -rf /root/.conda # <- Will exist on some beaker images

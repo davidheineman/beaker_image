@@ -154,10 +154,16 @@ COPY .conda_init /root/.conda_init
 RUN chmod 644 /root/.bashrc
 RUN chmod 644 /root/.conda_init
 
+# Add custom beaker aliases
+RUN mkdir -p /root/.beaker_tools
+COPY deps /root/.beaker_tools
+RUN chmod +x /root/.beaker_tools/aliases.sh
+RUN chmod +x /root/.beaker_tools/update_port.sh
+
 # Add custom commands (like ChatGPT!)
-RUN mkdir -p /root/bin
-COPY bin/ /root/bin/
-RUN chmod +x /root/bin/*
+RUN mkdir -p /root/.bin
+COPY bin/ /root/.bin/
+RUN chmod +x /root/.bin/*
 
 # Add docker daemon override
 COPY etc/docker/daemon.json /etc/docker/daemon.json
