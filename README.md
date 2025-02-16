@@ -38,6 +38,7 @@ bstop # stop current session
 blist # list current sessions
 bport # change port for "ai2" host
 ai2code . # launch remote code
+ai2cursor . # launch remote cursor
 ai2cleanup # run ai2 cleaning utils
 blogs # get logs for job
 bstream # stream logs for job

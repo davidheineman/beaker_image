@@ -71,6 +71,14 @@ ai2code() {
         code --remote ssh-remote+ai2 /root/ai2/$remote_path
     fi
 }
+ai2cursor() {
+    if [ -z "$1" ]; then
+        cursor --remote ssh-remote+ai2 /root/ai2
+    else
+        local remote_path="${1:-}"
+        cursor --remote ssh-remote+ai2 /root/ai2/$remote_path
+    fi
+}
 ai2codereset() {
     ai2 'rm -rf ~/.vscode-server/cli/servers'
 }
