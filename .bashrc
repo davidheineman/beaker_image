@@ -27,6 +27,9 @@ export PYTHONIOENCODING=utf8
 # Add ChatGPT!
 export PATH="/root/.bin:$PATH"
 
+# Add Beaker aliases
+source /root/.beaker_tools/aliases.sh
+
 # Change conda dir to remote
 rm -rf /root/.conda # <- Will exist on some beaker images
 ln -sfn /oe-eval-default/davidh/miniconda3 /root/.conda-remote || true
