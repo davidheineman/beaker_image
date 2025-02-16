@@ -7,22 +7,26 @@ import warnings
 from cryptography.utils import CryptographyDeprecationWarning
 warnings.filterwarnings('ignore', category=CryptographyDeprecationWarning)
 
+from beaker.exceptions import JobNotFound
 from beaker import Beaker
 
 def stream_experiment_logs(job_id: str, do_stream: bool):
     # Initialize the Beaker client
     beaker = Beaker.from_env()
     
-    # Get the job first
-    job = beaker.job.get(job_id)
+    try:
+        job = beaker.job.get(job_id)
 
-    # Get the experiment ID
-    if job.execution is not None:
-        experiment_id = job.execution.experiment
-    else:
-        if job.kind == 'session':
-            raise ValueError('Job is a session. Please provide an execution job.')
-        raise RuntimeError(job)
+        # Get the experiment ID from the job
+        if job.execution is not None:
+            experiment_id = job.execution.experiment
+        else:
+            if job.kind == 'session':
+                raise ValueError('Job is a session. Please provide an execution job.')
+            raise RuntimeError(job)
+    except JobNotFound:
+        print(f'Job {job_id} not found, using {job_id} as an experiment ID...')
+        experiment_id = job_id
     
     try:
         if do_stream:
