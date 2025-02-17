@@ -75,61 +75,31 @@ RUN curl -fsSL https://update.code.visualstudio.com/latest/server-linux-x64/stab
     tar -xzf /root/.vscode-server/code-server.tar.gz -C /root/.vscode-server/bin --strip-components 1 && \
     rm /root/.vscode-server/code-server.tar.gz
 
+# Install Cursor Server
+ENV PATH="/root/.cursor-server/bin:/root/.cursor-server/bin/bin:$PATH"
+RUN mkdir -p /root/.cursor-server
+RUN curl -fsSL https://cursor.blob.core.windows.net/remote-releases/0.11.8-769e57fc532d17f247b121cdf4b6c37f1cccb540/vscode-reh-linux-x64.tar.gz \
+    -o /root/.cursor-server/cursor-server.tar.gz && \
+    mkdir -p /root/.cursor-server/bin && \
+    tar -xzf /root/.cursor-server/cursor-server.tar.gz -C /root/.cursor-server/bin --strip-components 1 && \
+    rm /root/.cursor-server/cursor-server.tar.gz
+
 # Install VSCode Extensions
-RUN code-server \
-    --install-extension anseki.vscode-color \
-    --install-extension blanu.vscode-styled-jsx \
-    --install-extension bradlc.vscode-tailwindcss \
-    --install-extension csstools.postcss \
-    --install-extension davidanson.vscode-markdownlint \
-    --install-extension dbaeumer.vscode-eslint \
-    --install-extension dsznajder.es7-react-js-snippets \
-    --install-extension ecmel.vscode-html-css \
-    --install-extension esbenp.prettier-vscode \
-    --install-extension github.copilot \
-    --install-extension github.copilot-chat \
-    --install-extension github.github-vscode-theme \
-    --install-extension github.vscode-github-actions \
-    --install-extension github.vscode-pull-request-github \
-    --install-extension mechatroner.rainbow-csv \
-    --install-extension mhutchie.git-graph \
-    --install-extension miguelsolorio.fluent-icons \
-    --install-extension mikestead.dotenv \
-    --install-extension ms-azuretools.vscode-docker \
-    --install-extension ms-dotnettools.csharp \
-    --install-extension ms-dotnettools.vscode-dotnet-runtime \
-    --install-extension ms-python.autopep8 \
-    --install-extension ms-python.black-formatter \
-    --install-extension ms-python.debugpy \
-    --install-extension ms-python.flake8 \
-    --install-extension ms-python.isort \
-    --install-extension ms-python.python \
-    --install-extension ms-python.vscode-pylance \
-    --install-extension ms-toolsai.jupyter \
-    --install-extension ms-toolsai.jupyter-keymap \
-    --install-extension ms-toolsai.jupyter-renderers \
-    --install-extension ms-toolsai.vscode-jupyter-cell-tags \
-    --install-extension ms-toolsai.vscode-jupyter-slideshow \
-    --install-extension ms-vscode-remote.remote-containers \
-    --install-extension ms-vscode-remote.remote-ssh \
-    --install-extension ms-vscode-remote.remote-ssh-edit \
-    --install-extension ms-vscode.cmake-tools \
-    --install-extension ms-vscode.cpptools \
-    --install-extension ms-vscode.cpptools-extension-pack \
-    --install-extension ms-vscode.cpptools-themes \
-    --install-extension ms-vscode.live-server \
-    --install-extension ms-vscode.makefile-tools \
-    --install-extension ms-vscode.remote-explorer \
-    --install-extension tamasfe.even-better-toml \
-    --install-extension tomoki1207.pdf \
-    --install-extension twxs.cmake \
-    --install-extension vue.volar \
-    --install-extension wekex.jsonlint \
-    --install-extension bierner.markdown-preview-github-styles \
-    --install-extension tyriar.sort-lines
+COPY code_extensions.txt /.code_extensions.txt
+RUN while read -r extension; do \
+    code-server --install-extension "$extension"; \
+done < /.code_extensions.txt
+
+# Install Cursor Extensions
+RUN while read -r extension; do \
+    cursor-server --install-extension "$extension"; \
+done < /.code_extensions.txt
 
 # Uninstall some default extensions
 RUN code-server \
+    --uninstall-extension davidanson.vscode-markdownlint || true
+
+RUN cursor-server \
     --uninstall-extension davidanson.vscode-markdownlint || true
 
 # Expose OpenSSH/VS Code and Jupyter ports
