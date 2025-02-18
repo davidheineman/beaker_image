@@ -133,6 +133,7 @@ QUOTES = [
     "Our modest goal is world domination. (Patterson, 2015, describing the RISC-V project)", # https://quotes.cs.cornell.edu/speaker/Dave-Patterson/
     "A picture is worth a thousand words, a video is worth a thousand pictures and a demo a thousand videos. So we're up to, um, ten to the nine. (LeCun, 2004)", # https://quotes.cs.cornell.edu/speaker/Yann--LeCun/
     "Although perhaps of no practical importance, the question is of theoretical interest, and it is hoped that a satisfactory solution of this problem will act as a wedge in attacking other problems of a similar nature and of greater significance. (Shannon on Chess, 1950)", # https://vision.unipv.it/IA1/ProgrammingaComputerforPlayingChess.pdf
+    "What is now proved was once only imagined. (William Blake, 1790)"
 ]
 
 
