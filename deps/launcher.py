@@ -17,6 +17,15 @@ CLUSTERS = [
         0
     ),
     (
+        "Any L40s (L40s, 1wk lim, WEKA)",
+        [
+            "ai2/neptune-cirrascale", 
+            "ai2/triton-cirrascale", 
+        ],
+        "Any cluster with L40s or A100s",
+        1
+    ),
+    (
         "Any A100 (80GB A100, 1day lim, WEKA)", 
         [
             "ai2/saturn-cirrascale", 
@@ -31,15 +40,6 @@ CLUSTERS = [
             "ai2/jupiter-cirrascale-2", 
         ],
         "Any cluster with 2 hour H100 sessions",
-        1
-    ),
-    (
-        "Any L40s  (L40s, 1wk lim, WEKA)",
-        [
-            "ai2/neptune-cirrascale", 
-            "ai2/triton-cirrascale", 
-        ],
-        "Any cluster with L40s or A100s",
         1
     ),
     (
