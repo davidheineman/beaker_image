@@ -10,7 +10,6 @@ CLUSTERS = [
         "Any CPU  (CPU, 1wk lim, WEKA)",
         [
             "ai2/phobos-cirrascale", 
-            "ai2/saturn-cirrascale", 
             "ai2/neptune-cirrascale", 
             "ai2/triton-cirrascale", 
         ],
@@ -18,7 +17,7 @@ CLUSTERS = [
         0
     ),
     (
-        "Any A100 (80GB A100, 1wk lim, WEKA)", 
+        "Any A100 (80GB A100, 1day lim, WEKA)", 
         [
             "ai2/saturn-cirrascale", 
         ],
@@ -35,9 +34,8 @@ CLUSTERS = [
         1
     ),
     (
-        "Any GPU  (A100/L40s, 1wk lim, WEKA)",
+        "Any L40s  (L40s, 1wk lim, WEKA)",
         [
-            "ai2/saturn-cirrascale", 
             "ai2/neptune-cirrascale", 
             "ai2/triton-cirrascale", 
         ],
@@ -51,7 +49,7 @@ CLUSTERS = [
         0
     ),
     (
-        "Saturn   (80GB A100, 1wk lim, WEKA)", 
+        "Saturn   (80GB A100, 1day lim, WEKA)", 
         "ai2/saturn-cirrascale", 
         "Small experiments before using Jupiter - 208 NVIDIA A100 (80 GB) GPUs, Ethernet (50 Gbps/server), WEKA storage, 1 week timeout",
         1
