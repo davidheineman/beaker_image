@@ -82,6 +82,9 @@ ai2cursor() {
 ai2codereset() {
     ai2 'rm -rf ~/.vscode-server/cli/servers'
 }
+ai2checks() {
+    make type-check && make build && make style-check && make lint-check
+}
 ai2cleanup() {
     isort . && black . && ruff check . && mypy .
 }
