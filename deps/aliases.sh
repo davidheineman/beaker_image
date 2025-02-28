@@ -62,6 +62,10 @@ bweb() {
         open -a "Google Chrome" "https://beaker.allen.ai/orgs/ai2/workspaces/$*?rowsPerPage=100?"
     fi
 }
+bupdate() {
+    chmod +x $BEAKER_DEPS_DIR/download-beaker.sh
+    source $BEAKER_DEPS_DIR/download-beaker.sh
+}
 
 ai2code() {
     if [ -z "$1" ]; then
