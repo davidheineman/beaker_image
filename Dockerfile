@@ -95,6 +95,10 @@ RUN while read -r extension; do \
     cursor-server --install-extension "$extension"; \
 done < /.code_extensions.txt
 
+# Install Cursor-only Extensions
+RUN cursor-server \
+    --install-extension detachhead.basedpyright || true
+
 # Uninstall some default extensions
 RUN code-server \
     --uninstall-extension davidanson.vscode-markdownlint || true
