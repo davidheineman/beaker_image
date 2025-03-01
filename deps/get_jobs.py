@@ -1,9 +1,14 @@
-import argparse
-import warnings
+import argparse, warnings
 
 # Suppress cryptography deprecation warnings
-from cryptography.utils import CryptographyDeprecationWarning
-warnings.filterwarnings('ignore', category=CryptographyDeprecationWarning)
+warnings.filterwarnings('ignore')
+
+try:
+    from beaker import Beaker
+except ImportError:
+    import subprocess
+    import sys
+    subprocess.check_call([sys.executable, "-m", "pip", "install", "beaker-py"])
 
 from beaker import Beaker
 from beaker.services.job import JobClient
@@ -11,14 +16,14 @@ from beaker.data_model.job import JobKind
 
 # Attempt to install rich if it doesnt exist
 try:
-    from rich.console import Console
-    from rich.table import Table
+    import rich
 except ImportError:
     import subprocess
     import sys
     subprocess.check_call([sys.executable, "-m", "pip", "install", "rich"])
-    from rich.console import Console
-    from rich.table import Table
+
+from rich.console import Console
+from rich.table import Table
 
 
 def parse_arguments():

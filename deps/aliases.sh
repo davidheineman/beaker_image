@@ -66,6 +66,9 @@ bupdate() {
     chmod +x $BEAKER_DEPS_DIR/download-beaker.sh
     source $BEAKER_DEPS_DIR/download-beaker.sh
 }
+bfree() {
+    python $BEAKER_DEPS_DIR/get_free_gpus.py
+}
 
 ai2code() {
     if [ -z "$1" ]; then

@@ -1,14 +1,18 @@
-from datetime import timedelta
-import argparse
-import sys
-import warnings
+import argparse, sys, warnings
 
 # Suppress cryptography deprecation warnings
-from cryptography.utils import CryptographyDeprecationWarning
-warnings.filterwarnings('ignore', category=CryptographyDeprecationWarning)
+warnings.filterwarnings('ignore')
 
-from beaker.exceptions import JobNotFound
+try:
+    from beaker import Beaker
+except ImportError:
+    import subprocess
+    import sys
+    subprocess.check_call([sys.executable, "-m", "pip", "install", "beaker-py"])
+
 from beaker import Beaker
+from beaker.exceptions import JobNotFound
+
 
 def stream_experiment_logs(job_id: str, do_stream: bool):
     # Initialize the Beaker client

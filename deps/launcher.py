@@ -1,90 +1,8 @@
-import textwrap, curses, random, itertools, time, subprocess, threading, queue, sys, os
+import textwrap, curses, random, itertools, time, subprocess, threading, queue, sys, os, argparse, re
 from figlet import Figlet
-import argparse, re
+from constants import CLUSTERS
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
-
-CLUSTERS = [
-    # (pretty name, cluster name, description, default # GPUs)
-    (
-        "Any CPU  (CPU, 1wk lim, WEKA)",
-        [
-            "ai2/phobos-cirrascale", 
-            "ai2/neptune-cirrascale", 
-            "ai2/triton-cirrascale", 
-        ],
-        "Any cluster supporting 1 week CPU sessions",
-        0
-    ),
-    (
-        "Any L40s (L40s, 1wk lim, WEKA)",
-        [
-            "ai2/neptune-cirrascale", 
-            "ai2/triton-cirrascale", 
-        ],
-        "Any cluster with L40s or A100s",
-        1
-    ),
-    (
-        "Any A100 (80GB A100, 1day lim, WEKA)", 
-        [
-            "ai2/saturn-cirrascale", 
-        ],
-        "Any cluster with 1 week A100 sessions",
-        1
-    ),
-    (
-        "Any H100 (80GB H100, 2hr lim, WEKA)", 
-        [
-            "ai2/ceres-cirrascale", 
-            "ai2/jupiter-cirrascale-2", 
-        ],
-        "Any cluster with 2 hour H100 sessions",
-        1
-    ),
-    (
-        "Phobos   (CPU, 1wk lim, WEKA)",       
-        "ai2/phobos-cirrascale", 
-        "Debugging and data transfers - No GPUs, Ethernet (50 Gbps/server), WEKA storage, 1 week timeout",
-        0
-    ),
-    (
-        "Saturn   (80GB A100, 1day lim, WEKA)", 
-        "ai2/saturn-cirrascale", 
-        "Small experiments before using Jupiter - 208 NVIDIA A100 (80 GB) GPUs, Ethernet (50 Gbps/server), WEKA storage, 1 week timeout",
-        1
-    ),
-    (
-        "Ceres    (80GB H100, 2hr lim, WEKA)", 
-        "ai2/ceres-cirrascale", 
-        "Small distributed jobs - 88 NVIDIA H100 GPUs (80 GB), 4x NVIDIA InfiniBand (200 Gbps/GPU), WEKA storage, 2 hour timeout",
-        1
-    ),
-    (
-        "Jupiter  (80GB H100, 2hr lim, WEKA)", 
-        "ai2/jupiter-cirrascale-2", 
-        "Large distributed jobs - 1024 NVIDIA H100 (80 GB) GPUs, 8x NVIDIA InfiniBand (400 Gbps/GPU), WEKA storage, 2 hour timeout",
-        1
-    ),
-    (
-        "Neptune  (40GB L40s, 1wk lim, WEKA)", 
-        "ai2/neptune-cirrascale", 
-        "Small experiments (≤ 40 GB memory) - 112 NVIDIA L40 (40 GB) GPUs, Ethernet (50 Gbps/server), WEKA storage, 1 week timeout",
-        1
-    ),
-    (
-        "Triton   (40GB L40s, 1wk lim, WEKA)", 
-        "ai2/triton-cirrascale", 
-        "Session-only - 16 NVIDIA L40 (40 GB) GPUs, Ethernet (50 Gbps/server), WEKA storage, 1 week timeout",
-        1
-    ),
-    (
-        "Augusta  (80GB H100, 2hr lim, GCS)",  
-        "ai2/augusta-gcp", 
-        "Large distributed jobs - 1280 NVIDIA H100 (80 GB) GPUs, TCPXO (200 Gbps/server), Google Cloud Storage, 2 hour timeout",
-        1
-    ),
-]
 
 LAUNCH_COMMAND = """\
 beaker session create \
@@ -98,12 +16,12 @@ beaker session create \
     --detach \
     --port 8000 --port 8001 --port 8080 --port 8888 \
     --workdir /oe-eval-default/davidh \
-    --mount weka://oe-eval-default=/oe-eval-default \
-    --mount weka://oe-training-default=/oe-training-default \
-    --mount weka://oe-data-default=/oe-data-default \
-    --mount weka://oe-adapt-default=/oe-adapt-default \
-    --mount secret://ssh-key=/root/.ssh/id_rsa \
-    --mount secret://aws-creds=/root/.aws/credentials \
+    --mount src=weka,ref=oe-eval-default,dst=/oe-eval-default \
+    --mount src=weka,ref=oe-training-default,dst=/oe-training-default \
+    --mount src=weka,ref=oe-data-default,dst=/oe-data-default \
+    --mount src=weka,ref=oe-adapt-default,dst=/oe-adapt-default \
+    --mount src=secret,ref=ssh-key,dst=/root/.ssh/id_rsa \
+    --mount src=secret,ref=aws-creds,dst=/root/.aws/credentials \
     --secret-env HF_TOKEN=HF_TOKEN \
     --secret-env OPENAI_API_KEY=OPENAI_API_KEY \
     --secret-env ANTHROPIC_API_KEY=ANTHROPIC_API_KEY \
