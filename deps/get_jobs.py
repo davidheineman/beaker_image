@@ -67,14 +67,13 @@ def categorize_and_sort_jobs(jobs):
     )
 
 
-def main():
-    args = parse_arguments()
+def get_job_data(username, sessions_only=True):
     beaker = Beaker.from_env()
     client = JobClient(beaker=beaker)
 
     jobs = client.list(
-        kind=JobKind.session if args.sessions_only else None,
-        author=args.username,
+        kind=JobKind.session if sessions_only else None,
+        author=username,
         finalized=False,
     )
 
@@ -95,10 +94,18 @@ def main():
 
         if job.execution:
             gpu_count = str(job.execution.spec.resources.gpu_count)
-        
+
+        workload = None
+        if job.session and job.session.env_vars:
+            for env in job.session.env_vars:
+                if env.name == "BEAKER_WORKLOAD_ID":
+                    workload = env.value
+                    break
+
         priority = job.session.priority if job.session else job.execution.spec.context.priority
         
         processed_job = {
+            "workload": workload,
             "id": job.id,
             "kind": job.kind,
             "name": job.name,
@@ -110,8 +117,19 @@ def main():
             "is_canceling": job.status.canceled is not None
         }
         processed_jobs.append(processed_job)
-
+    
     processed_jobs = categorize_and_sort_jobs(processed_jobs)
+
+    return processed_jobs
+
+
+def main():
+    args = parse_arguments()
+
+    processed_jobs = get_job_data(
+        username=args.username, 
+        sessions_only=args.sessions_only
+    )
 
     console = Console()
     table = Table(header_style="bold", box=None)

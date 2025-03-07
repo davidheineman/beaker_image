@@ -76,15 +76,16 @@ def get_free_gpus():
             
     return free_gpus
 
-# Usage example:
-free_gpus = get_free_gpus()
+if __name__ == '__main__':
+    # Usage example:
+    free_gpus = get_free_gpus()
 
-console = Console()
-table = Table(header_style="bold", box=None)
-table.add_column("Cluster")
-table.add_column("Free GPUs", justify="right")
+    console = Console()
+    table = Table(header_style="bold", box=None)
+    table.add_column("Cluster")
+    table.add_column("Free GPUs", justify="right")
 
-for cluster_name, gpu_count in free_gpus.items():
-    table.add_row(cluster_name, str(gpu_count))
+    for cluster_name, gpu_count in free_gpus.items():
+        table.add_row(cluster_name, str(gpu_count))
 
-console.print(table)
+    console.print(table)
