@@ -27,8 +27,8 @@ https://github.com/user-attachments/assets/4732ec02-8ec8-4279-bf02-7eae47a171b6
 
 1. Fork this repo
 2. Update references for `davidh` to your workspace/desired image name
-3. Set `BEAKER_TOKEN` secret in https://github.com/[user]/[repo]/settings/secrets/actions to your [Beaker User Token](https://beaker.allen.ai/user/davidh/settings/token)
-4. Install [aliases](./deps/aliases.sh) to terminal path
+3. Grab your [Beaker user token](https://beaker.allen.ai/user/davidh/settings/token) and set it to the `BEAKER_TOKEN` secret in GitHub Actions: https://github.com/[user]/[repo]/settings/secrets/actions
+4. Install aliases to terminal path (see [aliases.sh]((./deps/aliases.sh)))
 ```sh
 ALIASES_PATH=$(cd ./deps && pwd)/aliases.sh
 chmod +x $ALIASES_PATH # make it executable
@@ -36,12 +36,31 @@ grep -qxF "source $ALIASES_PATH" ~/.zshrc || echo "\n# Initialize beaker aliases
 ```
 5. Add secrets to your beaker workspace:
 ```sh
+# Make
+cat ~/.ssh/id_rsa # SSH private key
+cat ~/.aws/credentials # AWS credentials (from 1password)
+
+# Set secrets locally to add to Beaker
+export HF_TOKEN=""
+export HF_TOKEN=""
+export OPENAI_API_KEY=""
+export ANTHROPIC_API_KEY=""
+export BEAKER_TOKEN=""
+export WANDB_API_KEY=""
+export WANDB_API_KEY=""
+export AWS_SECRET_ACCESS_KEY=""
+export AWS_ACCESS_KEY_ID=""
+export AWS_SECRET_ACCESS_KEY=""
+export AWS_ACCESS_KEY_ID=""
+export GOOGLE_API_KEY=""
+
+# Copy them to workspace (e.g., ai2/davidh)
 bsecrets ai2/davidh
 
 # Sanity check: 
 # beaker secret read OPENAI_API_KEY
 ```
-6. To use git on the remote, add your pubkey (`~/.ssh/id_rsa.pub`) to your GitHub account: https://github.com/settings/keys (and update the email in .gitconfig)
+6. To use git on the remote, add your pubkey (`cat ~/.ssh/id_rsa.pub`) to your GitHub account: https://github.com/settings/keys. Then, update your GitHub email in `.gitconfig`:
 ```sh
 [user]
     name = [YOUR GIT NAME]
