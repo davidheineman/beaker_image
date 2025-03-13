@@ -1,6 +1,27 @@
 [![Build davidh Image](https://github.com/davidheineman/beaker_image/actions/workflows/push-image.yml/badge.svg)](https://github.com/davidheineman/beaker_image/actions/workflows/push-image.yml)
 
-Personal container for Beaker interactive sessions.
+Tooling for Beaker interactive sessions. This repo auto-builds to the image `beaker://davidh/davidh-interactive`. **Feel free to fork this repo for your own container!**
+
+**Core Features**
+
+- ✅ Pre-installed VSCode/Cursor extensions on remote
+- ✅ No saving API keys in plain-text in WEKA
+- ✅ Auto-update `~/.ssh/config` SSH host (no manually entering `ssh phobos-cs-aus-452.reviz.ai2.in:32785` to connect to a host)
+- ✅ 100% customizable image (install your own CUDA drivers!)
+- ✅ Launch remote VSCode from terminal in one command (`ai2code your_folder`)
+- ✅ GUI launcher (`bl`) with cluster descriptions (no fiddling with `beaker session create`)
+
+### Demo
+
+https://github.com/user-attachments/assets/4732ec02-8ec8-4279-bf02-7eae47a171b6
+
+**✨ New!** MacOS toolbar extension to show free GPUs, and currently running jobs!
+
+<p align="center">
+<img width="243" alt="demo-mac-plugin" src="https://github.com/user-attachments/assets/d648a0bb-b787-45f8-b5ac-7542eeb4a654" />
+</p>
+
+<hr>
 
 ### Setup
 
@@ -13,14 +34,14 @@ ALIASES_PATH=$(cd ./deps && pwd)/aliases.sh
 chmod +x $ALIASES_PATH # make it executable
 grep -qxF "source $ALIASES_PATH" ~/.zshrc || echo "\n# Initialize beaker aliases\nsource $ALIASES_PATH" >> ~/.zshrc # add to terminal init
 ```
-4. Add secrets to your beaker workspace:
+5. Add secrets to your beaker workspace:
 ```sh
 bsecrets ai2/davidh
 
 # Sanity check: 
 # beaker secret read OPENAI_API_KEY
 ```
-5. To use git on the remote, add your pubkey `~/.ssh/id_rsa.pub` to your GitHub account: https://github.com/settings/keys (and update the email in .gitconfig)
+6. To use git on the remote, add your pubkey (`~/.ssh/id_rsa.pub`) to your GitHub account: https://github.com/settings/keys (and update the email in .gitconfig)
 ```sh
 [user]
     name = [YOUR GIT NAME]
@@ -29,7 +50,7 @@ bsecrets ai2/davidh
 [safe]
     directory = [YOUR WEKA DIR]
 ```
-6. Test out some of the [aliases](./deps/aliases.sh)
+7. Test out some of the [aliases](./deps/aliases.sh)
 ```sh
 bl # use interactive session launcher
 bd # show current session
@@ -43,13 +64,13 @@ ai2cleanup # run ai2 cleaning utils
 blogs # get logs for job
 bstream # stream logs for job
 ```
-7. [Optional] Install conda on remote
+8. [Optional] Install conda on remote
 ```sh
 wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda.sh 
 chmod +x ~/miniconda.sh 
 ./miniconda.sh # install to ~/ai2/miniconda3
 ```
-8. [Optional] Test your build locally:
+9. [Optional] Test your build locally:
 ```sh
 docker build -t davidh-interactive .
 docker run -it -p 8080:8080 davidh-interactive
@@ -59,11 +80,12 @@ beaker image delete davidh/davidh-interactive
 beaker image create --name davidh-interactive davidh-interactive
 ```
 
+<hr>
+
 ### TODO
 - [ ] Use a lightweight container instead of provided container
 - [ ] Fix LD_LIBRARY_PATH
 - [ ] Prevent /root/.conda (for new enviornment installs)
-- [ ] Ensure pytorch works on a fresh image
 
 ### Debugging
 1. If the port failes to auto-update, add this to your `~/.ssh/config` (the XXXXX will be string replaced by `update_port.sh`):
