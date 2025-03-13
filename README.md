@@ -70,7 +70,8 @@ wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/
 chmod +x ~/miniconda.sh 
 ./miniconda.sh # install to ~/ai2/miniconda3
 ```
-9. [Optional] Test your build locally:
+9. [Optional] Add the MacOS toolbar extension. Instructions in [deps/macos_widget/README.md](deps/macos_widget/README.md)
+10. [Optional] Test your build locally:
 ```sh
 docker build -t davidh-interactive .
 docker run -it -p 8080:8080 davidh-interactive
