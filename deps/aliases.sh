@@ -1,6 +1,7 @@
 # Relevant beaker scripts
 
 BEAKER_DEPS_DIR="$(cd "$(dirname "${BASH_SOURCE[0]:-${(%):-%x}}")" && pwd)"
+BEAKER_SECRETS_DIR="$(dirname "$BEAKER_DEPS_DIR")/secrets"
 
 alias ai2="ssh ai2"
 alias bstop='beaker session stop'
@@ -39,8 +40,9 @@ bpriority() {
 bsecrets() {
     WORKSPACE_NAME="$1"
     echo "Adding secrets to $WORKSPACE_NAME..."
-    cat ~/.ssh/id_rsa | beaker secret write -w $WORKSPACE_NAME ssh-key
-    cat ~/.aws/credentials | beaker secret write -w $WORKSPACE_NAME aws-creds
+    cat $BEAKER_SECRETS_DIR/.ssh/id_rsa | beaker secret write -w $WORKSPACE_NAME ssh-key
+    cat $BEAKER_SECRETS_DIR/.aws/credentials | beaker secret write -w $WORKSPACE_NAME aws-creds
+    cat $BEAKER_SECRETS_DIR/.gcp/service-account.json | beaker secret write -w $WORKSPACE_NAME gcp-creds
     echo -n $HF_TOKEN | beaker secret write -w $WORKSPACE_NAME HF_TOKEN
     echo -n $HF_TOKEN | beaker secret write -w $WORKSPACE_NAME HF_TOKEN_READ_ONLY # <- for oe-eval
     echo -n $OPENAI_API_KEY | beaker secret write -w $WORKSPACE_NAME OPENAI_API_KEY
@@ -53,6 +55,27 @@ bsecrets() {
     echo -n $AWS_SECRET_ACCESS_KEY | beaker secret write -w $WORKSPACE_NAME DAVIDH_AWS_SECRET_ACCESS_KEY
     echo -n $AWS_ACCESS_KEY_ID | beaker secret write -w $WORKSPACE_NAME DAVIDH_AWS_ACCESS_KEY_ID
     echo -n $GOOGLE_API_KEY | beaker secret write -w $WORKSPACE_NAME GOOGLE_API_KEY
+    beaker secret list -w $WORKSPACE_NAME
+}
+# TODO: Make this not a copy-pasted version of the above code block
+bsecretssharedworkspace() {
+    WORKSPACE_NAME="$1"
+    echo "Adding secrets to $WORKSPACE_NAME..."
+    cat $BEAKER_SECRETS_DIR/.ssh/id_rsa | beaker secret write -w $WORKSPACE_NAME davidh-ssh-key
+    cat $BEAKER_SECRETS_DIR/.aws/credentials | beaker secret write -w $WORKSPACE_NAME davidh-aws-creds
+    cat $BEAKER_SECRETS_DIR/.gcp/service-account.json | beaker secret write -w $WORKSPACE_NAME davidh-gcp-creds
+    echo -n $HF_TOKEN | beaker secret write -w $WORKSPACE_NAME davidh_HF_TOKEN
+    echo -n $HF_TOKEN | beaker secret write -w $WORKSPACE_NAME davidh_HF_TOKEN_READ_ONLY # <- for oe-eval
+    echo -n $OPENAI_API_KEY | beaker secret write -w $WORKSPACE_NAME davidh_OPENAI_API_KEY
+    echo -n $ANTHROPIC_API_KEY | beaker secret write -w $WORKSPACE_NAME davidh_ANTHROPIC_API_KEY
+    echo -n $BEAKER_TOKEN | beaker secret write -w $WORKSPACE_NAME davidh_BEAKER_TOKEN
+    echo -n $WANDB_API_KEY | beaker secret write -w $WORKSPACE_NAME davidh_WANDB_API_KEY
+    echo -n $WANDB_API_KEY | beaker secret write -w $WORKSPACE_NAME DAVIDH_WANDB_API_KEY
+    # echo -n $AWS_SECRET_ACCESS_KEY | beaker secret write -w $WORKSPACE_NAME AWS_SECRET_ACCESS_KEY
+    # echo -n $AWS_ACCESS_KEY_ID | beaker secret write -w $WORKSPACE_NAME AWS_ACCESS_KEY_ID
+    # echo -n $AWS_SECRET_ACCESS_KEY | beaker secret write -w $WORKSPACE_NAME DAVIDH_AWS_SECRET_ACCESS_KEY
+    # echo -n $AWS_ACCESS_KEY_ID | beaker secret write -w $WORKSPACE_NAME DAVIDH_AWS_ACCESS_KEY_ID
+    echo -n $GOOGLE_API_KEY | beaker secret write -w $WORKSPACE_NAME davidh_GOOGLE_API_KEY
     beaker secret list -w $WORKSPACE_NAME
 }
 bweb() {

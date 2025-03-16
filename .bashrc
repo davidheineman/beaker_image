@@ -40,6 +40,7 @@ export CONDA_PKGS_DIRS=/root/.conda-remote/pkgs
 # Link NFS directory to home
 ln -sfn /oe-eval-default/davidh ~/ai2 || true
 ln -sfn /oe-eval-default/davidh/.aws ~/.aws || true
+ln -sfn /oe-eval-default/davidh/.gcp ~/.gcp || true
 ln -sfn /oe-eval-default/davidh/.cache ~/.cache || true
 
 # Some scripts use /weka/oe-training-default. Create symlink for this
@@ -55,6 +56,12 @@ gitlogin() {
 
 # Make directory safe
 git config --global --add safe.directory /oe-eval-default/davidh
+
+# Verify gcp
+gcplogin() {
+    export SERVICE_ACCOUNT=olmo-gcs@ai2-allennlp.iam.gserviceaccount.com
+    gcloud auth activate-service-account $SERVICE_ACCOUNT --key-file=~/.gcp/service-account.json
+}
 
 # Welcome command!
 if command -v figlet &> /dev/null && command -v lolcat &> /dev/null; then

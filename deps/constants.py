@@ -92,4 +92,20 @@ CLUSTERS = [
         "Large distributed jobs - 1280 NVIDIA H100 (80 GB) GPUs, TCPXO (200 Gbps/server), Google Cloud Storage, 2 hour timeout",
         1
     ),
+    (
+        "Neptune CPU",
+        [
+            "ai2/neptune-cirrascale", 
+        ],
+        "1 week CPU session",
+        0
+    ),
+    (
+        "Triton CPU",
+        [
+            "ai2/triton-cirrascale", 
+        ],
+        "1 week CPU session",
+        0
+    ),
 ]

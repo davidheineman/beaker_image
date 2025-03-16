@@ -2,4 +2,5 @@
 dev/
 build/
 dist/
+secrets/
 pyproject.toml

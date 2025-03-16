@@ -22,6 +22,7 @@ beaker session create \
     --mount src=weka,ref=oe-adapt-default,dst=/oe-adapt-default \
     --mount src=secret,ref=ssh-key,dst=/root/.ssh/id_rsa \
     --mount src=secret,ref=aws-creds,dst=/root/.aws/credentials \
+    --mount src=secret,ref=gcp-creds,dst=/root/.gcp/service-account.json \
     --secret-env HF_TOKEN=HF_TOKEN \
     --secret-env OPENAI_API_KEY=OPENAI_API_KEY \
     --secret-env ANTHROPIC_API_KEY=ANTHROPIC_API_KEY \
@@ -29,6 +30,36 @@ beaker session create \
     --secret-env WANDB_API_KEY=WANDB_API_KEY \
     -- /usr/sbin/sshd -D\
 """
+
+# # Urgent priority session
+# # TODO: ROLL INTO SINGLE COMMAND
+# LAUNCH_COMMAND = """\
+# beaker session create \
+#     --name debug-gemma-3-evals-for-peteish32-release \
+#     {gpu_command} \
+#     {cluster_command} \
+#     --image beaker://davidh/davidh-interactive \
+#     --workspace ai2/13B \
+#     --budget ai2/oe-eval \
+#     --priority urgent \
+#     --bare \
+#     --detach \
+#     --port 8000 --port 8001 --port 8080 --port 8888 \
+#     --workdir /oe-eval-default/davidh \
+#     --mount src=weka,ref=oe-eval-default,dst=/oe-eval-default \
+#     --mount src=weka,ref=oe-training-default,dst=/oe-training-default \
+#     --mount src=weka,ref=oe-data-default,dst=/oe-data-default \
+#     --mount src=weka,ref=oe-adapt-default,dst=/oe-adapt-default \
+#     --mount src=secret,ref=davidh-ssh-key,dst=/root/.ssh/id_rsa \
+#     --mount src=secret,ref=davidh-aws-creds,dst=/root/.aws/credentials \
+#     --mount src=secret,ref=davidh-gcp-creds,dst=/root/.gcp/service-account.json \
+#     --secret-env HF_TOKEN=davidh_HUGGING_FACE_HUB_TOKEN \
+#     --secret-env OPENAI_API_KEY=davidh_OPENAI_API_KEY \
+#     --secret-env ANTHROPIC_API_KEY=davidh_ANTHROPIC_API_KEY \
+#     --secret-env BEAKER_TOKEN=davidh_BEAKER_TOKEN \
+#     --secret-env WANDB_API_KEY=davidh_WANDB_API_KEY \
+#     -- /usr/sbin/sshd -D\
+# """
 
 UPDATE_PORT_CMD = f"source {SCRIPT_DIR}/update_port.sh {{session_id}}"
 
