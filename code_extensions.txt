@@ -47,4 +47,4 @@ twxs.cmake
 vue.volar
 wekex.jsonlint
 bierner.markdown-preview-github-styles
-tyriar.sort-lin
+tyriar.sort-lines
