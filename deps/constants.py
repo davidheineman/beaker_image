@@ -69,9 +69,9 @@ CLUSTERS = [
         1
     ),
     (
-        "Titan    ( 80GB H100, 2hr lim, WEKA)",  
+        "Titan    (200GB B200, 2hr lim, WEKA)",  
         "ai2/titan-cirrascale", 
-        "Not yet GA",
+        "Distributed jobs - 96 NVIDIA B200 (200GB) GPUs, 8x NVIDIA InfiniBand (400 Gbps/GPU), 2 hour timeout",
         1
     ),
     (
