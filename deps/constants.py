@@ -37,11 +37,11 @@ CLUSTERS = [
         1
     ),
     (
-        "Any B200 (192GB B200, ??  lim, WEKA)", 
+        "Any B200 (192GB B200, 2hr lim, WEKA)", 
         [
             "ai2/titan-cirrascale",
         ],
-        "Any cluster with ?? hour B200 sessions",
+        "Any cluster with 2 hour B200 sessions",
         1
     ),
     (
@@ -69,9 +69,9 @@ CLUSTERS = [
         1
     ),
     (
-        "Titan    (200GB B200, 2hr lim, WEKA)",  
+        "Titan    (192GB B200, 2hr lim, WEKA)",  
         "ai2/titan-cirrascale", 
-        "Distributed jobs - 96 NVIDIA B200 (200GB) GPUs, 8x NVIDIA InfiniBand (400 Gbps/GPU), 2 hour timeout",
+        "Distributed jobs - 96 NVIDIA B200 (192GB) GPUs, 8x NVIDIA InfiniBand (400 Gbps/GPU), 2 hour timeout",
         1
     ),
     (
