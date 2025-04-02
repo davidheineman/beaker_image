@@ -52,6 +52,7 @@ RUN apt-get update && apt-get install -y \
     socat \
     redis-server \
     psmisc \
+    nvtop \
     && apt-get clean
 
 # Install rust (I think you need the second thing to complete the install)
