@@ -50,6 +50,8 @@ bsecrets() {
     echo -n $BEAKER_TOKEN | beaker secret write -w $WORKSPACE_NAME BEAKER_TOKEN
     echo -n $WANDB_API_KEY | beaker secret write -w $WORKSPACE_NAME WANDB_API_KEY
     echo -n $WANDB_API_KEY | beaker secret write -w $WORKSPACE_NAME DAVIDH_WANDB_API_KEY
+    echo -n $COMET_API_KEY | beaker secret write -w $WORKSPACE_NAME COMET_API_KEY
+    echo -n $COMET_API_KEY | beaker secret write -w $WORKSPACE_NAME DAVIDH_COMET_API_KEY
     echo -n $AWS_SECRET_ACCESS_KEY | beaker secret write -w $WORKSPACE_NAME AWS_SECRET_ACCESS_KEY
     echo -n $AWS_ACCESS_KEY_ID | beaker secret write -w $WORKSPACE_NAME AWS_ACCESS_KEY_ID
     echo -n $AWS_SECRET_ACCESS_KEY | beaker secret write -w $WORKSPACE_NAME DAVIDH_AWS_SECRET_ACCESS_KEY
@@ -71,12 +73,21 @@ bsecretssharedworkspace() {
     echo -n $BEAKER_TOKEN | beaker secret write -w $WORKSPACE_NAME davidh_BEAKER_TOKEN
     echo -n $WANDB_API_KEY | beaker secret write -w $WORKSPACE_NAME davidh_WANDB_API_KEY
     echo -n $WANDB_API_KEY | beaker secret write -w $WORKSPACE_NAME DAVIDH_WANDB_API_KEY
+    echo -n $COMET_API_KEY | beaker secret write -w $WORKSPACE_NAME DAVIDH_COMET_API_KEY
     # echo -n $AWS_SECRET_ACCESS_KEY | beaker secret write -w $WORKSPACE_NAME AWS_SECRET_ACCESS_KEY
     # echo -n $AWS_ACCESS_KEY_ID | beaker secret write -w $WORKSPACE_NAME AWS_ACCESS_KEY_ID
     # echo -n $AWS_SECRET_ACCESS_KEY | beaker secret write -w $WORKSPACE_NAME DAVIDH_AWS_SECRET_ACCESS_KEY
     # echo -n $AWS_ACCESS_KEY_ID | beaker secret write -w $WORKSPACE_NAME DAVIDH_AWS_ACCESS_KEY_ID
     echo -n $GOOGLE_API_KEY | beaker secret write -w $WORKSPACE_NAME davidh_GOOGLE_API_KEY
     beaker secret list -w $WORKSPACE_NAME
+}
+bsecretslist() {
+    WORKSPACE_NAME="$1"
+    beaker secret list -w "$WORKSPACE_NAME" --format json | jq -r '.[].name' | while read -r SECRET_NAME; do
+        echo ""
+        echo "===== $SECRET_NAME ====="
+        beaker secret read --workspace "$WORKSPACE_NAME" "$SECRET_NAME"
+    done
 }
 bweb() {
     if [ -z "$*" ]; then

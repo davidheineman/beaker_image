@@ -82,6 +82,7 @@ QUOTES = [
     "Although perhaps of no practical importance, the question is of theoretical interest, and it is hoped that a satisfactory solution of this problem will act as a wedge in attacking other problems of a similar nature and of greater significance. (Shannon on Chess, 1950)", # https://vision.unipv.it/IA1/ProgrammingaComputerforPlayingChess.pdf
     "What is now proved was once only imagined. (William Blake, 1790)",
     "There ain't no such thing as a free lunch", # https://ieeexplore.ieee.org/document/585893 (Wolpert & Macready, 2002) -- Although AFAIK the quote came before the term was adopted by the field
+    "From one gut feeling I derive much consolation: I suspect that machines to be programmed in our native tongues — be it Dutch, English, American, French, German, or Swahili — are as damned difficult to make as they would be to use. (Dijkstra, 1978)" # https://www.cs.utexas.edu/~EWD/transcriptions/EWD06xx/EWD667.html
 ]
 
 
