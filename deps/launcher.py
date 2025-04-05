@@ -73,7 +73,7 @@ QUOTES = [
     "Machines take me bv suprise with great frequency. This is largely because I do not do sufficient calculation to decide what to expect them to do, or rather because, although I do a calculation, I do it in a hurried, slipshod fashion, taking risks. (Turing, 1950)",
     "We offer no explanation as to why these architectures seem to work; we attribute their success, as all else, to divine benevolence. (Shazeer, 2020)",
     "OLMo_θ(x)=softmax(H^L W_O), H^L=f^L∘f^{L-1}∘...∘f^1(E), E=W_Ex + W_Pt, Attn(Q,K,V)=softmax( QK^T / √d_k )V, Q=XW_Q, K=XW_K, V=XW_V, H=concat(H_1, ..., H_h)W_O, H^l = LN(H^{l-1} + Attn(Q,K,V)), Z^l = LN(H^l + FFN(H^l)), FFN(x)=max(0, xW_1+b_1)W_2+b_2, L=-∑ylog(ŷ), θ←θ-η∇L",
-    "http://ai.mit.edu/lab/gsb/gsl-archive/gsl95-12dec08.html (I found this on Lilian Lee's website)",
+    "http://www.ai.mit.edu/lab/gsb/gsl-archive/gsl95-12dec08.html (I found this on Lilian Lee's website)",
     "Thus we may have knowledge of the past but cannot control it; we may control the future but have no knowledge of it. (Shannon, 1959)", # https://www.gwern.net/docs/cs/1959-shannon.pdf
     "What's the relation between how I think and how I think I think? (Minsky, 1979)",
     "My wife still uses Emacs, which is the most contentious point in our marriage. (Weinberger, 2024)", # https://quotes.cs.cornell.edu
