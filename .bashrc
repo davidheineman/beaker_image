@@ -60,7 +60,7 @@ git config --global --add safe.directory /oe-eval-default/davidh
 # Verify gcp
 gcplogin() {
     export SERVICE_ACCOUNT=olmo-gcs@ai2-allennlp.iam.gserviceaccount.com
-    gcloud auth activate-service-account $SERVICE_ACCOUNT --key-file=~/.gcp/service-account.json
+    gcloud auth activate-service-account $SERVICE_ACCOUNT --key-file=/root/.gcp/service-account.json
 }
 
 # Welcome command!
