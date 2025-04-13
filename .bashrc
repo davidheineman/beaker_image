@@ -63,6 +63,9 @@ gcplogin() {
     gcloud auth activate-service-account $SERVICE_ACCOUNT --key-file=/root/.gcp/service-account.json
 }
 
+alias uvinit='uv venv && source .venv/bin/activate'
+alias uva='source .venv/bin/activate'
+
 # Welcome command!
 if command -v figlet &> /dev/null && command -v lolcat &> /dev/null; then
     figlet "ai2remote" | lolcat
