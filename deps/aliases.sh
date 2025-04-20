@@ -46,6 +46,9 @@ bsecrets() { # add generic versions of keys
     echo "Adding secrets to $WORKSPACE_NAME..."
     cat $BEAKER_SECRETS_DIR/.ssh/id_rsa | beaker secret write -w $WORKSPACE_NAME ssh-key
     cat $BEAKER_SECRETS_DIR/.aws/credentials | beaker secret write -w $WORKSPACE_NAME aws-creds
+    cat $BEAKER_SECRETS_DIR/.aws/credentials | beaker secret write -w $WORKSPACE_NAME AWS_CREDENTIALS
+    cat $BEAKER_SECRETS_DIR/.aws/config | beaker secret write -w $WORKSPACE_NAME aws-config
+    cat $BEAKER_SECRETS_DIR/.aws/config | beaker secret write -w $WORKSPACE_NAME AWS_CONFIG
     cat $BEAKER_SECRETS_DIR/.gcp/service-account.json | beaker secret write -w $WORKSPACE_NAME gcp-creds
     echo -n $HF_TOKEN | beaker secret write -w $WORKSPACE_NAME HF_TOKEN
     echo -n $HF_TOKEN | beaker secret write -w $WORKSPACE_NAME HF_TOKEN_READ_ONLY # <- for oe-eval
@@ -57,6 +60,9 @@ bsecrets() { # add generic versions of keys
     echo -n $AWS_SECRET_ACCESS_KEY | beaker secret write -w $WORKSPACE_NAME AWS_SECRET_ACCESS_KEY
     echo -n $AWS_ACCESS_KEY_ID | beaker secret write -w $WORKSPACE_NAME AWS_ACCESS_KEY_ID
     echo -n $GOOGLE_API_KEY | beaker secret write -w $WORKSPACE_NAME GOOGLE_API_KEY
+    echo -n $WEKA_ENDPOINT_URL | beaker secret write -w $WORKSPACE_NAME WEKA_ENDPOINT_URL
+    echo -n $R2_ENDPOINT_URL | beaker secret write -w $WORKSPACE_NAME R2_ENDPOINT_URL
+    echo -n $SLACK_WEBHOOK_URL | beaker secret write -w $WORKSPACE_NAME SLACK_WEBHOOK_URL
     beaker secret list -w $WORKSPACE_NAME
 }
 
@@ -65,6 +71,9 @@ bsecrets_davidh() { # add davidh versions of keys
     echo "Adding secrets to $WORKSPACE_NAME..."
     cat $BEAKER_SECRETS_DIR/.ssh/id_rsa | beaker secret write -w $WORKSPACE_NAME davidh-ssh-key
     cat $BEAKER_SECRETS_DIR/.aws/credentials | beaker secret write -w $WORKSPACE_NAME davidh-aws-creds
+    cat $BEAKER_SECRETS_DIR/.aws/credentials | beaker secret write -w $WORKSPACE_NAME davidh_AWS_CREDENTIALS
+    cat $BEAKER_SECRETS_DIR/.aws/config | beaker secret write -w $WORKSPACE_NAME davidh-aws-config
+    cat $BEAKER_SECRETS_DIR/.aws/config | beaker secret write -w $WORKSPACE_NAME davidh_AWS_CONFIG
     cat $BEAKER_SECRETS_DIR/.gcp/service-account.json | beaker secret write -w $WORKSPACE_NAME davidh-gcp-creds
     echo -n $HF_TOKEN | beaker secret write -w $WORKSPACE_NAME davidh_HF_TOKEN
     echo -n $HF_TOKEN | beaker secret write -w $WORKSPACE_NAME davidh_HF_TOKEN_READ_ONLY # <- for oe-eval
