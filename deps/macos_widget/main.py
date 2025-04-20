@@ -1,5 +1,6 @@
 import logging
 import rumps
+from tkinter import Menu
 
 import sys
 import os
@@ -24,15 +25,12 @@ end tell'
 """
 
 OPEN_CHROME_COMMAND = 'open -a "Google Chrome" https://beaker.allen.ai/'
+OPEN_CLUSTER_COMMAND = 'open -a "Google Chrome" https://beaker.allen.ai/orgs/ai2/clusters/{cluster_name}'
 
 class GPUMonitorApp(rumps.App):
     def __init__(self):
         super(GPUMonitorApp, self).__init__("...")
-        self.menu = [
-            rumps.MenuItem("♻️ Refresh", callback=self.refresh),
-            rumps.MenuItem("🚀 beaker.allen.ai", callback=self.open_beaker),
-            None,  # This creates a separator in rumps
-        ]
+        self.menu = []
         # Update every 5 minutes (300 seconds)
         self.timer = rumps.Timer(self.update_gpu_info, 300)
         self.timer.start()
@@ -51,6 +49,10 @@ class GPUMonitorApp(rumps.App):
 
     def open_bl(self, _):
         os.system(OPEN_BL_COMMAND)
+
+    def open_cluster(self, menu_item):
+        cluster_name = menu_item.title.split('ai2/')[1] # "4 GPUs: ai2/titan-cirrascale" => "titan-cirrascale"
+        os.system(OPEN_CLUSTER_COMMAND.format(cluster_name=cluster_name))
 
     def dummy(self, _):
         return ""
@@ -74,25 +76,33 @@ class GPUMonitorApp(rumps.App):
             title = f"{total_gpus} GPUs"
             self.title = title
             
-            # Clear existing menu items (except Refresh and beaker.allen.ai)
-            menu_items = list(self.menu)[3:]  # Skip the first two items
-            for item in menu_items:
-                self.menu.pop(item)
+            # Create new menu
+            self.menu: Menu
+            self.menu.clear()
+            self.menu = [
+                rumps.MenuItem("♻️ Refresh", callback=self.refresh),
+                rumps.MenuItem("🚀 beaker.allen.ai", callback=self.open_beaker),
+                None,  # This creates a separator in rumps
+            ]
 
             self.menu.add(rumps.MenuItem('Clusters'))
             for k, v in sorted(free_gpus.items(), key=lambda x: x[1], reverse=True):
-                menu_item = rumps.MenuItem(f"{v} GPUs: {k}", callback=self.open_bl)
+                menu_item = rumps.MenuItem(f"{v} GPUs: {k}", callback=self.open_cluster) # self.open_bl
                 self.menu.add(menu_item)
-
-            # Add sep
-            self.menu.add(None)
 
             processed_jobs = get_job_data(
                 username=self.username, 
                 sessions_only=True
             )
+
+            if len(processed_jobs) == 0:
+                # If there's no running jobs, end here
+                return
+
+            # Add sep
+            self.menu.add(None)
             
-            self.menu.add(rumps.MenuItem(f'Jobs for "{self.username}"'))
+            self.menu.add(rumps.MenuItem(f'Sessions for {self.username}'))
 
             total_used_gpus = 0
             for job in processed_jobs:
@@ -110,7 +120,8 @@ class GPUMonitorApp(rumps.App):
                 elif job["start_date"] is None:
                     job_info = f"[Queued] {kind}: {name}"
                 else:
-                    job_info = f"{gpus} GPUs {kind}: {name} on {hostname}" # for ongoing jobs
+                    gpu_label = f'{gpus} GPUs' if int(gpus) > 0 else 'CPU'
+                    job_info = f"{gpu_label} {kind}: {name} on {hostname}" # for ongoing jobs
 
                 if len(job_info) > 40:
                     job_info = job_info[:40-3] + "..."
