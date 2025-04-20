@@ -5,18 +5,13 @@ BEAKER_SECRETS_DIR="$(dirname "$BEAKER_DEPS_DIR")/secrets"
 
 alias ai2="ssh ai2"
 alias bstop='beaker session stop'
-blist() {
-    beaker session list --all --author davidh | grep running
-}
-bport() {
-    source $BEAKER_DEPS_DIR/update_port.sh
-}
-# alias bd='beaker session describe'
 alias bd='python '$BEAKER_DEPS_DIR'/get_jobs.py --username davidh --sessions-only' # describe sessions
 alias bdall='python '$BEAKER_DEPS_DIR'/get_jobs.py --username davidh' # describe all jobs
 alias bl='python '$BEAKER_DEPS_DIR'/launcher.py' # launch session
 alias blogs='python '$BEAKER_DEPS_DIR'/stream_logs.py -j' # launch session
 alias bstream='python '$BEAKER_DEPS_DIR'/stream_logs.py -s -j' # launch session
+alias blist='beaker session list --all --author davidh | grep running'
+alias bport='source '$BEAKER_DEPS_DIR'/update_port.sh' # update port to current session
 
 bpriority() {
     if [[ $# -lt 2 ]]; then
@@ -37,7 +32,16 @@ bpriority() {
         beaker job update-priority "$JOB_ID" "$PRIORITY" --format json
     done
 }
-bsecrets() {
+
+bcreate() {
+    NEW_WORKSPACE_NAME="$1"
+    NEW_WORKSPACE_NAME="${NEW_WORKSPACE_NAME#ai2/}" # Remove ai2/ prefix if it exists
+    beaker workspace create "$NEW_WORKSPACE_NAME" -o ai2
+    bsecrets ai2/$NEW_WORKSPACE_NAME
+    bsecrets_davidh ai2/$NEW_WORKSPACE_NAME
+}
+
+bsecrets() { # add generic versions of keys
     WORKSPACE_NAME="$1"
     echo "Adding secrets to $WORKSPACE_NAME..."
     cat $BEAKER_SECRETS_DIR/.ssh/id_rsa | beaker secret write -w $WORKSPACE_NAME ssh-key
@@ -49,18 +53,14 @@ bsecrets() {
     echo -n $ANTHROPIC_API_KEY | beaker secret write -w $WORKSPACE_NAME ANTHROPIC_API_KEY
     echo -n $BEAKER_TOKEN | beaker secret write -w $WORKSPACE_NAME BEAKER_TOKEN
     echo -n $WANDB_API_KEY | beaker secret write -w $WORKSPACE_NAME WANDB_API_KEY
-    echo -n $WANDB_API_KEY | beaker secret write -w $WORKSPACE_NAME DAVIDH_WANDB_API_KEY
     echo -n $COMET_API_KEY | beaker secret write -w $WORKSPACE_NAME COMET_API_KEY
-    echo -n $COMET_API_KEY | beaker secret write -w $WORKSPACE_NAME DAVIDH_COMET_API_KEY
     echo -n $AWS_SECRET_ACCESS_KEY | beaker secret write -w $WORKSPACE_NAME AWS_SECRET_ACCESS_KEY
     echo -n $AWS_ACCESS_KEY_ID | beaker secret write -w $WORKSPACE_NAME AWS_ACCESS_KEY_ID
-    echo -n $AWS_SECRET_ACCESS_KEY | beaker secret write -w $WORKSPACE_NAME DAVIDH_AWS_SECRET_ACCESS_KEY
-    echo -n $AWS_ACCESS_KEY_ID | beaker secret write -w $WORKSPACE_NAME DAVIDH_AWS_ACCESS_KEY_ID
     echo -n $GOOGLE_API_KEY | beaker secret write -w $WORKSPACE_NAME GOOGLE_API_KEY
     beaker secret list -w $WORKSPACE_NAME
 }
-# TODO: Make this not a copy-pasted version of the above code block
-bsecretssharedworkspace() {
+
+bsecrets_davidh() { # add davidh versions of keys
     WORKSPACE_NAME="$1"
     echo "Adding secrets to $WORKSPACE_NAME..."
     cat $BEAKER_SECRETS_DIR/.ssh/id_rsa | beaker secret write -w $WORKSPACE_NAME davidh-ssh-key
@@ -73,22 +73,24 @@ bsecretssharedworkspace() {
     echo -n $BEAKER_TOKEN | beaker secret write -w $WORKSPACE_NAME davidh_BEAKER_TOKEN
     echo -n $WANDB_API_KEY | beaker secret write -w $WORKSPACE_NAME davidh_WANDB_API_KEY
     echo -n $WANDB_API_KEY | beaker secret write -w $WORKSPACE_NAME DAVIDH_WANDB_API_KEY
+    echo -n $COMET_API_KEY | beaker secret write -w $WORKSPACE_NAME davidh_COMET_API_KEY
     echo -n $COMET_API_KEY | beaker secret write -w $WORKSPACE_NAME DAVIDH_COMET_API_KEY
-    # echo -n $AWS_SECRET_ACCESS_KEY | beaker secret write -w $WORKSPACE_NAME AWS_SECRET_ACCESS_KEY
-    # echo -n $AWS_ACCESS_KEY_ID | beaker secret write -w $WORKSPACE_NAME AWS_ACCESS_KEY_ID
-    # echo -n $AWS_SECRET_ACCESS_KEY | beaker secret write -w $WORKSPACE_NAME DAVIDH_AWS_SECRET_ACCESS_KEY
-    # echo -n $AWS_ACCESS_KEY_ID | beaker secret write -w $WORKSPACE_NAME DAVIDH_AWS_ACCESS_KEY_ID
+    echo -n $AWS_SECRET_ACCESS_KEY | beaker secret write -w $WORKSPACE_NAME davidh_AWS_SECRET_ACCESS_KEY
+    echo -n $AWS_SECRET_ACCESS_KEY | beaker secret write -w $WORKSPACE_NAME DAVIDH_AWS_SECRET_ACCESS_KEY
+    echo -n $AWS_ACCESS_KEY_ID | beaker secret write -w $WORKSPACE_NAME davidh_AWS_ACCESS_KEY_ID
+    echo -n $AWS_ACCESS_KEY_ID | beaker secret write -w $WORKSPACE_NAME DAVIDH_AWS_ACCESS_KEY_ID
     echo -n $GOOGLE_API_KEY | beaker secret write -w $WORKSPACE_NAME davidh_GOOGLE_API_KEY
     beaker secret list -w $WORKSPACE_NAME
 }
+
 bsecretslist() {
     WORKSPACE_NAME="$1"
     beaker secret list -w "$WORKSPACE_NAME" --format json | jq -r '.[].name' | while read -r SECRET_NAME; do
-        echo ""
-        echo "===== $SECRET_NAME ====="
+        echo -e "\n===== $SECRET_NAME ====="
         beaker secret read --workspace "$WORKSPACE_NAME" "$SECRET_NAME"
     done
 }
+
 bweb() {
     if [ -z "$*" ]; then
         open -a "Google Chrome" "https://beaker.allen.ai/orgs/ai2/workspaces/davidh?rowsPerPage=100"
@@ -96,13 +98,16 @@ bweb() {
         open -a "Google Chrome" "https://beaker.allen.ai/orgs/ai2/workspaces/$*?rowsPerPage=100?"
     fi
 }
+
 bupdate() {
     chmod +x $BEAKER_DEPS_DIR/download-beaker.sh
     source $BEAKER_DEPS_DIR/download-beaker.sh
 }
+
 bfree() {
     python $BEAKER_DEPS_DIR/get_free_gpus.py
 }
+
 
 ai2code() {
     if [ -z "$1" ]; then
@@ -112,6 +117,7 @@ ai2code() {
         code --remote ssh-remote+ai2 /root/ai2/$remote_path
     fi
 }
+
 ai2cursor() {
     if [ -z "$1" ]; then
         cursor --remote ssh-remote+ai2 /root/ai2
@@ -120,12 +126,15 @@ ai2cursor() {
         cursor --remote ssh-remote+ai2 /root/ai2/$remote_path
     fi
 }
+
 ai2codereset() {
     ai2 'rm -rf ~/.vscode-server/cli/servers'
 }
+
 ai2checks() {
     make type-check && make build && make style-check && make lint-check
 }
+
 ai2cleanup() {
     isort . && black . && ruff check . && mypy .
 }
