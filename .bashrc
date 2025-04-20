@@ -65,6 +65,7 @@ gcplogin() {
 
 alias uvinit='uv venv && source .venv/bin/activate'
 alias uva='source .venv/bin/activate'
+alias uvinstall='uv pip install -r requirements.txt'
 
 # Welcome command!
 if command -v figlet &> /dev/null && command -v lolcat &> /dev/null; then
