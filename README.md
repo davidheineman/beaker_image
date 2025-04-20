@@ -28,9 +28,9 @@ https://github.com/user-attachments/assets/4732ec02-8ec8-4279-bf02-7eae47a171b6
 1. Fork this repo
 2. Update references for `davidh` to your workspace/desired image name
 3. Grab your [Beaker user token](https://beaker.allen.ai/user/davidh/settings/token) and set it to the `BEAKER_TOKEN` secret in GitHub Actions: https://github.com/[user]/[repo]/settings/secrets/actions
-4. Install aliases to terminal path (see [aliases.sh]((./deps/aliases.sh)))
+4. Install aliases to terminal path (see [aliases.sh]((./tools/aliases.sh)))
 ```sh
-ALIASES_PATH=$(cd ./deps && pwd)/aliases.sh
+ALIASES_PATH=$(cd ./tools && pwd)/aliases.sh
 chmod +x $ALIASES_PATH # make it executable
 grep -qxF "source $ALIASES_PATH" ~/.zshrc || echo "\n# Initialize beaker aliases\nsource $ALIASES_PATH" >> ~/.zshrc # add to terminal init
 ```
@@ -69,7 +69,7 @@ bsecrets ai2/davidh
 [safe]
     directory = [YOUR WEKA DIR]
 ```
-7. Test out some of the [aliases](./deps/aliases.sh)
+7. Test out some of the [aliases](./tools/aliases.sh)
 ```sh
 bl # use interactive session launcher
 bd # show current session
@@ -89,7 +89,7 @@ wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/
 chmod +x ~/miniconda.sh 
 ./miniconda.sh # install to ~/ai2/miniconda3
 ```
-9. [Optional] Add the MacOS toolbar extension. Instructions in [deps/macos_widget/README.md](deps/macos_widget/README.md)
+9. [Optional] Add the MacOS toolbar extension. Instructions in [tools/macos_widget/README.md](tools/macos_widget/README.md)
 10. [Optional] Test your build locally:
 ```sh
 docker build -t davidh-interactive .

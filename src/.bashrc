@@ -16,7 +16,6 @@ export LSCOLORS=ExFxBxDxCxegedabagacad
 export force_color_prompt=yes
 
 # Change HF caches
-# export TRANSFORMERS_CACHE="/oe-eval-default/davidh/.cache/huggingface/hub"
 export HF_DATASETS_CACHE="/oe-eval-default/davidh/.cache/huggingface/datasets"
 export HUGGINGFACE_HUB_CACHE="/oe-eval-default/davidh/.cache/huggingface/hub"
 export HF_HOME="/oe-eval-default/davidh/.cache/huggingface/hub"
@@ -93,8 +92,7 @@ if [ "$PWD" = "$HOME" ]; then
     cd ~/ai2
 fi
 
-# experimental: kill current vscode servers (not a great solution but it works)
-# rm -rf ~/.vscode-server/cli/servers
+# kill current vscode servers (not a great solution but it works)
 alias vscodereset="rm -rf ~/.vscode-server/cli/servers"
 
 # Hacky: Copy env variables from docker process

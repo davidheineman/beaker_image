@@ -12,7 +12,7 @@ on:
       - 'pyproject.toml'
       - 'code_extensions.txt'
       - 'Dockerfile'
-      - '.bashrc'
+      - 'src'
       - '.gitconfig'
       - '.ssh/authorized_keys'
       - .github/workflows/push-image.yml

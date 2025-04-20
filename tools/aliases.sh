@@ -1,17 +1,17 @@
 # Relevant beaker scripts
 
-BEAKER_DEPS_DIR="$(cd "$(dirname "${BASH_SOURCE[0]:-${(%):-%x}}")" && pwd)"
-BEAKER_SECRETS_DIR="$(dirname "$BEAKER_DEPS_DIR")/secrets"
+BEAKER_TOOLS_DIR="$(cd "$(dirname "${BASH_SOURCE[0]:-${(%):-%x}}")" && pwd)"
+BEAKER_SECRETS_DIR="$(dirname "$BEAKER_TOOLS_DIR")/secrets"
 
 alias ai2="ssh ai2"
 alias bstop='beaker session stop'
-alias bd='python '$BEAKER_DEPS_DIR'/get_jobs.py --username davidh --sessions-only' # describe sessions
-alias bdall='python '$BEAKER_DEPS_DIR'/get_jobs.py --username davidh' # describe all jobs
-alias bl='python '$BEAKER_DEPS_DIR'/launcher.py' # launch session
-alias blogs='python '$BEAKER_DEPS_DIR'/stream_logs.py -j' # launch session
-alias bstream='python '$BEAKER_DEPS_DIR'/stream_logs.py -s -j' # launch session
+alias bd='python '$BEAKER_TOOLS_DIR'/scripts/get_jobs.py --username davidh --sessions-only' # describe sessions
+alias bdall='python '$BEAKER_TOOLS_DIR'/scripts/get_jobs.py --username davidh' # describe all jobs
+alias bl='python '$BEAKER_TOOLS_DIR'/scripts/launcher.py' # launch session
+alias blogs='python '$BEAKER_TOOLS_DIR'/scripts/stream_logs.py -j' # launch session
+alias bstream='python '$BEAKER_TOOLS_DIR'/scripts/stream_logs.py -s -j' # launch session
 alias blist='beaker session list --all --author davidh | grep running'
-alias bport='source '$BEAKER_DEPS_DIR'/update_port.sh' # update port to current session
+alias bport='source '$BEAKER_TOOLS_DIR'/scripts/update_port.sh' # update port to current session
 
 bpriority() {
     if [[ $# -lt 2 ]]; then
@@ -109,12 +109,12 @@ bweb() {
 }
 
 bupdate() {
-    chmod +x $BEAKER_DEPS_DIR/download-beaker.sh
-    source $BEAKER_DEPS_DIR/download-beaker.sh
+    chmod +x $BEAKER_TOOLS_DIR/download-beaker.sh
+    source $BEAKER_TOOLS_DIR/download-beaker.sh
 }
 
 bfree() {
-    python $BEAKER_DEPS_DIR/get_free_gpus.py
+    python $BEAKER_TOOLS_DIR/get_free_gpus.py
 }
 
 

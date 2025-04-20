@@ -86,7 +86,7 @@ RUN curl -fsSL https://cursor.blob.core.windows.net/remote-releases/0.11.8-769e5
     rm /root/.cursor-server/cursor-server.tar.gz
 
 # Install VSCode Extensions
-COPY code_extensions.txt /.code_extensions.txt
+COPY src/code_extensions.txt /.code_extensions.txt
 RUN while read -r extension; do \
     code-server --install-extension "$extension"; \
 done < /.code_extensions.txt
@@ -121,30 +121,30 @@ RUN echo "PermitUserEnvironment yes" >> /etc/ssh/sshd_config
 RUN apt-get update
 
 # Add SSH pubkeys
-COPY .ssh/authorized_keys /root/.ssh/authorized_keys
+COPY src/.ssh/authorized_keys /root/.ssh/authorized_keys
 
 # Add .gitconfig
-COPY .gitconfig /root/.gitconfig
+COPY src/.gitconfig /root/.gitconfig
 
 # Add .bashrc
-COPY .bashrc /root/.bashrc
-COPY .conda_init /root/.conda_init
+COPY src/.bashrc /root/.bashrc
+COPY src/.conda_init /root/.conda_init
 RUN chmod 644 /root/.bashrc
 RUN chmod 644 /root/.conda_init
 
 # Add custom beaker aliases
 RUN mkdir -p /root/.beaker_tools
-COPY deps /root/.beaker_tools
+COPY tools /root/.beaker_tools
 RUN chmod +x /root/.beaker_tools/aliases.sh
 RUN chmod +x /root/.beaker_tools/update_port.sh
 
 # Add custom commands (like ChatGPT!)
 RUN mkdir -p /root/.bin
-COPY .bin/ /root/.bin/
+COPY src/.bin/ /root/.bin/
 RUN chmod +x /root/.bin/*
 
 # Add docker daemon override
-COPY etc/docker/daemon.json /etc/docker/daemon.json
+COPY src/etc/docker/daemon.json /etc/docker/daemon.json
 
 ENTRYPOINT ["/usr/sbin/sshd", "-D"]
 
