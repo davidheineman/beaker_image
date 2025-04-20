@@ -11,7 +11,7 @@ runs:
     - shell: bash
       run: |
         # Create a test session on beaker
-        beaker session \
+        beaker session create \
           --name git-test \
           --cluster ai2/phobos-cirrascale \
           --image beaker://davidh/${{ inputs.beaker }} \
