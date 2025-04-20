@@ -1,4 +1,4 @@
-name: Build davidh Image
+name: Build davidh Docker Image
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -10,7 +10,7 @@ on:
     # (+ anytime there's a new release tag for this image)
     paths:
       - 'pyproject.toml'
-      - 'requirements_beaker.txt'
+      - 'code_extensions.txt'
       - 'Dockerfile'
       - '.bashrc'
       - '.gitconfig'
@@ -18,11 +18,6 @@ on:
       - .github/workflows/push-image.yml
     branches:
       - main
-  # pull_request:
-  #   branches: [main]
-  #   paths:
-  #     - 'requirements.txt'
-  #     - 'Dockerfile'
   workflow_dispatch:  # allow manual triggers on GitHub UI
 
 env:
@@ -41,11 +36,8 @@ jobs:
         uses: ./.github/actions/setup
         with:
           beaker_token: ${{ secrets.BEAKER_TOKEN }}
-          # ghcr_token: ${{ secrets.GHCR_TOKEN }}
-          # ghcr_user: ${{ secrets.GHCR_USER }}
 
-      # big images fail, trying this
-      - name: Delete huge unnecessary tools folder
+      - name: Delete huge unnecessary tools folder # helps with big images
         run: rm -rf /opt/hostedtoolcache
 
       - name: Build image
@@ -57,14 +49,14 @@ jobs:
               -t davidh_image \
               .
 
-      # - name: Check image
-      #   run: |
-      #     docker run --rm davidh_image
-
       - name: Push image
-        # if: github.event_name != 'pull_request'
         uses: ./.github/actions/push
         with:
-          image: davidh_image  # this is the tag of the image we just built in the previous step
-          beaker: davidh-interactive  # this is the name of the image on Beaker
-          latest: true  # this flag says we should also push this as the 'latest' version to GHCR
+          image: davidh_image  # tag of the image we just built in the previous step
+          beaker: davidh-interactive  # name of the image on Beaker
+          latest: true  # label this image as the 'latest'
+
+      - name: Test image
+        uses: ./.github/actions/test
+        with:
+          beaker: davidh-interactive  # name of the image on Beaker

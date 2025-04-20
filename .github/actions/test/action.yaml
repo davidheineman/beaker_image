@@ -1,0 +1,20 @@
+name: Test Beaker container
+description: Test an interactive session with a Beaker image. Beaker appears to cache images so this should speed things up.
+inputs:
+  beaker:
+    description: Name of Beaker image to pull and test
+    required: true
+    default: ""
+runs:
+  using: composite
+  steps:
+    - shell: bash
+      run: |
+        # Create a test session on beaker
+        beaker session \
+          --name git-test \
+          --cluster ai2/phobos-cirrascale \
+          --image beaker://davidh/${{ inputs.beaker }} \
+          --workspace ai2/davidh \
+          --budget ai2/oe-eval \
+          --bare --detach -- exit

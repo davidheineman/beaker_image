@@ -146,22 +146,6 @@ RUN chmod +x /root/.bin/*
 # Add docker daemon override
 COPY etc/docker/daemon.json /etc/docker/daemon.json
 
-# # Install core python dependencies
-# COPY requirements_beaker.txt .
-# RUN pip install -r requirements_beaker.txt
-# RUN python -m nltk.downloader punkt
-# RUN pip install "vllm>=0.6.2,<0.6.4" # Custom installation for vllm (0.6.2 actually installs pytorch 2.4.1)
-# RUN pip install xformers
-# RUN pip install git+https://github.com/allenai/OLMo.git@main # Install latest ai2-olmo from github 
-# RUN pip cache purge
-
-# ARG GIT_REF=""
-# ENV GIT_REF=${GIT_REF}
-
-# # Install Jupyter Notebook
-# RUN pip install notebook
-# jupyter notebook --port 8888 --ip 0.0.0.0 --no-browser --allow-root
-
 ENTRYPOINT ["/usr/sbin/sshd", "-D"]
 
 # attempt to get code command working on remote
