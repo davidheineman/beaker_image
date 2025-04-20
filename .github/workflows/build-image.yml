@@ -9,13 +9,9 @@ on:
     # Run this workflow anytime anytime these paths update 
     # (+ anytime there's a new release tag for this image)
     paths:
-      - 'pyproject.toml'
-      - 'code_extensions.txt'
       - 'Dockerfile'
       - 'src'
-      - '.gitconfig'
-      - '.ssh/authorized_keys'
-      - .github/workflows/push-image.yml
+      - '.github/workflows'
     branches:
       - main
   workflow_dispatch:  # allow manual triggers on GitHub UI

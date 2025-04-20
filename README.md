@@ -1,4 +1,4 @@
-[![Build davidh Image](https://github.com/davidheineman/beaker_image/actions/workflows/push-image.yml/badge.svg)](https://github.com/davidheineman/beaker_image/actions/workflows/push-image.yml)
+[![Build davidh Image](https://github.com/davidheineman/beaker_image/actions/workflows/build-image.yml/badge.svg)](https://github.com/davidheineman/beaker_image/actions/workflows/build-image.yml)
 
 Tooling for Beaker interactive sessions. This repo auto-builds to the image `beaker://davidh/davidh-interactive`. **Feel free to fork this repo for your own container!**
 
@@ -32,35 +32,41 @@ https://github.com/user-attachments/assets/4732ec02-8ec8-4279-bf02-7eae47a171b6
 ```sh
 ALIASES_PATH=$(cd ./tools && pwd)/aliases.sh
 chmod +x $ALIASES_PATH # make it executable
-grep -qxF "source $ALIASES_PATH" ~/.zshrc || echo "\n# Initialize beaker aliases\nsource $ALIASES_PATH" >> ~/.zshrc # add to terminal init
+grep -qxF "source $ALIASES_PATH" ~/.zshrc || echo "\n\n# Initialize beaker aliases\nsource $ALIASES_PATH" >> ~/.zshrc # add to terminal init
 ```
 5. Add secrets to your beaker workspace:
 ```sh
-# Make
-cat ~/.ssh/id_rsa # SSH private key
-cat ~/.aws/credentials # AWS credentials (from 1password)
+# Make secrets files
+touch secrets/.ssh/id_rsa # SSH private key (cat ~/.ssh/id_rsa)
+touch secrets/.aws/credentials # AWS credentials (from 1password)
+touch secrets/.aws/config # AWS config
+touch secrets/.gcp/service-account.json # GCP service acct
 
 # Set secrets locally to add to Beaker
-export HF_TOKEN=""
 export HF_TOKEN=""
 export OPENAI_API_KEY=""
 export ANTHROPIC_API_KEY=""
 export BEAKER_TOKEN=""
 export WANDB_API_KEY=""
-export WANDB_API_KEY=""
-export AWS_SECRET_ACCESS_KEY=""
-export AWS_ACCESS_KEY_ID=""
+export COMET_API_KEY=""
 export AWS_SECRET_ACCESS_KEY=""
 export AWS_ACCESS_KEY_ID=""
 export GOOGLE_API_KEY=""
+export WEKA_ENDPOINT_URL=""
+export R2_ENDPOINT_URL=""
+export SLACK_WEBHOOK_URL=""
 
-# Copy them to workspace (e.g., ai2/davidh)
+# Create your workspace
+bcreate ai2/davidh
+
+# Copy secrets to workspace
 bsecrets ai2/davidh
+bsecrets_davidh ai2/davidh
 
-# Sanity check: 
-# beaker secret read OPENAI_API_KEY
+# Sanity check (list all secrets)
+bsecretslist ai2/davidh
 ```
-6. To use git on the remote, add your pubkey (`cat ~/.ssh/id_rsa.pub`) to your GitHub account: https://github.com/settings/keys. Then, update your GitHub email in `.gitconfig`:
+6. To use git on the remote, add your pubkey (`cat ~/.ssh/id_rsa.pub`) to your GitHub account: https://github.com/settings/keys. Then, update your GitHub email in `src/.gitconfig`:
 ```sh
 [user]
     name = [YOUR GIT NAME]
