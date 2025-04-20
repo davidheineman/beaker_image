@@ -28,7 +28,7 @@ https://github.com/user-attachments/assets/4732ec02-8ec8-4279-bf02-7eae47a171b6
 1. Fork this repo
 2. Update references for `davidh` to your workspace/desired image name
 3. Grab your [Beaker user token](https://beaker.allen.ai/user/davidh/settings/token) and set it to the `BEAKER_TOKEN` secret in GitHub Actions: https://github.com/[user]/[repo]/settings/secrets/actions
-4. Install aliases to terminal path (see [aliases.sh]((./tools/aliases.sh)))
+4. Install aliases to terminal path (see [aliases.sh](tools/aliases.sh))
 ```sh
 ALIASES_PATH=$(cd ./tools && pwd)/aliases.sh
 chmod +x $ALIASES_PATH # make it executable
@@ -75,7 +75,7 @@ bsecretslist ai2/davidh
 [safe]
     directory = [YOUR WEKA DIR]
 ```
-7. Test out some of the [aliases](./tools/aliases.sh)
+7. Test out some of the [aliases](tools/aliases.sh)
 ```sh
 bl # use interactive session launcher
 bd # show current session
@@ -88,6 +88,9 @@ ai2cursor . # launch remote cursor
 ai2cleanup # run ai2 cleaning utils
 blogs # get logs for job
 bstream # stream logs for job
+bcreate # create workspace
+bsecrets # add secrets to workspace
+bpriority # modify priority for all running experiments in a workspace
 ```
 8. [Optional] Install conda on remote
 ```sh

@@ -1,4 +1,4 @@
-name: Build davidh Docker Image
+name: Build ai2/davidh-interactive
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}

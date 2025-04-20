@@ -17,4 +17,4 @@ runs:
           --image beaker://davidh/${{ inputs.beaker }} \
           --workspace ai2/davidh \
           --budget ai2/oe-eval \
-          --bare --detach -- exit
+          --bare --detach -- /bin/bash -c "exit"
