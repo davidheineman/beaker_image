@@ -4,7 +4,7 @@ Tooling for Beaker interactive sessions. This repo auto-builds to the image `bea
 
 ### Demo
 
-https://github.com/user-attachments/assets/4732ec02-8ec8-4279-bf02-7eae47a171b6
+https://github.com/user-attachments/assets/4255e0be-b29d-40a0-ae9e-364ba7c9c446
 
 **✨ New!** MacOS toolbar extension to show free GPUs, and currently running jobs!
 
