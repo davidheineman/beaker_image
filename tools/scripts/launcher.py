@@ -2,7 +2,7 @@ import textwrap, curses, random, itertools, time, subprocess, threading, queue, 
 from figlet import Figlet
 from constants import CLUSTERS
 
-SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+SCRIPT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 LAUNCH_COMMAND = """\
 beaker session create \
