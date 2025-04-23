@@ -1,6 +1,6 @@
 import warnings, json, subprocess, concurrent.futures
 from typing import Dict
-from constants import CLUSTERS
+from scripts.constants import CLUSTERS
 
 # Suppress cryptography deprecation warnings
 warnings.filterwarnings('ignore')

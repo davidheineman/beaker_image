@@ -6,8 +6,8 @@ import sys
 import os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from get_free_gpus import get_free_gpus
-from get_jobs import get_job_data
+from scripts.get_free_gpus import get_free_gpus
+from scripts.get_jobs import get_job_data
 
 logging.basicConfig(
     filename='/tmp/widget.log',

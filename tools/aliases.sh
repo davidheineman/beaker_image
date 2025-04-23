@@ -11,7 +11,7 @@ alias bl='python '$BEAKER_TOOLS_DIR'/scripts/launcher.py' # launch session
 alias blogs='python '$BEAKER_TOOLS_DIR'/scripts/stream_logs.py -j' # launch session
 alias bstream='python '$BEAKER_TOOLS_DIR'/scripts/stream_logs.py -s -j' # launch session
 alias blist='beaker session list --all --author davidh | grep running'
-alias bport='source '$BEAKER_TOOLS_DIR'/scripts/update_port.sh' # update port to current session
+alias bport='source '$BEAKER_TOOLS_DIR'/update_port.sh' # update port to current session
 
 bpriority() {
     if [[ $# -lt 2 ]]; then

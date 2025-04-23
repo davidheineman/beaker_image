@@ -93,6 +93,12 @@ CLUSTERS = [
         1
     ),
     (
+        "Callisto ( 80GB H100, 1dy lim, NA)",  
+        "ai2/callisto-cirrascale", 
+        "A single node of 8 H100s that appeared to be slower than the rest of Jupiter. They put it on a dedicated cluster for now.",
+        1
+    ),
+    (
         "Neptune CPU",
         [
             "ai2/neptune-cirrascale", 
