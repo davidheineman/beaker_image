@@ -5,6 +5,10 @@ inputs:
     description: Name of Beaker image to pull and test
     required: true
     default: ""
+  cluster:
+    description: Name of Beaker cluster to test on
+    required: true
+    default: "ai2/phobos-cirrascale"
 runs:
   using: composite
   steps:
@@ -13,7 +17,7 @@ runs:
         # Create a test session on beaker
         beaker session create \
           --name git-test \
-          --cluster ai2/phobos-cirrascale \
+          --cluster ${{ inputs.cluster }} \
           --image beaker://davidh/${{ inputs.beaker }} \
           --workspace ai2/davidh \
           --budget ai2/oe-eval \
