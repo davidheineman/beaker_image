@@ -85,6 +85,11 @@ jobs:
     
     steps:
       - uses: actions/checkout@v3
+
+      - name: Setup environment
+        uses: ./.github/actions/setup
+        with:
+          beaker_token: ${{ secrets.BEAKER_TOKEN }}
       
       - name: Test Beaker container
         uses: ./.github/actions/test
