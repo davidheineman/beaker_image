@@ -40,6 +40,7 @@ export CONDA_PKGS_DIRS=/root/.conda-remote/pkgs
 ln -sfn /oe-eval-default/davidh ~/ai2 || true
 ln -sfn /oe-eval-default/davidh/.aws ~/.aws || true
 ln -sfn /oe-eval-default/davidh/.gcp ~/.gcp || true
+ln -sfn /oe-eval-default/davidh/.kaggle ~/.kaggle || true
 ln -sfn /oe-eval-default/davidh/.cache ~/.cache || true
 
 # Some scripts use /weka/oe-training-default. Create symlink for this

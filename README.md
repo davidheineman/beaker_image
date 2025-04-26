@@ -41,6 +41,7 @@ touch secrets/.ssh/id_rsa # SSH private key (cat ~/.ssh/id_rsa)
 touch secrets/.aws/credentials # AWS credentials (from 1password)
 touch secrets/.aws/config # AWS config
 touch secrets/.gcp/service-account.json # GCP service acct
+touch secrets/.kaggle/kaggle.json # Kaggle acct
 
 # Set secrets locally to add to Beaker
 export HF_TOKEN=""

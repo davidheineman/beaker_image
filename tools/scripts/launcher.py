@@ -23,6 +23,7 @@ beaker session create \
     --mount src=secret,ref=ssh-key,dst=/root/.ssh/id_rsa \
     --mount src=secret,ref=aws-creds,dst=/root/.aws/credentials \
     --mount src=secret,ref=gcp-creds,dst=/root/.gcp/service-account.json \
+    --mount src=secret,ref=kaggle-creds,dst=/root/.kaggle/kaggle.json \
     --secret-env HF_TOKEN=HF_TOKEN \
     --secret-env OPENAI_API_KEY=OPENAI_API_KEY \
     --secret-env ANTHROPIC_API_KEY=ANTHROPIC_API_KEY \
@@ -53,6 +54,7 @@ beaker session create \
 #     --mount src=secret,ref=davidh-ssh-key,dst=/root/.ssh/id_rsa \
 #     --mount src=secret,ref=davidh-aws-creds,dst=/root/.aws/credentials \
 #     --mount src=secret,ref=davidh-gcp-creds,dst=/root/.gcp/service-account.json \
+#     --mount src=secret,ref=davidh-kaggle-creds,dst=/root/.kaggle/kaggle.json \
 #     --secret-env HF_TOKEN=davidh_HUGGING_FACE_HUB_TOKEN \
 #     --secret-env OPENAI_API_KEY=davidh_OPENAI_API_KEY \
 #     --secret-env ANTHROPIC_API_KEY=davidh_ANTHROPIC_API_KEY \

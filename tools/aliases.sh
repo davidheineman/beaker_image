@@ -50,6 +50,7 @@ bsecrets() { # add generic versions of keys
     cat $BEAKER_SECRETS_DIR/.aws/config | beaker secret write -w $WORKSPACE_NAME aws-config
     cat $BEAKER_SECRETS_DIR/.aws/config | beaker secret write -w $WORKSPACE_NAME AWS_CONFIG
     cat $BEAKER_SECRETS_DIR/.gcp/service-account.json | beaker secret write -w $WORKSPACE_NAME gcp-creds
+    cat $BEAKER_SECRETS_DIR/.kaggle/kaggle.json | beaker secret write -w $WORKSPACE_NAME kaggle-creds
     echo -n $HF_TOKEN | beaker secret write -w $WORKSPACE_NAME HF_TOKEN
     echo -n $HF_TOKEN | beaker secret write -w $WORKSPACE_NAME HF_TOKEN_READ_ONLY # <- for oe-eval
     echo -n $OPENAI_API_KEY | beaker secret write -w $WORKSPACE_NAME OPENAI_API_KEY
@@ -75,6 +76,7 @@ bsecrets_davidh() { # add davidh versions of keys
     cat $BEAKER_SECRETS_DIR/.aws/config | beaker secret write -w $WORKSPACE_NAME davidh-aws-config
     cat $BEAKER_SECRETS_DIR/.aws/config | beaker secret write -w $WORKSPACE_NAME davidh_AWS_CONFIG
     cat $BEAKER_SECRETS_DIR/.gcp/service-account.json | beaker secret write -w $WORKSPACE_NAME davidh-gcp-creds
+    cat $BEAKER_SECRETS_DIR/.kaggle/kaggle.json | beaker secret write -w $WORKSPACE_NAME davidh-kaggle-creds
     echo -n $HF_TOKEN | beaker secret write -w $WORKSPACE_NAME davidh_HF_TOKEN
     echo -n $HF_TOKEN | beaker secret write -w $WORKSPACE_NAME davidh_HF_TOKEN_READ_ONLY # <- for oe-eval
     echo -n $OPENAI_API_KEY | beaker secret write -w $WORKSPACE_NAME davidh_OPENAI_API_KEY
