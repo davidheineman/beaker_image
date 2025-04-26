@@ -36,6 +36,9 @@ source /root/.conda_init
 export CONDA_ENVS_DIRS=/root/.conda-remote/envs
 export CONDA_PKGS_DIRS=/root/.conda-remote/pkgs
 
+# Change default cache dir
+export XDG_CACHE_HOME="/oe-eval-default/davidh/.cache"
+
 # Link NFS directory to home
 ln -sfn /oe-eval-default/davidh ~/ai2 || true
 ln -sfn /oe-eval-default/davidh/.aws ~/.aws || true
