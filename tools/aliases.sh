@@ -13,6 +13,21 @@ alias bstream='python '$BEAKER_TOOLS_DIR'/scripts/stream_logs.py -s -j' # launch
 alias blist='beaker session list --all --author davidh | grep running'
 alias bport='source '$BEAKER_TOOLS_DIR'/update_port.sh' # update port to current session
 
+brestart() {
+    if [[ $# -lt 2 ]]; then
+        echo "Usage: brestart <workspace> <limit>"
+        return 1
+    fi
+
+    WORKSPACE="$1"
+    LIMIT="$2"
+
+    python $BEAKER_TOOLS_DIR/scripts/restart_jobs.py \
+        --author davidh \
+        --workspace $WORKSPACE \
+        --limit $LIMIT
+}
+
 bpriority() {
     if [[ $# -lt 2 ]]; then
         echo "Usage: bpriority <workspace> <priority>"

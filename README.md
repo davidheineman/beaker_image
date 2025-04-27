@@ -92,6 +92,7 @@ bstream # stream logs for job
 bcreate # create workspace
 bsecrets # add secrets to workspace
 bpriority # modify priority for all running experiments in a workspace
+brestart # restart failed experiments in a workspace
 ```
 8. [Optional] Install conda on remote
 ```sh
