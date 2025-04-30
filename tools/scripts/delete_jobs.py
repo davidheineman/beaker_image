@@ -2,22 +2,6 @@ import time
 from beaker import Beaker
 from beaker.exceptions import BeakerError
 
-def beaker_experiment_failed(exp):
-    """ Returns if beaker experiment failed. """
-    if exp.jobs[0].execution.spec.replicas is not None:
-        num_replicas = exp.jobs[0].execution.spec.replicas
-    else:
-        num_replicas = 1
-        
-    checks = []
-    for job in exp.jobs:
-        if job.status.exited is None:
-            return False # at least one job is still running
-        checks.append(job.status.finalized is not None and job.status.exit_code == 0)
-
-    return sum(checks) != num_replicas
-
-
 def gather_experiments(author_list, workspace_name, limit=2000):
     """ Gather all failed jobs """
     beaker = Beaker.from_env()
@@ -38,7 +22,7 @@ def gather_experiments(author_list, workspace_name, limit=2000):
         author = exp.author.name
 
         # filter by author and only collect failed experiments
-        if author not in author_list or not beaker_experiment_failed(exp):
+        if author not in author_list:
             continue
 
         experiments.append(exp)
@@ -50,7 +34,7 @@ def gather_experiments(author_list, workspace_name, limit=2000):
     return experiments
 
 
-def restart_jobs(author, workspace, limit=5000):
+def delete_jobs(term, author, workspace, limit=5000):
     beaker = Beaker.from_env()
     experiments = gather_experiments(
         [author],
@@ -59,16 +43,19 @@ def restart_jobs(author, workspace, limit=5000):
     )
     print(f"Found {len(experiments)} failed experiments")
 
+    num_deleted = 0
     for i, experiment in enumerate(experiments):
-        try:
-            beaker.experiment.resume(experiment)
-        except BeakerError as e:
-            print(f'Failed to restart https://beaker.org/ex/{experiment.id}: {e}')
-            continue
+        if term in experiment.name:
+            try:
+                beaker.experiment.delete(experiment)
+                num_deleted += 1
+            except BeakerError as e:
+                print(f'Failed to delete https://beaker.org/ex/{experiment.id}: {e}')
+                continue
         
-        print(f"({i+1}/{len(experiments)} Restarted https://beaker.org/ex/{experiment.id})")
+            print(f"({i+1}/{len(experiments)}) Deleted '{experiment.name}' (https://beaker.org/ex/{experiment.id})")
 
-        if (i + 1) % 200 == 0:
+        if (num_deleted + 1) % 200 == 0:
             print(f"Giving the Beaker API a 20s breather to prevent overloding and timeouts...")
             time.sleep(20)
 
@@ -76,11 +63,10 @@ def restart_jobs(author, workspace, limit=5000):
 if __name__ == "__main__":
     import argparse
     parser = argparse.ArgumentParser()
+    parser.add_argument("-t", "--term", type=str, required=True, help="A term in the experiment name to use for deletion")
     parser.add_argument("-a", "--author", type=str, required=True, help="Author name to filter experiments by")
     parser.add_argument("-w", "--workspace", type=str, required=True, help="Beaker workspace name")
     parser.add_argument("-l", "--limit", type=int, default=5000, help="Maximum number of experiments to check")
     args = parser.parse_args()
 
-    # python tools/scripts/restart_jobs.py -a davidh -w ai2/ladder-evals -l 5000
-
-    restart_jobs(args.author, args.workspace, args.limit)
+    delete_jobs(args.term, args.author, args.workspace, args.limit)
