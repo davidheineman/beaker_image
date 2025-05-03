@@ -80,6 +80,16 @@ for host_alias in "${hosts[@]}"; do
     fi
 done
 
+# Open SSH tunnel for fast connection
+SOCKET="$HOME/.ssh/ai2locks" # delete any existing locks
+echo "Opening SSH tunnel using lock $SOCKET"
+mkdir -p "$SOCKET"
+if [ -e "$SOCKET" ] && ! [ -S "$SOCKET" ]; then
+  rm -rf "$SOCKET"
+  mkdir "$SOCKET"
+fi
+ssh -MNf ai2
+
 # Forward local ports remote ports (-f = silent)
 # pkill -f 'ssh -L 8000:127.0.0.1:8000'
 # ssh -L 8000:127.0.0.1:8000 -N -f root@ai2
