@@ -32,9 +32,18 @@ source /root/.beaker_tools/aliases.sh
 # Change conda dir to remote
 rm -rf /root/.conda # <- Will exist on some beaker images
 ln -sfn /oe-eval-default/davidh/miniconda3 /root/.conda-remote || true
-source /root/.conda_init
 export CONDA_ENVS_DIRS=/root/.conda-remote/envs
 export CONDA_PKGS_DIRS=/root/.conda-remote/pkgs
+
+# Lazy load conda
+conda() {
+    unset -f conda
+    source /root/.conda_init
+    conda "$@"
+}
+
+# Eager load conda
+# source /root/.conda_init
 
 # Change default cache dir
 export XDG_CACHE_HOME="/oe-eval-default/davidh/.cache"
@@ -100,35 +109,22 @@ fi
 alias vscodereset="rm -rf ~/.vscode-server/cli/servers"
 
 # disable pip (to encourage uv usage)
-sudo mv $(which pip) $(dirname $(which pip))/pipforce
+pip_path=$(which pip)
+[ -n "$pip_path" ] && sudo mv "$pip_path" "$(dirname "$pip_path")/pipforce"
 alias pip="echo 'Error: pip is disabled (use uv/uvinit/uva instead, its better). if you need to use it, call pipforce'"
 
-# Hacky: Copy env variables from docker process
-process_info=$(ps -e -o user,pid,cmd | grep "/usr/sbin/sshd -D" | grep "^root")
-pids=$(echo "$process_info" | awk '{print $2}')
-for pid in $pids; do
-    env_vars=$(cat /proc/$pid/environ 2>/dev/null | tr '\0' '\n')
-    for env_var in $env_vars; do
-        key=$(echo "$env_var" | cut -d= -f1)
-        value=$(echo "$env_var" | cut -d= -f2-)
-        if [[ "$key" =~ ^[a-zA-Z_][a-zA-Z0-9_]*$ ]]; then
-            if [ -z "${!key}" ]; then
-                export "$env_var"
-            fi
-        fi
-    done
-done
-
-# # add cuda to path
-# export PATH=/usr/local/cuda/bin:$PATH
-# export LD_LIBRARY_PATH=/usr/local/cuda/lib64:$LD_LIBRARY_PATH
-
-# testing: Configure docker cache path
-# sudo systemctl stop docker
-# sudo rsync -aP /var/lib/docker/ /oe-eval-default/davidh/.docker/
-# sudo systemctl start docker
-
-# write to /root/.docker/daemon.json
-# {
-#     "data-root": "/oe-eval-default/davidh/.docker"
-# }
+# # Copy env variables from docker process (not necessary?)
+# process_info=$(ps -e -o user,pid,cmd | grep "/usr/sbin/sshd -D" | grep "^root")
+# pids=$(echo "$process_info" | awk '{print $2}')
+# for pid in $pids; do
+#     env_vars=$(cat /proc/$pid/environ 2>/dev/null | tr '\0' '\n')
+#     for env_var in $env_vars; do
+#         key=$(echo "$env_var" | cut -d= -f1)
+#         value=$(echo "$env_var" | cut -d= -f2-)
+#         if [[ "$key" =~ ^[a-zA-Z_][a-zA-Z0-9_]*$ ]]; then
+#             if [ -z "${!key}" ]; then
+#                 export "$env_var"
+#             fi
+#         fi
+#     done
+# done
