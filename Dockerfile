@@ -59,6 +59,7 @@ RUN apt-get update && apt-get install -y \
     redis-server \
     psmisc \
     nvtop \
+    libsqlite3-dev \
     && apt-get clean
 
 

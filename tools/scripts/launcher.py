@@ -238,11 +238,10 @@ class ClusterSelector:
         command = LAUNCH_COMMAND.format(
             gpu_command=gpu_command, 
             cluster_command=cluster_command,
-            workspace='ai2/lm-eval',
-            priority='high',
-
-            # workspace='ai2/davidh',
-            # priority='normal'
+            # workspace='ai2/lm-eval',
+            # priority='high',
+            workspace='ai2/davidh',
+            priority='normal'
         )
         command = command.replace('  ', ' ')
 
