@@ -9,8 +9,9 @@
 # FROM ghcr.io/allenai/cuda:12.1-dev-ubuntu20.04-v1.2.118
 # FROM ghcr.io/allenai/cuda:12.8-ubuntu22.04-notorch-latest
 
+# https://hub.docker.com/r/nvidia/cuda/tags
 # FROM --platform=linux/amd64 nvidia/cuda:12.8-cudnn8-ubuntu20.04
-FROM --platform=linux/amd64 nvidia/cuda:12.8-base-ubuntu20.04
+FROM --platform=linux/amd64 nvidia/cuda:12.8.0-base-ubuntu20.04
 
 ENV DEBIAN_FRONTEND=noninteractive
 ENV TZ="America/Los_Angeles"
