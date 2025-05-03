@@ -79,6 +79,11 @@ alias uvinit='uv venv --python 3.12 && source .venv/bin/activate'
 alias uva='source .venv/bin/activate'
 alias uvinstall='uv pip install -r requirements.txt'
 
+# disable pip (to encourage uv usage)
+pip_path=$(which pip)
+[ -n "$pip_path" ] && sudo mv "$pip_path" "$(dirname "$pip_path")/pipforce"
+alias pip="uv pip" # Error: pip is disabled (use uv/uvinit/uva instead, its better). if you need to use it, call pipforce
+
 # Welcome command!
 if [[ $- == *i* ]]; then
     if command -v figlet &> /dev/null && command -v lolcat &> /dev/null; then
@@ -109,11 +114,6 @@ fi
 
 # kill current vscode servers (not a great solution but it works)
 alias vscodereset="rm -rf ~/.vscode-server/cli/servers"
-
-# disable pip (to encourage uv usage)
-pip_path=$(which pip)
-[ -n "$pip_path" ] && sudo mv "$pip_path" "$(dirname "$pip_path")/pipforce"
-alias pip="echo 'Error: pip is disabled (use uv/uvinit/uva instead, its better). if you need to use it, call pipforce'"
 
 # Copy env variables from docker process (such as HF_TOKEN)
 process_info=$(ps -e -o user,pid,cmd | grep "/usr/sbin/sshd -D" | grep "^root")
