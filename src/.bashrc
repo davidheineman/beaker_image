@@ -80,12 +80,14 @@ alias uva='source .venv/bin/activate'
 alias uvinstall='uv pip install -r requirements.txt'
 
 # Welcome command!
-if command -v figlet &> /dev/null && command -v lolcat &> /dev/null; then
-    figlet "ai2remote" | lolcat
-fi
-if command -v nvidia-smi &> /dev/null && command -v lolcat &> /dev/null; then
-    nvidia-smi --query-gpu=name,utilization.gpu,memory.total,memory.free,memory.used --format=csv,noheader,nounits | \
-    awk -F, '{print "" $1 " | id ="$2", mem ="$3 " MB, free ="$4 " MB, used ="$5 " MB"}' | lolcat
+if [[ $- == *i* ]]; then
+    if command -v figlet &> /dev/null && command -v lolcat &> /dev/null; then
+        figlet "ai2remote" | lolcat
+    fi
+    if command -v nvidia-smi &> /dev/null && command -v lolcat &> /dev/null; then
+        nvidia-smi --query-gpu=name,utilization.gpu,memory.total,memory.free,memory.used --format=csv,noheader,nounits | \
+        awk -F, '{print "" $1 " | id ="$2", mem ="$3 " MB, free ="$4 " MB, used ="$5 " MB"}' | lolcat
+    fi
 fi
 
 condacreate() {
