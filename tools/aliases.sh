@@ -162,5 +162,9 @@ ai2checks() {
 }
 
 ai2cleanup() {
-    isort . && black . && ruff check . && mypy .
+    if [ "$1" = "--fix" ]; then
+        isort . && black . && ruff check . --fix && mypy .
+    else
+        isort . && black . && ruff check . && mypy .
+    fi
 }
