@@ -1,13 +1,18 @@
-# https://github.com/allenai/docker-images/blob/main/cuda/Dockerfile
+# https://github.com/allenai/docker-images/pkgs/container/cuda/versions
 
 # FROM ubuntu
 # FROM ghcr.io/allenai/conda:latest
 # FROM ghcr.io/allenai/pytorch:latest
 
 # FROM ghcr.io/allenai/pytorch:2.4.0-cuda12.1-python3.11
-FROM ghcr.io/allenai/cuda:12.1-cudnn8-dev-ubuntu20.04-v1.2.118
+# FROM ghcr.io/allenai/cuda:12.1-cudnn8-dev-ubuntu20.04-v1.2.118
 # FROM ghcr.io/allenai/cuda:12.1-dev-ubuntu20.04-v1.2.118
+# FROM ghcr.io/allenai/cuda:12.8-ubuntu22.04-notorch-latest
+
+FROM --platform=linux/amd64 nvidia/cuda:12.8-ubuntu22.04-latest
+
 ENV DEBIAN_FRONTEND=noninteractive
+ENV TZ="America/Los_Angeles"
 
 # Add cuda path
 # ENV CUDA_HOME=/usr/local/cuda
@@ -16,9 +21,10 @@ ENV PATH="/usr/local/cuda/bin:$PATH"
 # Weird fix for NVCC on CUDA 12.1
 # https://github.com/pytorch/pytorch/issues/111469
 # RUN conda install -c nvidia libnvjitlink -y
-# export LD_LIBRARY_PATH="/root/.conda/envs/metaeval/lib/python3.10/site-packages/nvidia/nvjitlink/lib:$LD_LIBRARY_PATH"
-# export LD_LIBRARY_PATH="/root/.conda/envs/base/lib/python3.10/site-packages/nvidia/nvjitlink/lib:$LD_LIBRARY_PATH"
 ENV LD_LIBRARY_PATH="/root/ai2/miniconda3/envs/ultrafastbert/lib/python3.10/site-packages/nvidia/nvjitlink/lib:$LD_LIBRARY_PATH"
+
+### https://github.com/allenai/docker-images/blob/main/cuda/Dockerfile
+ENV LD_LIBRARY_PATH=/usr/local/cuda/lib:/usr/local/cuda/lib64:$LD_LIBRARY_PATH
 
 WORKDIR /root
 
@@ -54,6 +60,38 @@ RUN apt-get update && apt-get install -y \
     psmisc \
     nvtop \
     && apt-get clean
+
+
+###########
+# https://github.com/allenai/docker-images/blob/main/cuda/Dockerfile
+###########
+
+# Install AWS CLI
+RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" \
+    && unzip awscliv2.zip \
+    && ./aws/install \
+    && rm awscliv2.zip
+
+# Install Google Cloud CLI
+RUN echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] http://packages.cloud.google.com/apt cloud-sdk main" \
+        | tee -a /etc/apt/sources.list.d/google-cloud-sdk.list \
+    && curl https://packages.cloud.google.com/apt/doc/apt-key.gpg \
+        | apt-key --keyring /usr/share/keyrings/cloud.google.gpg add - \
+    && apt-get update -y && apt-get install google-cloud-sdk -y
+
+# Install MLNX OFED user-space drivers
+# See https://docs.nvidia.com/networking/pages/releaseview.action?pageId=15049785#Howto:DeployRDMAacceleratedDockercontaineroverInfiniBandfabric.-Dockerfile
+ENV MOFED_VER=24.01-0.3.3.1
+ENV OS_VER=ubuntu20.04
+ENV PLATFORM=x86_64
+RUN wget --quiet https://content.mellanox.com/ofed/MLNX_OFED-${MOFED_VER}/MLNX_OFED_LINUX-${MOFED_VER}-${OS_VER}-${PLATFORM}.tgz && \
+    tar -xvf MLNX_OFED_LINUX-${MOFED_VER}-${OS_VER}-${PLATFORM}.tgz && \
+    MLNX_OFED_LINUX-${MOFED_VER}-${OS_VER}-${PLATFORM}/mlnxofedinstall --basic --user-space-only --without-fw-update -q && \
+    rm -rf MLNX_OFED_LINUX-${MOFED_VER}-${OS_VER}-${PLATFORM} && \
+    rm MLNX_OFED_LINUX-${MOFED_VER}-${OS_VER}-${PLATFORM}.tgz
+
+###########
+###########
 
 # Install rust (I think you need the second thing to complete the install)
 RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
@@ -147,9 +185,3 @@ RUN chmod +x /root/.bin/*
 COPY src/etc/docker/daemon.json /etc/docker/daemon.json
 
 ENTRYPOINT ["/usr/sbin/sshd", "-D"]
-
-# attempt to get code command working on remote
-# export PATH="/root/.vscode-server/bin/bin/remote-cli:$PATH"
-# nohup code-server --accept-server-license-terms > /tmp/code-server.out 2>&1 &
-# export VSCODE_IPC_HOOK_CLI="/tmp/ipc-0.sock"
-# nc -lU $VSCODE_IPC_HOOK_CLI &
