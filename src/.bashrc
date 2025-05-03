@@ -99,6 +99,10 @@ fi
 # kill current vscode servers (not a great solution but it works)
 alias vscodereset="rm -rf ~/.vscode-server/cli/servers"
 
+# disable pip (to encourage uv usage)
+sudo mv $(which pip) $(dirname $(which pip))/pipforce
+alias pip="echo 'Error: pip is disabled (use uv/uvinit/uva instead, its better). if you need to use it, call pipforce'"
+
 # Hacky: Copy env variables from docker process
 process_info=$(ps -e -o user,pid,cmd | grep "/usr/sbin/sshd -D" | grep "^root")
 pids=$(echo "$process_info" | awk '{print $2}')
