@@ -27,7 +27,7 @@ https://github.com/user-attachments/assets/4255e0be-b29d-40a0-ae9e-364ba7c9c446
 
 1. Fork this repo
 2. Update references for `davidh` to your workspace/desired image name
-3. Grab your [Beaker user token](https://beaker.allen.ai/user/davidh/settings/token) and set it to the `BEAKER_TOKEN` secret in GitHub Actions: https://github.com/[user]/[repo]/settings/secrets/actions
+3. Grab your [Beaker user token](https://beaker.allen.ai/user/davidh/settings/token) and set it to the `BEAKER_TOKEN` secret in GitHub Actions: https://github.com/davidheineman/beaker_image/settings/secrets/actions
 4. Install aliases to terminal path (see [aliases.sh](tools/aliases.sh))
 ```sh
 ALIASES_PATH=$(cd ./tools && pwd)/aliases.sh
