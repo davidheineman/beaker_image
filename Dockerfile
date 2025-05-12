@@ -41,6 +41,7 @@ RUN apt-get update && apt-get install -y \
     tree \
     nano \
     jq \
+    htop \
     curl \
     wget \
     git \
