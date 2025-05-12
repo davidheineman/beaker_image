@@ -33,35 +33,35 @@ RUN chmod -x /etc/update-motd.d/* && touch ~/.hushlogin && touch /root/.hushlogi
 
 # Install apt packages
 RUN apt-get update && apt-get install -y \
-    openssh-server \
-    figlet \
-    lolcat \
-    sl \
+    build-essential cmake \
     cowsay \
-    tree \
-    nano \
-    jq \
-    htop \
     curl \
-    wget \
+    docker.io \
+    figlet \
     git \
     git-lfs \
-    software-properties-common \
-    pkg-config \
+    htop \
+    jq \
     libsentencepiece-dev \
-    docker.io \
-    ninja-build \
-    smem \
-    build-essential cmake \
-    protobuf-compiler \
-    libssl-dev \
-    rename \
-    socat \
-    redis-server \
-    psmisc \
-    nvtop \
-    neofetch \
     libsqlite3-dev \
+    libssl-dev \
+    lolcat \
+    nano \
+    neofetch \
+    ninja-build \
+    nvtop \
+    openssh-server \
+    pkg-config \
+    protobuf-compiler \
+    psmisc \
+    redis-server \
+    rename \
+    sl \
+    smem \
+    socat \
+    software-properties-common \
+    tree \
+    wget \
     && apt-get clean
 
 
