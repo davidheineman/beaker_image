@@ -78,6 +78,8 @@ bsecrets() { # add generic versions of keys
     echo -n $GOOGLE_API_KEY | beaker secret write -w $WORKSPACE_NAME GOOGLE_API_KEY
     echo -n $WEKA_ENDPOINT_URL | beaker secret write -w $WORKSPACE_NAME WEKA_ENDPOINT_URL
     echo -n $R2_ENDPOINT_URL | beaker secret write -w $WORKSPACE_NAME R2_ENDPOINT_URL
+    echo -n $WEKA_PROFILE | beaker secret write -w $WORKSPACE_NAME WEKA_PROFILE
+    echo -n $S3_PROFILE | beaker secret write -w $WORKSPACE_NAME S3_PROFILE
     echo -n $SLACK_WEBHOOK_URL | beaker secret write -w $WORKSPACE_NAME SLACK_WEBHOOK_URL
     beaker secret list -w $WORKSPACE_NAME
 }
