@@ -46,5 +46,4 @@ tamasfe.even-better-toml
 tomoki1207.pdf
 twxs.cmake
 tyriar.sort-lines
-vue.volar
 wekex.jsonlint
