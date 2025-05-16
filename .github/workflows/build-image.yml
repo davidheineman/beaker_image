@@ -10,7 +10,7 @@ on:
     # (+ anytime there's a new release tag for this image)
     paths:
       - 'Dockerfile'
-      - 'src'
+      - 'src/**'
       - '.github/workflows'
     branches:
       - main
