@@ -187,4 +187,8 @@ RUN chmod +x /root/.bin/*
 # Add docker daemon override
 COPY src/etc/docker/daemon.json /etc/docker/daemon.json
 
-ENTRYPOINT ["/usr/sbin/sshd", "-D"]
+COPY src/entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+ENTRYPOINT ["/entrypoint.sh"]
+
+# ENTRYPOINT ["/usr/sbin/sshd", "-D"]
