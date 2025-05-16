@@ -4,6 +4,8 @@ from constants import CLUSTERS
 
 SCRIPT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+# --gpus {num_gpus}
+# --cluster {_cluster_name}
 LAUNCH_COMMAND = """\
 beaker session create \
     --name 👋davidh👋 \
