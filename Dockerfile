@@ -9,7 +9,10 @@
 
 # https://hub.docker.com/r/nvidia/cuda/tags
 # FROM --platform=linux/amd64 nvidia/cuda:12.8-cudnn8-ubuntu20.04
-FROM --platform=linux/amd64 nvidia/cuda:12.8.0-base-ubuntu20.04
+# FROM --platform=linux/amd64 nvidia/cuda:12.8.0-base-ubuntu20.04
+
+# Ships with NVCC and CuDNN!
+FROM --platform=linux/amd64 nvidia/cuda:12.8.0-cudnn8-devel-ubuntu20.04
 
 ENV DEBIAN_FRONTEND=noninteractive
 ENV TZ="America/Los_Angeles"
