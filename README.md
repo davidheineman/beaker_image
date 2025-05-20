@@ -2,24 +2,24 @@
 
 Tooling for Beaker interactive sessions. This repo auto-builds to the image `beaker://davidh/davidh-interactive`. **Feel free to fork this repo for your own container!**
 
-### Demo
+<!-- ### Example -->
 
-https://github.com/user-attachments/assets/4255e0be-b29d-40a0-ae9e-364ba7c9c446
+<!-- https://github.com/user-attachments/assets/4255e0be-b29d-40a0-ae9e-364ba7c9c446 -->
 
-**✨ New!** MacOS toolbar extension to show free GPUs, and currently running jobs!
+**Also:** MacOS toolbar extension to show free GPUs, and currently running jobs!
 
 <p align="center">
 <img width="243" alt="demo-mac-plugin" src="https://github.com/user-attachments/assets/d648a0bb-b787-45f8-b5ac-7542eeb4a654" />
 </p>
 
-**Core Features**
+<!-- **Core Features**
 
 - ✅ Pre-installed VSCode/Cursor extensions on remote
 - ✅ No saving API keys in plain-text in WEKA
 - ✅ Auto-update `~/.ssh/config` SSH host (no manually entering `ssh phobos-cs-aus-452.reviz.ai2.in:32785` to connect to a host)
 - ✅ 100% customizable image (install your own CUDA drivers!)
 - ✅ Launch remote VSCode from terminal in one command (`ai2code your_folder`)
-- ✅ GUI launcher (`bl`) with cluster descriptions (no fiddling with `beaker session create`)
+- ✅ GUI launcher (`bl`) with cluster descriptions (no fiddling with `beaker session create`) -->
 
 <hr>
 
