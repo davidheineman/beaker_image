@@ -10,9 +10,11 @@
 # https://hub.docker.com/r/nvidia/cuda/tags
 # FROM --platform=linux/amd64 nvidia/cuda:12.8-cudnn8-ubuntu20.04
 # FROM --platform=linux/amd64 nvidia/cuda:12.8.0-base-ubuntu20.04
+# ENV OS_VER=ubuntu20.04
 
 # Ships with NVCC and CuDNN!
 FROM --platform=linux/amd64 nvidia/cuda:12.8.0-cudnn-devel-ubuntu22.04
+ENV OS_VER=ubuntu22.04
 
 ENV DEBIAN_FRONTEND=noninteractive
 ENV TZ="America/Los_Angeles"
@@ -88,7 +90,6 @@ RUN echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] http://packages.c
 # Install MLNX OFED user-space drivers
 # See https://docs.nvidia.com/networking/pages/releaseview.action?pageId=15049785#Howto:DeployRDMAacceleratedDockercontaineroverInfiniBandfabric.-Dockerfile
 ENV MOFED_VER=24.01-0.3.3.1
-ENV OS_VER=ubuntu20.04
 ENV PLATFORM=x86_64
 RUN wget --quiet https://content.mellanox.com/ofed/MLNX_OFED-${MOFED_VER}/MLNX_OFED_LINUX-${MOFED_VER}-${OS_VER}-${PLATFORM}.tgz && \
     tar -xvf MLNX_OFED_LINUX-${MOFED_VER}-${OS_VER}-${PLATFORM}.tgz && \
