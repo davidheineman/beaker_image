@@ -67,7 +67,7 @@ jobs:
           beaker: davidh-interactive  # name of the image on Beaker
 
   test-clusters:
-    runs-on: ubuntu-latest-large
+    runs-on: ubuntu-latest
     needs: build
     if: github.event_name != 'workflow_dispatch' || inputs.run_test_clusters
     strategy:
