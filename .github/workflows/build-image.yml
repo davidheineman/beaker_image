@@ -42,8 +42,8 @@ jobs:
         with:
           beaker_token: ${{ secrets.BEAKER_TOKEN }}
 
-      # - name: Delete huge unnecessary tools folder # helps with big images
-      #   run: rm -rf /opt/hostedtoolcache
+      - name: Delete huge unnecessary tools folder # helps with big images
+        run: rm -rf /opt/hostedtoolcache
 
       - name: Build image
         run: |
