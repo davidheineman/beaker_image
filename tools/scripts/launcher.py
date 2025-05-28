@@ -32,7 +32,7 @@ beaker session create \
     --secret-env ANTHROPIC_API_KEY=davidh_ANTHROPIC_API_KEY \
     --secret-env BEAKER_TOKEN=davidh_BEAKER_TOKEN \
     --secret-env WANDB_API_KEY=davidh_WANDB_API_KEY \
-    -- /usr/sbin/sshd -D\
+    -- /entrypoint.sh\
 """
 
 UPDATE_PORT_CMD = f"source {SCRIPT_DIR}/update_port.sh {{session_id}}"

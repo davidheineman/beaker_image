@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source /root/ai2/.bashrc
+source /root/.bashrc
 
 # Authenticate with git
 gitlogin
