@@ -4,11 +4,21 @@ from constants import CLUSTERS
 
 SCRIPT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+# SESSION_NAME = "👋davidh👋"
+SESSION_NAME = "eval-debugging"
+
+# SESSION_WORKSPACE='ai2/lm-eval'
+# SESSION_PRIORITY='high'
+SESSION_WORKSPACE='ai2/olmo-3-evals'
+SESSION_PRIORITY='high'
+# SESSION_WORKSPACE='ai2/davidh'
+# SESSION_PRIORITY='normal'
+
 # --gpus {num_gpus}
 # --cluster {_cluster_name}
 LAUNCH_COMMAND = """\
 beaker session create \
-    --name 👋davidh👋 \
+    --name {name} \
     {gpu_command} \
     {cluster_command} \
     --image beaker://davidh/davidh-interactive \
@@ -56,7 +66,8 @@ QUOTES = [
     "Although perhaps of no practical importance, the question is of theoretical interest, and it is hoped that a satisfactory solution of this problem will act as a wedge in attacking other problems of a similar nature and of greater significance. (Shannon on Chess, 1950)", # https://vision.unipv.it/IA1/ProgrammingaComputerforPlayingChess.pdf
     "What is now proved was once only imagined. (William Blake, 1790)",
     "There ain't no such thing as a free lunch", # https://ieeexplore.ieee.org/document/585893 (Wolpert & Macready, 2002) -- Although AFAIK the quote came before the term was adopted by the field
-    "From one gut feeling I derive much consolation: I suspect that machines to be programmed in our native tongues — be it Dutch, English, American, French, German, or Swahili — are as damned difficult to make as they would be to use. (Dijkstra, 1978)" # https://www.cs.utexas.edu/~EWD/transcriptions/EWD06xx/EWD667.html
+    "From one gut feeling I derive much consolation: I suspect that machines to be programmed in our native tongues — be it Dutch, English, American, French, German, or Swahili — are as damned difficult to make as they would be to use. (Dijkstra, 1978)", # https://www.cs.utexas.edu/~EWD/transcriptions/EWD06xx/EWD667.html
+    "Instruction tables will have to be made up by mathematicians with computing experience and perhaps a certain puzzle-solving ability… This process of constructing instruction tables should be very fascinating. There need be no real danger of it ever becoming a drudge, for any processes that are quite mechanical may be turned over to the machine itself. (Turing, 1945)", # https://people.csail.mit.edu/asolar/SynthesisCourse/Lecture1.htm
 ]
 
 
@@ -238,12 +249,11 @@ class ClusterSelector:
             cluster_command += f"--cluster {_cluster_name} "
 
         command = LAUNCH_COMMAND.format(
+            name=SESSION_NAME,
+            workspace=SESSION_WORKSPACE,
+            priority=SESSION_PRIORITY, 
             gpu_command=gpu_command, 
             cluster_command=cluster_command,
-            # workspace='ai2/lm-eval',
-            # priority='high',
-            workspace='ai2/davidh',
-            priority='normal'
         )
         command = command.replace('  ', ' ')
 
