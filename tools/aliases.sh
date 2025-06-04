@@ -140,6 +140,13 @@ bfree() {
 }
 
 
+# Pipe a gantry command into bstream. Usage: [gantry arg] | gstream
+gstream() {
+  local id=$(grep -oE 'beaker.org/ex/01[A-Z0-9]{25}' | sed 's|.*/||')
+  command bstream "$id"
+}
+
+
 ai2code() {
     if [ -z "$1" ]; then
         code --remote ssh-remote+ai2 /root/ai2
