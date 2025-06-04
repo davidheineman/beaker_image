@@ -82,6 +82,8 @@ bsecrets() { # add generic versions of keys
     echo -n $S3_PROFILE | beaker secret write -w $WORKSPACE_NAME S3_PROFILE
     echo -n $SLACK_WEBHOOK_URL | beaker secret write -w $WORKSPACE_NAME SLACK_WEBHOOK_URL
     echo -n $GITHUB_TOKEN | beaker secret write -w $WORKSPACE_NAME GITHUB_TOKEN
+    echo -n $R2_SECRET_ACCESS_KEY | beaker secret write -w $WORKSPACE_NAME R2_SECRET_ACCESS_KEY
+    echo -n $R2_ACCESS_KEY_ID | beaker secret write -w $WORKSPACE_NAME R2_ACCESS_KEY_ID
     beaker secret list -w $WORKSPACE_NAME
 }
 
@@ -108,6 +110,10 @@ bsecrets_davidh() { # add davidh versions of keys
     echo -n $AWS_SECRET_ACCESS_KEY | beaker secret write -w $WORKSPACE_NAME DAVIDH_AWS_SECRET_ACCESS_KEY
     echo -n $AWS_ACCESS_KEY_ID | beaker secret write -w $WORKSPACE_NAME davidh_AWS_ACCESS_KEY_ID
     echo -n $AWS_ACCESS_KEY_ID | beaker secret write -w $WORKSPACE_NAME DAVIDH_AWS_ACCESS_KEY_ID
+    echo -n $R2_SECRET_ACCESS_KEY | beaker secret write -w $WORKSPACE_NAME davidh_R2_SECRET_ACCESS_KEY
+    echo -n $R2_SECRET_ACCESS_KEY | beaker secret write -w $WORKSPACE_NAME DAVIDH_R2_SECRET_ACCESS_KEY
+    echo -n $R2_ACCESS_KEY_ID | beaker secret write -w $WORKSPACE_NAME davidh_R2_ACCESS_KEY_ID
+    echo -n $R2_ACCESS_KEY_ID | beaker secret write -w $WORKSPACE_NAME DAVIDH_R2_ACCESS_KEY_ID
     echo -n $GOOGLE_API_KEY | beaker secret write -w $WORKSPACE_NAME davidh_GOOGLE_API_KEY
     echo -n $GITHUB_TOKEN | beaker secret write -w $WORKSPACE_NAME davidh_GITHUB_TOKEN
     echo -n $GITHUB_TOKEN | beaker secret write -w $WORKSPACE_NAME DAVIDH_GITHUB_TOKEN
