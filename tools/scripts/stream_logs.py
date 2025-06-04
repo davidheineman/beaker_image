@@ -31,11 +31,21 @@ def stream_experiment_logs(job_id: str, do_stream: bool):
     except JobNotFound:
         print(f'Job {job_id} not found, using {job_id} as an experiment ID...')
         experiment_id = job_id
+
+    # Check if there's multiple tasks
+    experiment = beaker.experiment.get(experiment_id)
+    task_ids = [job.execution.task for job in experiment.jobs]
+    if len(task_ids) > 1:
+        task_id = next(job.execution.task for job in experiment.jobs if job.execution.replica_rank == 0)
+        print(f'Multiple tasks found! Following replica=0: "{task_id}"...')
+    else:
+        task_id = task_ids[0]
     
     try:
         if do_stream:
             for line in beaker.experiment.follow(
-                experiment_id,
+                experiment=experiment_id,
+                task=task_id,
                 strict=True,
                 # since=timedelta(minutes=2)
             ):
