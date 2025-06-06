@@ -100,21 +100,21 @@ RUN echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] http://packages.c
 #     rm -rf MLNX_OFED_LINUX-${MOFED_VER}-${OS_VER}-${PLATFORM} && \
 #     rm MLNX_OFED_LINUX-${MOFED_VER}-${OS_VER}-${PLATFORM}.tgz
 
-# Install DOCA OFED user-space drivers
-# See https://docs.nvidia.com/doca/sdk/doca-host+installation+and+upgrade/index.html
-# doca-ofed-userspace ver 2.10.0 depends on mft=4.31.0-149
-ENV MFT_VER 4.31.0-149
-RUN wget https://www.mellanox.com/downloads/MFT/mft-${MFT_VER}-x86_64-deb.tgz && \
-    tar -xzf mft-${MFT_VER}-x86_64-deb.tgz && \
-    mft-${MFT_VER}-x86_64-deb/install.sh --without-kernel && \
-    rm mft-${MFT_VER}-x86_64-deb.tgz
+# # Install DOCA OFED user-space drivers
+# # See https://docs.nvidia.com/doca/sdk/doca-host+installation+and+upgrade/index.html
+# # doca-ofed-userspace ver 2.10.0 depends on mft=4.31.0-149
+# ENV MFT_VER 4.31.0-149
+# RUN wget https://www.mellanox.com/downloads/MFT/mft-${MFT_VER}-x86_64-deb.tgz && \
+#     tar -xzf mft-${MFT_VER}-x86_64-deb.tgz && \
+#     mft-${MFT_VER}-x86_64-deb/install.sh --without-kernel && \
+#     rm mft-${MFT_VER}-x86_64-deb.tgz
 
-ENV DOFED_VER 2.10.0
-ENV OS_VER ubuntu2204
-RUN wget https://www.mellanox.com/downloads/DOCA/DOCA_v${DOFED_VER}/host/doca-host_${DOFED_VER}-093000-25.01-${OS_VER}_amd64.deb && \
-    dpkg -i doca-host_${DOFED_VER}-093000-25.01-${OS_VER}_amd64.deb && \
-    apt-get update && apt-get -y install doca-ofed-userspace && \
-    rm doca-host_${DOFED_VER}-093000-25.01-${OS_VER}_amd64.deb
+# ENV DOFED_VER 2.10.0
+# ENV OS_VER ubuntu2204
+# RUN wget https://www.mellanox.com/downloads/DOCA/DOCA_v${DOFED_VER}/host/doca-host_${DOFED_VER}-093000-25.01-${OS_VER}_amd64.deb && \
+#     dpkg -i doca-host_${DOFED_VER}-093000-25.01-${OS_VER}_amd64.deb && \
+#     apt-get update && apt-get -y install doca-ofed-userspace && \
+#     rm doca-host_${DOFED_VER}-093000-25.01-${OS_VER}_amd64.deb
 
 ###########
 ###########
