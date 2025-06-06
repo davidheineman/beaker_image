@@ -115,6 +115,11 @@ fi
 # kill current vscode servers (not a great solution but it works)
 alias vscodereset="rm -rf ~/.vscode-server/cli/servers"
 
+# S3 variables for olmo-core
+export WEKA_PROFILE=oe-training-s3
+export S3_PROFILE=S3
+export WEKA_ENDPOINT_URL=https://weka-aus.beaker.org:9000
+
 if [ ! -f /root/.ssh/environment ]; then
     # SLOW: Copy env variables from docker process (such as HF_TOKEN)
     # process_info=$(ps -e -o user,pid,cmd | grep "/usr/sbin/sshd -D" | grep "^root")

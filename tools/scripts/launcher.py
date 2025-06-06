@@ -9,6 +9,7 @@ SESSION_NAME = "eval-debugging"
 
 # SESSION_WORKSPACE='ai2/lm-eval'
 # SESSION_PRIORITY='high'
+# SESSION_WORKSPACE='ai2/OLMo-mup'
 SESSION_WORKSPACE='ai2/olmo-3-evals'
 SESSION_PRIORITY='high'
 # SESSION_WORKSPACE='ai2/davidh'
@@ -37,6 +38,12 @@ beaker session create \
     --mount src=secret,ref=davidh-aws-creds,dst=/root/.aws/credentials \
     --mount src=secret,ref=davidh-gcp-creds,dst=/root/.gcp/service-account.json \
     --mount src=secret,ref=davidh-kaggle-creds,dst=/root/.kaggle/kaggle.json \
+    --secret-env AWS_CONFIG=davidh_AWS_CONFIG \
+    --secret-env AWS_CREDENTIALS=davidh_AWS_CREDENTIALS \
+    --secret-env davidh_COMET_API_KEY=davidh_COMET_API_KEY \
+    --secret-env COMET_API_KEY=davidh_COMET_API_KEY \
+    --secret-env R2_ACCESS_KEY_ID=davidh_R2_ACCESS_KEY_ID \
+    --secret-env R2_SECRET_ACCESS_KEY=davidh_R2_SECRET_ACCESS_KEY \
     --secret-env HF_TOKEN=davidh_HF_TOKEN \
     --secret-env OPENAI_API_KEY=davidh_OPENAI_API_KEY \
     --secret-env ANTHROPIC_API_KEY=davidh_ANTHROPIC_API_KEY \
