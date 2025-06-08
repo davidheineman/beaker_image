@@ -12,7 +12,7 @@
 # ENV OS_VER=ubuntu20.04
 
 # This one works
-FROM --platform=linux/amd64 nvidia/cuda:12.8.0-base-ubuntu20.04
+FROM --platform=linux/amd64 nvidia/cuda:12.8.0-base-ubuntu22.04
 
 # Ships with NVCC and CuDNN! (cudnn-devel breaks the github runner for some reason)
 # FROM --platform=linux/amd64 nvidia/cuda:12.8.0-cudnn-devel-ubuntu22.04
