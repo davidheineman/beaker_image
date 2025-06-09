@@ -49,6 +49,8 @@ beaker session create \
     --secret-env ANTHROPIC_API_KEY=davidh_ANTHROPIC_API_KEY \
     --secret-env BEAKER_TOKEN=davidh_BEAKER_TOKEN \
     --secret-env WANDB_API_KEY=davidh_WANDB_API_KEY \
+    --secret-env lambda_AWS_ACCESS_KEY_ID=lambda_AWS_ACCESS_KEY_ID \
+    --secret-env lambda_AWS_SECRET_ACCESS_KEY=lambda_AWS_SECRET_ACCESS_KEY \
     -- /entrypoint.sh\
 """
 

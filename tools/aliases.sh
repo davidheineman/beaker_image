@@ -84,6 +84,8 @@ bsecrets() { # add generic versions of keys
     echo -n $GITHUB_TOKEN | beaker secret write -w $WORKSPACE_NAME GITHUB_TOKEN
     echo -n $R2_SECRET_ACCESS_KEY | beaker secret write -w $WORKSPACE_NAME R2_SECRET_ACCESS_KEY
     echo -n $R2_ACCESS_KEY_ID | beaker secret write -w $WORKSPACE_NAME R2_ACCESS_KEY_ID
+    echo -n $lambda_AWS_ACCESS_KEY_ID | beaker secret write -w $WORKSPACE_NAME lambda_AWS_ACCESS_KEY_ID
+    echo -n $lambda_AWS_SECRET_ACCESS_KEY | beaker secret write -w $WORKSPACE_NAME lambda_AWS_SECRET_ACCESS_KEY
     beaker secret list -w $WORKSPACE_NAME
 }
 
@@ -117,6 +119,8 @@ bsecrets_davidh() { # add davidh versions of keys
     echo -n $GOOGLE_API_KEY | beaker secret write -w $WORKSPACE_NAME davidh_GOOGLE_API_KEY
     echo -n $GITHUB_TOKEN | beaker secret write -w $WORKSPACE_NAME davidh_GITHUB_TOKEN
     echo -n $GITHUB_TOKEN | beaker secret write -w $WORKSPACE_NAME DAVIDH_GITHUB_TOKEN
+    echo -n $lambda_AWS_ACCESS_KEY_ID | beaker secret write -w $WORKSPACE_NAME lambda_AWS_ACCESS_KEY_ID
+    echo -n $lambda_AWS_SECRET_ACCESS_KEY | beaker secret write -w $WORKSPACE_NAME lambda_AWS_SECRET_ACCESS_KEY
     beaker secret list -w $WORKSPACE_NAME
 }
 
