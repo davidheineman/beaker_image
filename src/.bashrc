@@ -138,17 +138,26 @@ if [ ! -f /root/.ssh/environment ]; then
     # done
 
     # Fast version of env copying (assuming OpenSSH is process 1)
+    # if [ -r /proc/1/environ ]; then
+    #     env_vars=$(cat /proc/1/environ 2>/dev/null | tr "\0" "\n")
+    #     for env_var in $env_vars; do
+    #         key=$(echo "$env_var" | cut -d= -f1)
+    #         value=$(echo "$env_var" | cut -d= -f2-)
+    #         if [[ "$key" =~ ^[a-zA-Z_][a-zA-Z0-9_]*$ ]]; then
+    #             if [ -z "${!key}" ]; then
+    #                 export "$env_var"
+    #             fi
+    #         fi
+    #     done
+    # fi
+    # printenv > /root/.ssh/environment
+
     if [ -r /proc/1/environ ]; then
-        env_vars=$(cat /proc/1/environ 2>/dev/null | tr "\0" "\n")
-        for env_var in $env_vars; do
-            key=$(echo "$env_var" | cut -d= -f1)
-            value=$(echo "$env_var" | cut -d= -f2-)
-            if [[ "$key" =~ ^[a-zA-Z_][a-zA-Z0-9_]*$ ]]; then
-                if [ -z "${!key}" ]; then
-                    export "$env_var"
-                fi
-            fi
-        done
+        while IFS= read -r -d '' env_var; do
+            key="${env_var%%=*}"
+            value="${env_var#*=}"
+            export $key="$value"
+        done < /proc/1/environ
     fi
     printenv > /root/.ssh/environment
 fi
