@@ -153,12 +153,19 @@ if [ ! -f /root/.ssh/environment ]; then
     # fi
     # printenv > /root/.ssh/environment
 
+    # Clear out env file
+    > /root/.ssh/environment
+
+    # Paste env before beaker args
+    printenv > /root/.ssh/environment
+
+    # Paste beaker args
     if [ -r /proc/1/environ ]; then
         while IFS= read -r -d '' env_var; do
             key="${env_var%%=*}"
             value="${env_var#*=}"
             export $key="$value"
+            echo "$key=\"$value\"" >> /root/.ssh/environment
         done < /proc/1/environ
     fi
-    printenv > /root/.ssh/environment
 fi
