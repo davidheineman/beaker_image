@@ -50,7 +50,7 @@ def stop_jobs(author, workspace, limit=5000):
             print(f'Failed to stop https://beaker.org/ex/{experiment.id}: {e}')
             continue
         
-        print(f"({i+1}/{len(experiments)} stopped https://beaker.org/ex/{experiment.id})")
+        print(f"({i+1}/{len(experiments)}) stopped https://beaker.org/ex/{experiment.id})")
 
         if (i + 1) % 200 == 0:
             print(f"Giving the Beaker API a 20s breather to prevent overloding and timeouts...")
