@@ -173,5 +173,7 @@ if [ ! -f /root/.ssh/environment ]; then
 fi
 
 if [ -f /root/.ssh/environment_multiline ]; then
-    eval "$( ( source /root/.ssh/environment_multiline; export -p ) )"
+    set -a
+    . /root/.ssh/environment_multiline
+    set +a
 fi
