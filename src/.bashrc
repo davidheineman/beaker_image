@@ -155,9 +155,7 @@ if [ ! -f /root/.ssh/environment ]; then
 
     # Clear out env file
     > /root/.ssh/environment
-
-    # Paste env before beaker args
-    printenv > /root/.ssh/environment
+    > /root/.ssh/environment_multiline
 
     # Paste beaker args
     if [ -r /proc/1/environ ]; then
@@ -165,7 +163,17 @@ if [ ! -f /root/.ssh/environment ]; then
             key="${env_var%%=*}"
             value="${env_var#*=}"
             export $key="$value"
-            echo "$key=\"$value\"" >> /root/.ssh/environment
+            if [[ "$value" != *$'\n'* ]]; then
+                echo "$key=$value" >> /root/.ssh/environment
+            else
+                echo "$key=\"$value\"" >> /root/.ssh/environment_multiline
+            fi
         done < /proc/1/environ
     fi
+fi
+
+if [ -f /root/.ssh/environment_multiline ]; then
+  source /root/.ssh/environment_multiline
+  export AWS_CONFIG
+  export AWS_CREDENTIALS
 fi
