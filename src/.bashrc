@@ -173,7 +173,5 @@ if [ ! -f /root/.ssh/environment ]; then
 fi
 
 if [ -f /root/.ssh/environment_multiline ]; then
-  source /root/.ssh/environment_multiline
-  export AWS_CONFIG
-  export AWS_CREDENTIALS
+    eval "$( ( source /root/.ssh/environment_multiline; export -p ) )"
 fi
