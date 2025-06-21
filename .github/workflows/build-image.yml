@@ -51,36 +51,21 @@ jobs:
           buildkitd-flags: --allow-insecure-entitlement security.insecure
           install: true
 
-      # - name: Cache Docker layers
-      #   uses: actions/cache@v4
-      #   with:
-      #     path: /tmp/.buildx-cache
-      #     key: ${{ runner.os }}-buildx-${{ github.sha }}
-      #     restore-keys: ${{ runner.os }}-buildx-
-
-      - name: Delete huge unnecessary tools folder # helps with big images
+      - name: Delete tools folder # default github runner comes with bloat
         run: |
-          rm -rf /opt/hostedtoolcache
+          sudo rm -rf /opt/hostedtoolcache
           sudo rm -rf /usr/share/dotnet
           sudo rm -rf "$AGENT_TOOLSDIRECTORY"
-          sudo rm -rf /usr/local/lib/android/sdk/ndk
-          sudo rm -rf /usr/share/dotnet
+          sudo rm -rf /usr/local/lib/android
           sudo rm -rf /opt/ghc
           sudo rm -rf /usr/local/share/boost
+          sudo rm -rf /opt/hostedtoolcache/CodeQL
+          sudo docker image prune --all --force
+          sudo docker builder prune -a
       
-      # - name: Show disk space
-      #   run: |
-      #     sudo du -sh /*
-
-      # - name: Build and cache image
-      #   run: |
-      #     sudo docker buildx build \
-      #       --build-arg BUILDKIT_INLINE_CACHE=1 \
-      #       --build-arg GIT_REF=$(git rev-parse HEAD) \
-      #       -f Dockerfile \
-      #       -t davidh_image \
-      #       --output type=docker,dest=/mnt/davidh_image.tar \
-      #       .
+      - name: Show disk space
+        run: |
+          df -h
 
       - name: Build image
         uses: docker/build-push-action@v6
@@ -103,7 +88,7 @@ jobs:
       - name: Push image
         uses: ./.github/actions/push
         with:
-          image: davidh_image  # tag of the image we just built in the previous step
+          image: davidh_image  # tag of the image we built in the previous step
           beaker: davidh-interactive  # name of the image on Beaker
           latest: true  # label this image as the 'latest'
 
