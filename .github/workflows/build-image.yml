@@ -82,12 +82,12 @@ jobs:
       #       --output type=docker,dest=/mnt/davidh_image.tar \
       #       .
 
-      - name: Build image to /mnt using build-push-action
+      - name: Build image
         uses: docker/build-push-action@v6
         with:
           context: .
           file: ./Dockerfile
-          outputs: type=docker,dest=/mnt/davidh_image.tar
+          outputs: type=docker,dest=/tmp/davidh_image.tar
           pull: true
           build-args: |
             BUILDKIT_INLINE_CACHE=1
@@ -95,10 +95,10 @@ jobs:
       - name: Show disk space and image size
         run: |
           df -h
-          ls -lh /mnt/davidh_image.tar
+          ls -lh /tmp/davidh_image.tar
           
       - name: Load image into Docker
-        run: docker load -i /mnt/davidh_image.tar
+        run: docker load -i /tmp/davidh_image.tar
 
       - name: Push image
         uses: ./.github/actions/push
