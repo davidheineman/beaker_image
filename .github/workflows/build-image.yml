@@ -81,9 +81,21 @@ jobs:
         run: |
           df -h
           ls -lh /tmp/davidh_image.tar
+
+      - name: Cleanup docker 
+        run: |
+          docker container prune -f
+          docker image prune -a -f
+          docker volume prune -f
+          docker system prune -a --volumes -f
+          docker builder prune --all -f
+          df -h
           
       - name: Load image into Docker
-        run: docker load -i /tmp/davidh_image.tar
+        run: |
+          docker load -i /tmp/davidh_image.tar
+          IMAGE_ID=$(docker images --quiet --no-trunc | head -n 1)
+          docker tag "$IMAGE_ID" davidh_image:latest
 
       - name: Push image
         uses: ./.github/actions/push
