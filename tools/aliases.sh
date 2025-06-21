@@ -4,7 +4,7 @@ BEAKER_TOOLS_DIR="$(cd "$(dirname "${BASH_SOURCE[0]:-${(%):-%x}}")" && pwd)"
 BEAKER_SECRETS_DIR="$(dirname "$BEAKER_TOOLS_DIR")/secrets"
 
 alias ai2="ssh ai2"
-alias bstop='beaker session stop'
+alias bs='beaker session stop'
 alias bd='python '$BEAKER_TOOLS_DIR'/scripts/get_jobs.py --username davidh --sessions-only' # describe sessions
 alias bdall='python '$BEAKER_TOOLS_DIR'/scripts/get_jobs.py --username davidh' # describe all jobs
 alias bl='python '$BEAKER_TOOLS_DIR'/scripts/launcher.py' # launch session
@@ -23,6 +23,21 @@ brestart() {
     LIMIT="$2"
 
     python $BEAKER_TOOLS_DIR/scripts/restart_jobs.py \
+        --author davidh \
+        --workspace $WORKSPACE \
+        --limit $LIMIT
+}
+
+bstop() {
+    if [[ $# -lt 2 ]]; then
+        echo "Usage: bstop <workspace> <limit>"
+        return 1
+    fi
+
+    WORKSPACE="$1"
+    LIMIT="$2"
+
+    python $BEAKER_TOOLS_DIR/scripts/stop_jobs.py \
         --author davidh \
         --workspace $WORKSPACE \
         --limit $LIMIT

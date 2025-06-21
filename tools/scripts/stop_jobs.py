@@ -1,8 +1,9 @@
 import time
-from beaker import Beaker
+from typing import List
+from beaker import Beaker, Experiment
 from beaker.exceptions import BeakerError
 
-def gather_experiments(author_list, workspace_name, limit=2000):
+def gather_experiments(author_list, workspace_name, limit=2000) -> List[Experiment]:
     """ Gather all failed jobs """
     beaker = Beaker.from_env()
     experiments = []
@@ -36,7 +37,7 @@ def gather_experiments(author_list, workspace_name, limit=2000):
 
 def stop_jobs(author, workspace, limit=5000):
     beaker = Beaker.from_env()
-    experiments = gather_experiments(
+    experiments: List[Experiment] = gather_experiments(
         [author],
         workspace_name=workspace,
         limit=limit,
@@ -45,6 +46,7 @@ def stop_jobs(author, workspace, limit=5000):
 
     for i, experiment in enumerate(experiments):
         try:
+            # if 'lmeval-OLMo-2-1124-7B' in experiment.name:
             beaker.experiment.stop(experiment)
         except BeakerError as e:
             print(f'Failed to stop https://beaker.org/ex/{experiment.id}: {e}')
@@ -65,6 +67,6 @@ if __name__ == "__main__":
     parser.add_argument("-l", "--limit", type=int, default=100, help="Maximum number of experiments to check")
     args = parser.parse_args()
 
-    # python tools/scripts/stop_jobs.py -a davidh -w ai2/olmo-3-evals -l 100
+    # python tools/scripts/stop_jobs.py -a davidh -w ai2/olmo-3-evals -l 200
 
     stop_jobs(args.author, args.workspace, args.limit)
