@@ -12,10 +12,10 @@
 # ENV OS_VER=ubuntu20.04
 
 # This one works
-FROM --platform=linux/amd64 nvidia/cuda:12.8.0-base-ubuntu22.04
+# FROM --platform=linux/amd64 nvidia/cuda:12.8.0-base-ubuntu22.04
 
 # Ships with NVCC and CuDNN! (cudnn-devel breaks the github runner for some reason)
-# FROM --platform=linux/amd64 nvidia/cuda:12.8.0-cudnn-devel-ubuntu22.04
+FROM --platform=linux/amd64 nvidia/cuda:12.8.0-cudnn-devel-ubuntu22.04
 # FROM --platform=linux/amd64 nvidia/cuda:12.8.0-devel-ubuntu22.04
 # ENV OS_VER=ubuntu22.04
 
@@ -74,7 +74,7 @@ RUN apt-get update && apt-get install -y \
 
 
 # Install nvcc. Workaround because using a developer container is too big for GitHub
-RUN apt-get update && apt-get install -y nvidia-cuda-toolkit && apt-get clean
+# RUN apt-get update && apt-get install -y nvidia-cuda-toolkit && apt-get clean
 
 ###########
 # https://github.com/allenai/docker-images/blob/main/cuda/Dockerfile
