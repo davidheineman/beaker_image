@@ -64,7 +64,7 @@ jobs:
           sudo rm -rf /opt/ghc
           sudo rm -rf /usr/local/share/boost
       
-      - name: Show available disk space
+      - name: Show disk space
         run: |
           df -h
 
@@ -73,12 +73,20 @@ jobs:
           docker buildx build \
             --build-arg BUILDKIT_INLINE_CACHE=1 \
             --build-arg GIT_REF=$(git rev-parse HEAD) \
-            --cache-from=type=local,src=/tmp/.buildx-cache \
-            --cache-to=type=local,dest=/tmp/.buildx-cache \
+            --cache-from=type=local,src=/mnt/.buildx-cache \
+            --cache-to=type=local,dest=/mnt/.buildx-cache \
             -f Dockerfile \
             -t davidh_image \
-            --load \
+            --output type=docker,dest=/mnt/davidh_image.tar \
             .
+      
+      - name: Show disk space and image size
+        run: |
+          df -h
+          ls -lh /mnt/davidh_image.tar
+          
+      - name: Load image into Docker
+        run: docker load -i /mnt/davidh_image.tar
 
       - name: Push image
         uses: ./.github/actions/push
