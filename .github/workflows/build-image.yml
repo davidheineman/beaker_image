@@ -60,17 +60,14 @@ jobs:
           sudo rm -rf /opt/ghc
           sudo rm -rf /usr/local/share/boost
           sudo rm -rf /opt/hostedtoolcache/CodeQL
-          sudo docker image prune --all --force
-          sudo docker builder prune -a
-      
-      - name: Show disk space
-        run: |
+          sudo docker image prune -a -f
+          sudo docker builder prune -a -f
           df -h
 
       # Building directly into the docker cache would run out of memory
       # so instead we build a tarfile, cleanup docker, then load the tarfile
       # into docker and export
-      - name: Build image
+      - name: Build image to tarfile
         uses: docker/build-push-action@v6
         with:
           context: .
@@ -94,7 +91,7 @@ jobs:
           docker builder prune --all -f
           df -h
           
-      - name: Load image into Docker
+      - name: Load image into Docker daemon
         run: |
           docker load -i /tmp/davidh_image.tar
           IMAGE_ID=$(docker images --quiet --no-trunc | head -n 1)
