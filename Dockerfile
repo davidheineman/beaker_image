@@ -29,7 +29,7 @@ ENV PATH="/usr/local/cuda/bin:$PATH"
 # Weird fix for NVCC on CUDA 12.1
 # https://github.com/pytorch/pytorch/issues/111469
 # RUN conda install -c nvidia libnvjitlink -y
-ENV LD_LIBRARY_PATH="/root/ai2/miniconda3/envs/ultrafastbert/lib/python3.10/site-packages/nvidia/nvjitlink/lib:$LD_LIBRARY_PATH"
+# ENV LD_LIBRARY_PATH="/root/ai2/miniconda3/envs/ultrafastbert/lib/python3.10/site-packages/nvidia/nvjitlink/lib:$LD_LIBRARY_PATH"
 
 ### https://github.com/allenai/docker-images/blob/main/cuda/Dockerfile
 ENV LD_LIBRARY_PATH=/usr/local/cuda/lib:/usr/local/cuda/lib64:$LD_LIBRARY_PATH
@@ -72,6 +72,9 @@ RUN apt-get update && apt-get install -y \
     wget \
     && apt-get clean
 
+
+# Install nvcc. Workaround because using a developer container is too big for GitHub
+RUN apt-get update && apt-get install -y nvidia-cuda-toolkit && apt-get clean
 
 ###########
 # https://github.com/allenai/docker-images/blob/main/cuda/Dockerfile
