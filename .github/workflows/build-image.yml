@@ -63,8 +63,12 @@ jobs:
           sudo rm -rf /usr/share/dotnet
           sudo rm -rf /opt/ghc
           sudo rm -rf /usr/local/share/boost
+      
+      - name: Show available disk space
+        run: |
+          df -h
 
-      - name: Build and cache image (no export)
+      - name: Build and cache image
         run: |
           docker buildx build \
             --build-arg BUILDKIT_INLINE_CACHE=1 \
