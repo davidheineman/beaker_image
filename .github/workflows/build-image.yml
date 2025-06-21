@@ -64,9 +64,9 @@ jobs:
           sudo rm -rf /opt/ghc
           sudo rm -rf /usr/local/share/boost
       
-      - name: Show disk space
-        run: |
-          sudo du -sh /*
+      # - name: Show disk space
+      #   run: |
+      #     sudo du -sh /*
 
       - name: Build and cache image
         run: |
