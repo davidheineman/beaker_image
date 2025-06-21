@@ -57,7 +57,7 @@ jobs:
       - name: Delete huge unnecessary tools folder # helps with big images
         run: rm -rf /opt/hostedtoolcache
 
-      - name: Build image
+      - name: Build and cache image (no export)
         run: |
           docker buildx build \
             --build-arg BUILDKIT_INLINE_CACHE=1 \
@@ -66,7 +66,7 @@ jobs:
             --cache-to=type=local,dest=/tmp/.buildx-cache \
             -f Dockerfile \
             -t davidh_image \
-            --output=type=docker \
+            --load \
             .
 
       - name: Push image
