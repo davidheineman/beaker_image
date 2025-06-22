@@ -60,14 +60,18 @@ jobs:
           sudo rm -rf /opt/ghc
           sudo rm -rf /usr/local/share/boost
           sudo rm -rf /opt/hostedtoolcache/CodeQL
+          sudo rm -rf /usr/local/.ghcup
+          sudo rm -rf /usr/share/swift
+          sudo rm -rf /usr/local/share/powershell
+          sudo rm -rf /usr/lib/jvm
           sudo docker image prune -a -f
           sudo docker builder prune -a -f
           df -h
         
-      - name: Print largest folders
-        run: |
-          echo "Printing largest folders (>1GB)..."
-          sudo du -h --threshold=1G /* 2>/dev/null | sort -hr
+      # - name: Print largest folders
+      #   run: |
+      #     echo "Printing largest folders (>1GB)..."
+      #     sudo du -h --threshold=1G /* 2>/dev/null | sort -hr
 
       # Building directly into the docker cache would run out of memory
       # so instead we build a tarfile, cleanup docker, then load the tarfile
