@@ -7,8 +7,8 @@
 
 # https://hub.docker.com/r/nvidia/cuda/tags
 # FROM --platform=linux/amd64 nvidia/cuda:12.8.0-base-ubuntu22.04
-FROM --platform=linux/amd64 nvidia/cuda:12.8.0-devel-ubuntu22.04
-# FROM --platform=linux/amd64 nvidia/cuda:12.8.0-cudnn-devel-ubuntu22.04
+# FROM --platform=linux/amd64 nvidia/cuda:12.8.0-devel-ubuntu22.04
+FROM --platform=linux/amd64 nvidia/cuda:12.8.0-cudnn-devel-ubuntu22.04
 ENV OS_VER=ubuntu22.04
 
 WORKDIR /root
