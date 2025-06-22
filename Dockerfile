@@ -1,40 +1,29 @@
 # https://github.com/allenai/docker-images/pkgs/container/cuda/versions
-
 # FROM ubuntu
 # FROM ghcr.io/allenai/conda:latest
 # FROM ghcr.io/allenai/pytorch:latest
-
 # FROM ghcr.io/allenai/pytorch:2.4.0-cuda12.1-python3.11
 # FROM ghcr.io/allenai/cuda:12.1-cudnn8-dev-ubuntu20.04-v1.2.118
 
 # https://hub.docker.com/r/nvidia/cuda/tags
-# FROM --platform=linux/amd64 nvidia/cuda:12.8-cudnn8-ubuntu20.04
-# ENV OS_VER=ubuntu20.04
-
-# This one works
 # FROM --platform=linux/amd64 nvidia/cuda:12.8.0-base-ubuntu22.04
-
-# Ships with NVCC and CuDNN! (cudnn-devel breaks the github runner due to size)
-FROM --platform=linux/amd64 nvidia/cuda:12.8.0-cudnn-devel-ubuntu22.04
 # FROM --platform=linux/amd64 nvidia/cuda:12.8.0-devel-ubuntu22.04
-# ENV OS_VER=ubuntu22.04
+FROM --platform=linux/amd64 nvidia/cuda:12.8.0-cudnn-devel-ubuntu22.04
+ENV OS_VER=ubuntu22.04
 
+WORKDIR /root
 ENV DEBIAN_FRONTEND=noninteractive
 ENV TZ="America/Los_Angeles"
 
-# Add cuda path
-# ENV CUDA_HOME=/usr/local/cuda
-ENV PATH="/usr/local/cuda/bin:$PATH"
-
-# Weird fix for NVCC on CUDA 12.1
-# https://github.com/pytorch/pytorch/issues/111469
-# RUN conda install -c nvidia libnvjitlink -y
-# ENV LD_LIBRARY_PATH="/root/ai2/miniconda3/envs/ultrafastbert/lib/python3.10/site-packages/nvidia/nvjitlink/lib:$LD_LIBRARY_PATH"
-
 ### https://github.com/allenai/docker-images/blob/main/cuda/Dockerfile
+# Add cuda path
+ENV PATH="/usr/local/cuda/bin:$PATH"
 ENV LD_LIBRARY_PATH=/usr/local/cuda/lib:/usr/local/cuda/lib64:$LD_LIBRARY_PATH
 
-WORKDIR /root
+# Install NVCC 12.3
+RUN apt-get update && apt-get install -y cuda-toolkit-12-3 && apt-get clean
+ENV PATH="/usr/local/cuda-12.3/bin:$PATH"
+ENV LD_LIBRARY_PATH=/usr/local/cuda-12.3/lib64:$LD_LIBRARY_PATH
 
 # Disable welcome messages
 RUN chmod -x /etc/update-motd.d/* && touch ~/.hushlogin && touch /root/.hushlogin
@@ -71,10 +60,6 @@ RUN apt-get update && apt-get install -y \
     tree \
     wget \
     && apt-get clean
-
-
-# Install nvcc. Workaround because using a developer container is too big for GitHub
-# RUN apt-get update && apt-get install -y nvidia-cuda-toolkit && apt-get clean
 
 ###########
 # https://github.com/allenai/docker-images/blob/main/cuda/Dockerfile
