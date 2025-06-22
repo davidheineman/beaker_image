@@ -365,6 +365,9 @@ class ClusterSelector:
             try:
                 # Get the hostname for printing
                 host_name = get_host_name(session_id)
+
+                # Wait 1 second before connecting (or else the locking mechanism fails)
+                time.sleep(2)
                 
                 # Run the port update script using the same subprocess pattern
                 port_process = subprocess.Popen(
