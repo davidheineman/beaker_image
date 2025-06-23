@@ -166,14 +166,9 @@ bfree() {
 
 
 # Pipe a gantry command into bstream. Usage: [gantry arg] | gstream
-gstream() {
-  local id=$(grep -oE 'beaker.org/ex/01[A-Z0-9]{25}' | sed 's|.*/||')
-  command bstream "$id"
-}
-
-# Look for a beaker ID in last 20 lines and stream the logs
 bfollow() {
-    id=$(history | tail -n 20 | grep -oE 'https://beaker\.org/ex/[a-zA-Z0-9]+' | sed 's|https://beaker\.org/ex/||' | tail -n 1) && [ -n "$id" ] && bstream "$id"
+  local id=$(grep -oE 'beaker.org/ex/01[A-Z0-9]{25}' | sed 's|.*/||')
+  bstream "$id"
 }
 
 

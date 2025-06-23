@@ -11,7 +11,7 @@ CLUSTERS = [
         0
     ),
     (
-        "Any L40s ( 40GB L40s, 1wk lim, WEKA)",
+        "Any L40s ( 40GB L40s, 1dy lim, WEKA)",
         [
             "ai2/neptune-cirrascale", 
             "ai2/triton-cirrascale", 
@@ -28,7 +28,7 @@ CLUSTERS = [
         1
     ),
     (
-        "Any H100 ( 80GB H100, 2hr lim, WEKA)", 
+        "Any H100 ( 80GB H100, 4hr lim, WEKA)", 
         [
             "ai2/ceres-cirrascale", 
             "ai2/jupiter-cirrascale-2", 
@@ -37,7 +37,7 @@ CLUSTERS = [
         1
     ),
     (
-        "Any B200 (192GB B200, 2hr lim, WEKA)", 
+        "Any B200 (192GB B200, 4hr lim, WEKA)", 
         [
             "ai2/titan-cirrascale",
         ],
@@ -57,37 +57,37 @@ CLUSTERS = [
         1
     ),
     (
-        "Ceres    ( 80GB H100, 2hr lim, WEKA)", 
+        "Ceres    ( 80GB H100, 4hr lim, WEKA)", 
         "ai2/ceres-cirrascale", 
         "Small distributed jobs - 88 NVIDIA H100 GPUs (80 GB), 4x NVIDIA InfiniBand (200 Gbps/GPU), WEKA storage, 2 hour timeout",
         1
     ),
     (
-        "Jupiter  ( 80GB H100, 2hr lim, WEKA)", 
+        "Jupiter  ( 80GB H100, 4hr lim, WEKA)", 
         "ai2/jupiter-cirrascale-2", 
         "Large distributed jobs - 1024 NVIDIA H100 (80 GB) GPUs, 8x NVIDIA InfiniBand (400 Gbps/GPU), WEKA storage, 2 hour timeout",
         1
     ),
     (
-        "Titan    (192GB B200, 2hr lim, WEKA)",  
+        "Titan    (192GB B200, 4hr lim, WEKA)",  
         "ai2/titan-cirrascale", 
         "Distributed jobs - 96 NVIDIA B200 (192GB) GPUs, 8x NVIDIA InfiniBand (400 Gbps/GPU), 2 hour timeout",
         1
     ),
     (
-        "Neptune  ( 40GB L40s, 1wk lim, WEKA)", 
+        "Neptune  ( 40GB L40s, 1dy lim, WEKA)", 
         "ai2/neptune-cirrascale", 
         "Small experiments (≤ 40 GB memory) - 112 NVIDIA L40 (40 GB) GPUs, Ethernet (50 Gbps/server), WEKA storage, 1 week timeout",
         1
     ),
     (
-        "Triton   ( 40GB L40s, 1wk lim, WEKA)", 
+        "Triton   ( 40GB L40s, 1dy lim, WEKA)", 
         "ai2/triton-cirrascale", 
         "Session-only - 16 NVIDIA L40 (40 GB) GPUs, Ethernet (50 Gbps/server), WEKA storage, 1 week timeout",
         1
     ),
     (
-        "Augusta  ( 80GB H100, 2hr lim, GCS)",  
+        "Augusta  ( 80GB H100, 4hr lim, GCS)",  
         "ai2/augusta-google-1", 
         "Large distributed jobs - 1280 NVIDIA H100 (80 GB) GPUs, TCPXO (200 Gbps/server), Google Cloud Storage, 2 hour timeout",
         1
