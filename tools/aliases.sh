@@ -171,6 +171,11 @@ gstream() {
   command bstream "$id"
 }
 
+# Look for a beaker ID in last 20 lines and stream the logs
+bfollow() {
+    id=$(history | tail -n 20 | grep -oE 'https://beaker\.org/ex/[a-zA-Z0-9]+' | sed 's|https://beaker\.org/ex/||' | tail -n 1) && [ -n "$id" ] && bstream "$id"
+}
+
 
 ai2code() {
     if [ -z "$1" ]; then
