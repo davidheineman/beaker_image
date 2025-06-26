@@ -84,6 +84,7 @@ bsecrets() { # add generic versions of keys
     echo -n $HF_TOKEN | beaker secret write -w $WORKSPACE_NAME HF_TOKEN
     echo -n $HF_TOKEN | beaker secret write -w $WORKSPACE_NAME HF_TOKEN_READ_ONLY # <- for oe-eval
     echo -n $OPENAI_API_KEY | beaker secret write -w $WORKSPACE_NAME OPENAI_API_KEY
+    echo -n $openai_api_key | beaker secret write -w $WORKSPACE_NAME openai_api_key
     echo -n $ANTHROPIC_API_KEY | beaker secret write -w $WORKSPACE_NAME ANTHROPIC_API_KEY
     echo -n $BEAKER_TOKEN | beaker secret write -w $WORKSPACE_NAME BEAKER_TOKEN
     echo -n $WANDB_API_KEY | beaker secret write -w $WORKSPACE_NAME WANDB_API_KEY
