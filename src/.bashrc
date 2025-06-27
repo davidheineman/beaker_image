@@ -125,9 +125,6 @@ export S3_PROFILE=S3
 export WEKA_ENDPOINT_URL=https://weka-aus.beaker.org:9000
 export GOOGLE_CLOUD_PROJECT=ai2-allennlp
 
-# Deepspeed requires this env var
-export LOCAL_RANK=0
-
 if [ ! -f /root/.ssh/environment ]; then
     # SLOW: Copy env variables from docker process (such as HF_TOKEN)
     # process_info=$(ps -e -o user,pid,cmd | grep "/usr/sbin/sshd -D" | grep "^root")
