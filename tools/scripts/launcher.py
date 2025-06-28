@@ -63,7 +63,7 @@ QUOTES = [
     "Science advances whenever an Art becomes a Science. (Knuth, 1995)",
     "If a machine is expected to be infallible, it cannot also be intelligent. (Turing, 1947)", # https://plato.stanford.edu/entries/turing/
     "I believe that in about fifty years' time it will be possible to programme computers, with a storage capacity of about 10^9, to make them play the imitation game so well that an average interrogator will not have more than 70 per cent chance of making the right identification after five minutes of questioning. (Turing, 1950)",
-    "Machines take me bv suprise with great frequency. This is largely because I do not do sufficient calculation to decide what to expect them to do, or rather because, although I do a calculation, I do it in a hurried, slipshod fashion, taking risks. (Turing, 1950)",
+    "Machines take me by suprise with great frequency. This is largely because I do not do sufficient calculation to decide what to expect them to do, or rather because, although I do a calculation, I do it in a hurried, slipshod fashion, taking risks. (Turing, 1950)",
     "We offer no explanation as to why these architectures seem to work; we attribute their success, as all else, to divine benevolence. (Shazeer, 2020)",
     "OLMo_θ(x)=softmax(H^L W_O), H^L=f^L∘f^{L-1}∘...∘f^1(E), E=W_Ex + W_Pt, Attn(Q,K,V)=softmax( QK^T / √d_k )V, Q=XW_Q, K=XW_K, V=XW_V, H=concat(H_1, ..., H_h)W_O, H^l = LN(H^{l-1} + Attn(Q,K,V)), Z^l = LN(H^l + FFN(H^l)), FFN(x)=max(0, xW_1+b_1)W_2+b_2, L=-∑ylog(ŷ), θ←θ-η∇L",
     "http://www.ai.mit.edu/lab/gsb/gsl-archive/gsl95-12dec08.html (I found this on Lilian Lee's website)",

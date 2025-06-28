@@ -45,6 +45,7 @@ RUN apt-get update && apt-get install -y \
     lolcat \
     nano \
     neofetch \
+    net-tools \
     ninja-build \
     nvtop \
     openssh-server \
