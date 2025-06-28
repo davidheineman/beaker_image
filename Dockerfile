@@ -61,6 +61,21 @@ RUN apt-get update && apt-get install -y \
     wget \
     && apt-get clean
 
+# Install Python 3.8-3.13 and tools (uv will point to this)
+RUN add-apt-repository -y ppa:deadsnakes/ppa && \
+    apt-get update && \
+    apt-get install -y \
+        python3.8 python3.8-venv python3.8-dev \
+        python3.9 python3.9-venv python3.9-dev \
+        python3.10 python3.10-venv python3.10-dev \
+        python3.11 python3.11-venv python3.11-dev \
+        python3.12 python3.12-venv python3.12-dev \
+        python3.13 python3.13-venv python3.13-dev \
+        python3-pip && \
+    ln -sf /usr/bin/python3.13 /usr/bin/python && \
+    ln -sf /usr/bin/pip3 /usr/bin/pip && \
+    apt-get clean && rm -rf /var/lib/apt/lists/*
+
 ###########
 # https://github.com/allenai/docker-images/blob/main/cuda/Dockerfile
 ###########
