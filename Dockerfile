@@ -21,7 +21,7 @@ ENV TZ="America/Los_Angeles"
 ENV PATH="/usr/local/cuda/bin:$PATH"
 ENV LD_LIBRARY_PATH=/usr/local/cuda/lib:/usr/local/cuda/lib64:$LD_LIBRARY_PATH
 
-# Install NVCC 12.3
+# Install NVCC 12.9 (make sure to update ~/.bashrc if you change this)
 RUN apt-get update && apt-get install -y cuda-toolkit-12-9 && apt-get clean
 ENV PATH="/usr/local/cuda-12.9/bin:$PATH"
 ENV LD_LIBRARY_PATH=/usr/local/cuda-12.9/lib64:$LD_LIBRARY_PATH

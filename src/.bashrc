@@ -24,8 +24,8 @@ export HF_HOME="/oe-eval-default/davidh/.cache/huggingface/hub"
 export PYTHONIOENCODING=utf8
 
 # We install NVCC manually, so we need to link the PATH here
-export PATH="/usr/local/cuda-12.3/bin:$PATH"
-export LD_LIBRARY_PATH="/usr/local/cuda-12.3/lib64:$LD_LIBRARY_PATH"
+export PATH="/usr/local/cuda-12.9/bin:$PATH"
+export LD_LIBRARY_PATH="/usr/local/cuda-12.9/lib64:$LD_LIBRARY_PATH"
 
 # Add ChatGPT!
 export PATH="/root/.bin:$PATH"
