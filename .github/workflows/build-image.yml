@@ -15,7 +15,7 @@ on:
     branches:
       - main
   schedule:
-    - cron: '0 0 * * 0' # Refresh Cirrascale's docker cache Sunday at Midnight once a week
+    - cron: '0 5 * * 1' # Refresh Cirrascale's docker cache Monday at 5 AM once a week
   workflow_dispatch:  # allow manual triggers on GitHub UI
     inputs:
       run_build:
