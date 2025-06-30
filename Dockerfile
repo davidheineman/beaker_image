@@ -22,9 +22,9 @@ ENV PATH="/usr/local/cuda/bin:$PATH"
 ENV LD_LIBRARY_PATH=/usr/local/cuda/lib:/usr/local/cuda/lib64:$LD_LIBRARY_PATH
 
 # Install NVCC 12.3
-RUN apt-get update && apt-get install -y cuda-toolkit-12-3 && apt-get clean
-ENV PATH="/usr/local/cuda-12.3/bin:$PATH"
-ENV LD_LIBRARY_PATH=/usr/local/cuda-12.3/lib64:$LD_LIBRARY_PATH
+RUN apt-get update && apt-get install -y cuda-toolkit-12-9 && apt-get clean
+ENV PATH="/usr/local/cuda-12.9/bin:$PATH"
+ENV LD_LIBRARY_PATH=/usr/local/cuda-12.9/lib64:$LD_LIBRARY_PATH
 
 # Disable welcome messages
 RUN chmod -x /etc/update-motd.d/* && touch ~/.hushlogin && touch /root/.hushlogin
