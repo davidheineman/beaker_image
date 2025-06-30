@@ -77,6 +77,7 @@ QUOTES = [
     "There ain't no such thing as a free lunch", # https://ieeexplore.ieee.org/document/585893 (Wolpert & Macready, 2002) -- Although AFAIK the quote came before the term was adopted by the field
     "From one gut feeling I derive much consolation: I suspect that machines to be programmed in our native tongues — be it Dutch, English, American, French, German, or Swahili — are as damned difficult to make as they would be to use. (Dijkstra, 1978)", # https://www.cs.utexas.edu/~EWD/transcriptions/EWD06xx/EWD667.html
     "Instruction tables will have to be made up by mathematicians with computing experience and perhaps a certain puzzle-solving ability… This process of constructing instruction tables should be very fascinating. There need be no real danger of it ever becoming a drudge, for any processes that are quite mechanical may be turned over to the machine itself. (Turing, 1945)", # https://people.csail.mit.edu/asolar/SynthesisCourse/Lecture1.htm
+    "The fundamental problem of communication is that of reproducing at one point either exactly or approximately a message selected at another point. (Shannon, 1948)", # https://people.math.harvard.edu/~ctm/home/text/others/shannon/entropy/entropy.pdf
 ]
 
 
