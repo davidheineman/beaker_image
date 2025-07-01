@@ -14,7 +14,7 @@ from beaker import Beaker
 from beaker.exceptions import JobNotFound
 
 
-def stream_experiment_logs(job_id: str, do_stream: bool):
+def stream_experiment_logs(job_id: str, do_stream: bool, return_logs: bool = False):
     # Initialize the Beaker client
     beaker = Beaker.from_env()
     
@@ -59,10 +59,16 @@ def stream_experiment_logs(job_id: str, do_stream: bool):
                 # since=timedelta(minutes=2)
             )
             
+            logs = ""
             for line in log_stream:
-                log_line = line.decode('utf-8', errors='replace').rstrip()
-                print(log_line)
-                sys.stdout.flush()
+                logs += line.decode('utf-8', errors='replace').rstrip()
+                logs += '\n'
+
+            if return_logs:
+                return logs
+
+            print(logs)
+            sys.stdout.flush()
             
     except KeyboardInterrupt:
         print("\nLog streaming interrupted by user")
