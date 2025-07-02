@@ -149,5 +149,7 @@ def parse_arguments():
     return parser.parse_args()
 
 if __name__ == "__main__": 
+    # python tools/scripts/parse_logs_bulk.py -a davidh -w ai2/olmo-3-evals -l 450
+
     args = parse_arguments()
     main(args.author, args.workspace, args.limit)
