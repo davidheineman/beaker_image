@@ -8,7 +8,7 @@ conda activate macos_widget
 pip install beaker-py rich rumps py2app
 
 # to develop
-python main.py
+python main.py # (only works with conda, no uv)
 
 # to run (using a pm2 background process)
 npm install -g pm2

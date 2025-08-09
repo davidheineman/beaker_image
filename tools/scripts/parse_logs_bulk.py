@@ -20,7 +20,7 @@ from scripts.gpt import openai_init, generate_gpt
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
 
-
+# Pre-defined failure reasons (for vLLM)
 FAILURE_REASONS = """
 - MAX_LEN_2048: the user-specified max length is wrong, the correct max_position_embeddings is 4096
 - MAX_LEN_4096: the user-specified max length is wrong, the correct max_position_embeddings is 4096
@@ -46,7 +46,13 @@ FAILURE REASONS:
 INSTRUCTION:
 
 I want to know why this job failed. Please respond with one of the following failure reasons. ONLY RESPOND WITH THAT TOKEN UNLESS IT IS "OTHER". If it's "other" breifly describe what the root failure was in a short sentence.
+
+ADDITIONAL INSTRUCTIONS:
+
+{additional_instructions}
 """
+
+MAX_CHARS = 100_000
 
 
 @dataclass
@@ -61,9 +67,9 @@ class JobOutput:
 
 
 def get_failed_logs(experiment):
-    # tmp davidh: get only the sanity check experiments
-    if 'arc_challenge-mc' not in experiment.name:
-        return None
+    # # tmp davidh: get only the sanity check experiments
+    # if 'arc_challenge-mc' not in experiment.name:
+    #     return None
 
     jobs: List[Job] = experiment.jobs
 
@@ -87,13 +93,12 @@ def get_failed_logs(experiment):
         logs = logs[logs.find("Traceback"):]
 
     # Truncate
-    MAX_CHARS = 100_000
     logs = logs[-MAX_CHARS:] if len(logs) > MAX_CHARS else logs
 
     return logs
 
 
-def main(author, workspace, limit):
+def main(author, workspace, limit, instructions):
     openai_init()
 
     experiments: List[Experiment] = gather_experiments(
@@ -126,7 +131,8 @@ def main(author, workspace, limit):
     for output in all_outputs:
         prompt = PROMPT.format(
             logs=output.logs,
-            failure_reasons=FAILURE_REASONS
+            failure_reasons=FAILURE_REASONS,
+            additional_instructions=instructions
         )
         
         output.llm_prompt = prompt
@@ -146,10 +152,11 @@ def parse_arguments():
     parser.add_argument("-a", "--author", type=str, required=True, help="Author name to filter experiments by")
     parser.add_argument("-w", "--workspace", type=str, required=True, help="Beaker workspace name")
     parser.add_argument("-l", "--limit", type=int, default=100, help="Maximum number of experiments to check")
+    parser.add_argument("-p", "--prompt", type=str, default="", help="Additional instructions to the prompt when parsing the errors in the logs")
     return parser.parse_args()
 
 if __name__ == "__main__": 
     # python tools/scripts/parse_logs_bulk.py -a davidh -w ai2/olmo-3-evals -l 450
 
     args = parse_arguments()
-    main(args.author, args.workspace, args.limit)
+    main(args.author, args.workspace, args.limit, args.prompt)

@@ -1,5 +1,6 @@
 import time
-from beaker import Beaker
+from typing import List
+from beaker import Beaker, Experiment
 from beaker.exceptions import BeakerError
 
 def beaker_experiment_failed(exp):
@@ -52,7 +53,7 @@ def gather_experiments(author_list, workspace_name, limit=2000):
 
 def restart_jobs(author, workspace, limit=5000):
     beaker = Beaker.from_env()
-    experiments = gather_experiments(
+    experiments: List[Experiment] = gather_experiments(
         [author],
         workspace_name=workspace,
         limit=limit,
@@ -61,7 +62,8 @@ def restart_jobs(author, workspace, limit=5000):
 
     for i, experiment in enumerate(experiments):
         try:
-            beaker.experiment.resume(experiment)
+            print(experiment.description)
+            # beaker.experiment.resume(experiment)
         except BeakerError as e:
             print(f'Failed to restart https://beaker.org/ex/{experiment.id}: {e}')
             continue

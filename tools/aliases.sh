@@ -43,6 +43,23 @@ bstop() {
         --limit $LIMIT
 }
 
+bparse() {
+    if [[ $# -lt 2 ]]; then
+        echo "Usage: bparse <workspace> <limit> <prompt>"
+        return 1
+    fi
+
+    WORKSPACE="$1"
+    LIMIT="$2"
+    PROMPT="$3"
+
+    python $BEAKER_TOOLS_DIR/scripts/parse_logs_bulk.py \
+        --author davidh \
+        --workspace $WORKSPACE \
+        --limit $LIMIT \
+        --prompt $PROMPT
+}
+
 bpriority() {
     if [[ $# -lt 2 ]]; then
         echo "Usage: bpriority <workspace> <priority>"

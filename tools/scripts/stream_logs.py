@@ -36,7 +36,7 @@ def stream_experiment_logs(job_id: str, do_stream: bool, return_logs: bool = Fal
     experiment = beaker.experiment.get(experiment_id)
     task_ids = [job.execution.task for job in experiment.jobs]
     if len(task_ids) > 1:
-        task_id = next(job.execution.task for job in experiment.jobs if job.execution.replica_rank == 0)
+        task_id = [job.execution.task for job in experiment.jobs if job.execution.replica_rank == 0 or job.execution.replica_rank == None][-1]
         print(f'Multiple tasks found! Following replica=0: "{task_id}"...')
     else:
         task_id = task_ids[0]
