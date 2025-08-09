@@ -84,6 +84,7 @@ def get_job_data(username, sessions_only=True):
         gpu_count = "0"
         
         env_vars = job.session.env_vars if job.session else job.execution.spec.context.priority
+        env_vars = env_vars or []
         for env in env_vars:
             if isinstance(env, str):
                 continue
