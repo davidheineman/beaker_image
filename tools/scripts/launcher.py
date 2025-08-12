@@ -25,7 +25,7 @@ beaker session create \
     --image beaker://davidh/davidh-interactive \
     --workspace {workspace} \
     --priority {priority} \
-    --budget ai2/oe-eval \
+    --budget ai2/oe-base \
     --bare \
     --detach \
     --port 8000 --port 8001 --port 8080 --port 8888 \
