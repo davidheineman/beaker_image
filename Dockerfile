@@ -61,6 +61,7 @@ RUN apt-get update && apt-get install -y \
     software-properties-common \
     tree \
     wget \
+    weka \
     && apt-get clean
 
 # Install Python 3.8-3.13 and tools (uv will point to this)
