@@ -30,8 +30,8 @@ export LD_LIBRARY_PATH="/usr/local/cuda-12.9/lib64:$LD_LIBRARY_PATH"
 # Add ChatGPT!
 export PATH="/root/.bin:$PATH"
 
-# Add Beaker aliases
-source /root/.beaker_tools/aliases.sh
+# # Add Beaker aliases
+# source /root/.beaker_tools/aliases.sh
 
 # Change conda dir to remote
 rm -rf /root/.conda # <- Will exist on some beaker images
