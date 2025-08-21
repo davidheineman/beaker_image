@@ -1,6 +1,6 @@
 [![Build davidh Image](https://github.com/davidheineman/beaker_image/actions/workflows/build-image.yml/badge.svg)](https://github.com/davidheineman/beaker_image/actions/workflows/build-image.yml)
 
-This repo auto-builds the image `beaker://davidh/davidh-interactive`. Pairs well with [davidheineman/cuvette](https://github.com/davidheineman/cuvette).
+This repo auto-builds the image `beaker://davidh/davidh-interactive`. Pairs well with [cuvette](https://github.com/davidheineman/cuvette).
 
 ### quick start
 
@@ -40,5 +40,5 @@ beaker session create \
 
 ### notes
 
-- Only users with pubkeys in [`./src/.ssh/authorized_keys`](./src/.ssh/authorized_keys) can connect. 
-- See pre-installed VS code extensions in [./src/code_extensions.txt](./src/code_extensions.txt)
+- Only users with pubkeys in [`src/.ssh/authorized_keys`](./src/.ssh/authorized_keys) can connect. 
+- VS code extensions are pre-installed in [`src/code_extensions.txt`](./src/code_extensions.txt)
