@@ -1,6 +1,6 @@
 [![Build davidh Image](https://github.com/davidheineman/beaker_image/actions/workflows/build-image.yml/badge.svg)](https://github.com/davidheineman/beaker_image/actions/workflows/build-image.yml)
 
-Tooling for Beaker interactive sessions. This repo auto-builds to the image `beaker://davidh/davidh-interactive`. **Feel free to fork this repo for your own container!**
+Tooling for Beaker interactive sessions. This repo auto-builds to the image `beaker://davidh/davidh-interactive`.
 
 ### Example
 
