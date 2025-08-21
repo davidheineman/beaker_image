@@ -23,8 +23,7 @@ beaker session create \
     --workspace ai2/davidh \
     --priority normal \
     --budget ai2/oe-base \
-    --bare --detach \
-    --port 8000 --port 8001 --port 8080 --port 8888 \
+    --bare --detach --port 8080 \
     --workdir /oe-eval-default/davidh \
     --mount src=weka,ref=oe-eval-default,dst=/oe-eval-default \
     --mount src=weka,ref=oe-training-default,dst=/oe-training-default \
