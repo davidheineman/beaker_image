@@ -44,3 +44,27 @@ beaker session create \
 
 - Only users with pubkeys in [`src/.ssh/authorized_keys`](./src/.ssh/authorized_keys) can connect. 
 - VS code extensions are pre-installed in [`src/code_extensions.txt`](./src/code_extensions.txt)
+- This includes a conda installation, but I prefer uv (`uvinit` to initalize, `uva` to activate)
+
+### tutorial
+1. Fork this repo
+2. Update references for `davidh` to your workspace/desired image name
+3. Grab your [Beaker user token](https://beaker.allen.ai/user/davidh/settings/token) and set it to the `BEAKER_TOKEN` secret in GitHub Actions: https://github.com/davidheineman/beaker_image/settings/secrets/actions
+4. To use git on the remote, add your pubkey (`cat ~/.ssh/id_rsa.pub`) to your GitHub account: https://github.com/settings/keys. Then, update your GitHub email in `src/.gitconfig`:
+```sh
+[user]
+    name = [YOUR GIT NAME]
+    email = [YOUR GIT EMAIL]
+
+[safe]
+    directory = [YOUR WEKA DIR]
+```
+5. [Optional] Test your build locally:
+```sh
+docker build -t davidh-interactive .
+docker run -it -p 8080:8080 davidh-interactive
+# docker run --rm davidh-interactive
+ssh -p 8080 root@127.0.0.1
+beaker image delete davidh/davidh-interactive
+beaker image create --name davidh-interactive davidh-interactive
+```
