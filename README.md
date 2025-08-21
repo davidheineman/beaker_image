@@ -5,10 +5,9 @@ This repo auto-builds the image `beaker://davidh/davidh-interactive`. Pairs well
 ### quick start
 
 ```sh
+# install cuvette
 pip install cuvette
-```
 
-```sh
 # launch interactive session
 bl -c ai2/phobos-cirrascale
 
