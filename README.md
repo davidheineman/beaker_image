@@ -9,7 +9,10 @@ pip install cuvette
 ```
 
 ```sh
+# launch interactive session
 bl -c ai2/phobos-cirrascale
+
+# enter the session
 ssh ai2
 ```
 
