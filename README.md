@@ -9,7 +9,7 @@ pip install cuvette
 ```
 
 ```sh
-bl
+claunch
 ```
 
 <details>
