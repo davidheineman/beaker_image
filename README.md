@@ -46,6 +46,9 @@ beaker session create \
 - VS code extensions are pre-installed in [`src/code_extensions.txt`](./src/code_extensions.txt)
 - This includes a conda installation, but I prefer uv (`uvinit` to initalize, `uva` to activate)
 
+<details>
+<summary>setup tutorial</summary>
+
 ### tutorial
 1. Fork this repo
 2. Update references for `davidh` to your workspace/desired image name
@@ -68,3 +71,5 @@ ssh -p 8080 root@127.0.0.1
 beaker image delete davidh/davidh-interactive
 beaker image create --name davidh-interactive davidh-interactive
 ```
+
+</details>
