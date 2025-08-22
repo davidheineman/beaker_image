@@ -44,7 +44,7 @@ beaker session create \
 
 ### notes
 
-- Only users with pubkeys in [`src/.ssh/authorized_keys`](./src/.ssh/authorized_keys) can connect. 
+- Only pubkeys in [`src/.ssh/authorized_keys`](./src/.ssh/authorized_keys) can connect to this image.
 - VS code extensions are pre-installed in [`src/code_extensions.txt`](./src/code_extensions.txt)
 - This includes a conda installation, but I prefer uv (`uvinit` to initalize, `uva` to activate)
 
