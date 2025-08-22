@@ -1,6 +1,8 @@
 [![Build davidh Image](https://github.com/davidheineman/beaker_image/actions/workflows/build-image.yml/badge.svg)](https://github.com/davidheineman/beaker_image/actions/workflows/build-image.yml)
 
-This repo auto-builds the image `beaker://davidh/davidh-interactive`. Pairs well with [cuvette](https://github.com/davidheineman/cuvette).
+This repo auto-builds the image `beaker://davidh/davidh-interactive`. Pre-installed vs-code extensions, pre-installed nvcc, updated CUDA, no plain-text secrets in WEKA. 
+
+Pairs well with [cuvette](https://github.com/davidheineman/cuvette).
 
 ### quick start
 
