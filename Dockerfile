@@ -34,7 +34,6 @@ RUN apt-get update && apt-get install -y \
     build-essential cmake \
     cowsay \
     curl \
-    docker.io \
     figlet \
     git \
     git-lfs \
@@ -63,6 +62,15 @@ RUN apt-get update && apt-get install -y \
     wget \
     weka \
     && apt-get clean
+
+# Install docker utils (incl. dockerx)
+RUN apt-get update && apt-get install -y ca-certificates curl gnupg && \
+    install -m 0755 -d /etc/apt/keyrings && \
+    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o /etc/apt/keyrings/docker.gpg && \
+    echo "deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu jammy stable" > /etc/apt/sources.list.d/docker.list && \
+    apt-get update && \
+    apt-get install -y docker-ce-cli docker-buildx-plugin docker-compose-plugin && \
+    rm -rf /var/lib/apt/lists/*
 
 # Install Python 3.8-3.13 and tools (uv will point to this)
 RUN add-apt-repository -y ppa:deadsnakes/ppa && \
