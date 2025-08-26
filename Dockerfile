@@ -38,6 +38,7 @@ RUN apt-get update && apt-get install -y \
     git \
     git-lfs \
     htop \
+    iproute2 \
     jq \
     libsentencepiece-dev \
     libsqlite3-dev \
