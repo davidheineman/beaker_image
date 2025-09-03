@@ -79,6 +79,11 @@ gcplogin() {
     gcloud auth activate-service-account $SERVICE_ACCOUNT --key-file=/root/.gcp/service-account.json
 }
 
+# Verify Docker
+dockerlogin() {
+    echo "$DOCKERHUB_TOKEN" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
+}
+
 alias uvinit='uv venv --python 3.12 && source .venv/bin/activate'
 alias uva='source .venv/bin/activate'
 alias uvinstall='uv pip install -r requirements.txt'

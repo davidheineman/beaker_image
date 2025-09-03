@@ -6,6 +6,9 @@ source /root/.bashrc
 gitlogin
 gcplogin
 
+# Authenticate with Docker
+dockerlogin
+
 # Start VS code servers
 # export PATH="/root/.vscode-server/bin:/root/.vscode-server/bin/bin:$PATH"
 # export PATH="/root/.cursor-server/bin:/root/.cursor-server/bin/bin:$PATH"
