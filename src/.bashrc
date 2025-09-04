@@ -62,6 +62,9 @@ ln -sfn /oe-eval-default/davidh/.cache ~/.cache || true
 # Some scripts use /weka/oe-training-default. Create symlink for this
 mkdir -p /weka
 ln -sfn /oe-training-default /weka/oe-training-default
+ln -sfn /oe-adapt-default /weka/oe-adapt-default
+ln -sfn /oe-eval-default /weka/oe-eval-default
+ln -sfn /oe-data-default /weka/oe-data-default
 
 # Verify github
 # I wish this could be run with .bashrc, but it causes
