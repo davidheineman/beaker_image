@@ -132,6 +132,7 @@ export WEKA_PROFILE=oe-training-s3
 export S3_PROFILE=S3
 export WEKA_ENDPOINT_URL=https://weka-aus.beaker.org:9000
 export GOOGLE_CLOUD_PROJECT=ai2-allennlp
+export GOOGLE_APPLICATION_CREDENTIALS=/root/.gcp/service-account.json
 
 if [ ! -f /root/.ssh/environment ]; then
     # SLOW: Copy env variables from docker process (such as HF_TOKEN)
