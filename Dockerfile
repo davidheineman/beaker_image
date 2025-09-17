@@ -62,6 +62,7 @@ RUN apt-get update && apt-get install -y \
     tree \
     wget \
     weka \
+    zstd \
     && apt-get clean
 
 # Install docker utils (incl. dockerx)
