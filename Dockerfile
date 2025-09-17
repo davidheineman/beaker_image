@@ -62,6 +62,7 @@ RUN apt-get update && apt-get install -y \
     tree \
     wget \
     weka \
+    iputils-ping \
     zstd \
     && apt-get clean
 
