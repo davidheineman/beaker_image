@@ -1,14 +1,5 @@
 # https://github.com/allenai/docker-images/pkgs/container/cuda/versions
-# FROM ubuntu
-# FROM ghcr.io/allenai/conda:latest
-# FROM ghcr.io/allenai/pytorch:latest
-# FROM ghcr.io/allenai/pytorch:2.4.0-cuda12.1-python3.11
-# FROM ghcr.io/allenai/cuda:12.1-cudnn8-dev-ubuntu20.04-v1.2.118
-
 # https://hub.docker.com/r/nvidia/cuda/tags
-# FROM --platform=linux/amd64 nvidia/cuda:12.8.0-base-ubuntu22.04
-# FROM --platform=linux/amd64 nvidia/cuda:12.8.0-devel-ubuntu22.04
-# FROM --platform=linux/amd64 nvidia/cuda:12.8.0-cudnn-devel-ubuntu22.04
 FROM --platform=linux/amd64 nvidia/cuda:12.9.1-cudnn-devel-ubuntu22.04
 ENV OS_VER=ubuntu22.04
 
@@ -107,32 +98,6 @@ RUN echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] http://packages.c
         | apt-key --keyring /usr/share/keyrings/cloud.google.gpg add - \
     && apt-get update -y && apt-get install google-cloud-sdk -y
 
-# # Install MLNX OFED user-space drivers
-# # See https://docs.nvidia.com/networking/pages/releaseview.action?pageId=15049785#Howto:DeployRDMAacceleratedDockercontaineroverInfiniBandfabric.-Dockerfile
-# ENV MOFED_VER=24.01-0.3.3.1
-# ENV PLATFORM=x86_64
-# RUN wget --quiet https://content.mellanox.com/ofed/MLNX_OFED-${MOFED_VER}/MLNX_OFED_LINUX-${MOFED_VER}-${OS_VER}-${PLATFORM}.tgz && \
-#     tar -xvf MLNX_OFED_LINUX-${MOFED_VER}-${OS_VER}-${PLATFORM}.tgz && \
-#     MLNX_OFED_LINUX-${MOFED_VER}-${OS_VER}-${PLATFORM}/mlnxofedinstall --basic --user-space-only --without-fw-update -q && \
-#     rm -rf MLNX_OFED_LINUX-${MOFED_VER}-${OS_VER}-${PLATFORM} && \
-#     rm MLNX_OFED_LINUX-${MOFED_VER}-${OS_VER}-${PLATFORM}.tgz
-
-# # Install DOCA OFED user-space drivers
-# # See https://docs.nvidia.com/doca/sdk/doca-host+installation+and+upgrade/index.html
-# # doca-ofed-userspace ver 2.10.0 depends on mft=4.31.0-149
-# ENV MFT_VER 4.31.0-149
-# RUN wget https://www.mellanox.com/downloads/MFT/mft-${MFT_VER}-x86_64-deb.tgz && \
-#     tar -xzf mft-${MFT_VER}-x86_64-deb.tgz && \
-#     mft-${MFT_VER}-x86_64-deb/install.sh --without-kernel && \
-#     rm mft-${MFT_VER}-x86_64-deb.tgz
-
-# ENV DOFED_VER 2.10.0
-# ENV OS_VER ubuntu2204
-# RUN wget https://www.mellanox.com/downloads/DOCA/DOCA_v${DOFED_VER}/host/doca-host_${DOFED_VER}-093000-25.01-${OS_VER}_amd64.deb && \
-#     dpkg -i doca-host_${DOFED_VER}-093000-25.01-${OS_VER}_amd64.deb && \
-#     apt-get update && apt-get -y install doca-ofed-userspace && \
-#     rm doca-host_${DOFED_VER}-093000-25.01-${OS_VER}_amd64.deb
-
 ###########
 ###########
 
@@ -142,6 +107,15 @@ RUN . "$HOME/.cargo/env"
 
 # Install uv
 RUN curl -LsSf https://astral.sh/uv/install.sh | sh
+
+# Install s5cmd
+ARG S5CMD_VERSION=2.3.0
+RUN set -eux; \
+    cd /tmp; \
+    wget -q "https://github.com/peak/s5cmd/releases/download/v${S5CMD_VERSION}/s5cmd_${S5CMD_VERSION}_Linux-64bit.tar.gz"; \
+    tar -xzf "s5cmd_${S5CMD_VERSION}_Linux-64bit.tar.gz"; \
+    install -m 0755 s5cmd /usr/local/bin/s5cmd; \
+    rm -rf /tmp/*
 
 # Install Beaker
 RUN apt-get update && apt-get install -y curl sudo && \
