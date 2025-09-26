@@ -162,6 +162,9 @@ RUN code-server \
 RUN cursor-server \
     --uninstall-extension davidanson.vscode-markdownlint || true
 
+RUN cursor-server \
+    --uninstall-extension ms-python.vscode-pylance || true
+
 # Expose OpenSSH/VS Code and Jupyter ports
 EXPOSE 8080 8888
 
