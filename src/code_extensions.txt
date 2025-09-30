@@ -1,3 +1,4 @@
+anthropic.claude-code
 anseki.vscode-color
 bierner.markdown-preview-github-styles
 blanu.vscode-styled-jsx
