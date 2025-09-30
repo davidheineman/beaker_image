@@ -123,13 +123,13 @@ RUN apt-get update && apt-get install -y curl sudo && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Install VSCode Server
-ENV PATH="/root/.vscode-server/bin:/root/.vscode-server/bin/bin:$PATH"
-RUN mkdir -p /root/.vscode-server
-RUN curl -fsSL https://update.code.visualstudio.com/latest/server-linux-x64/stable \
-    -o /root/.vscode-server/code-server.tar.gz && \
-    mkdir -p /root/.vscode-server/bin && \
-    tar -xzf /root/.vscode-server/code-server.tar.gz -C /root/.vscode-server/bin --strip-components 1 && \
-    rm /root/.vscode-server/code-server.tar.gz
+# ENV PATH="/root/.vscode-server/bin:/root/.vscode-server/bin/bin:$PATH"
+# RUN mkdir -p /root/.vscode-server
+# RUN curl -fsSL https://update.code.visualstudio.com/latest/server-linux-x64/stable \
+#     -o /root/.vscode-server/code-server.tar.gz && \
+#     mkdir -p /root/.vscode-server/bin && \
+#     tar -xzf /root/.vscode-server/code-server.tar.gz -C /root/.vscode-server/bin --strip-components 1 && \
+#     rm /root/.vscode-server/code-server.tar.gz
 
 # Install Cursor Server
 ENV PATH="/root/.cursor-server/bin:/root/.cursor-server/bin/bin:$PATH"
@@ -141,10 +141,10 @@ RUN curl -fsSL https://cursor.blob.core.windows.net/remote-releases/0.11.8-769e5
     rm /root/.cursor-server/cursor-server.tar.gz
 
 # Install VSCode Extensions
-COPY src/code_extensions.txt /.code_extensions.txt
-RUN while read -r extension; do \
-    code-server --install-extension "$extension"; \
-done < /.code_extensions.txt
+# COPY src/code_extensions.txt /.code_extensions.txt
+# RUN while read -r extension; do \
+#     code-server --install-extension "$extension"; \
+# done < /.code_extensions.txt
 
 # Install Cursor Extensions
 RUN while read -r extension; do \
@@ -156,14 +156,17 @@ done < /.code_extensions.txt
 #     --install-extension detachhead.basedpyright || true
 
 # Uninstall some default extensions
-RUN code-server \
-    --uninstall-extension davidanson.vscode-markdownlint || true
+# RUN code-server \
+#     --uninstall-extension davidanson.vscode-markdownlint || true
 
 RUN cursor-server \
     --uninstall-extension davidanson.vscode-markdownlint || true
 
+# Manual fix for Python in Cursor
 RUN cursor-server \
     --uninstall-extension ms-python.vscode-pylance || true
+RUN cursor-server \
+    --install-extension anysphere.cursorpyright || true
 
 # Expose OpenSSH/VS Code and Jupyter ports
 EXPOSE 8080 8888
