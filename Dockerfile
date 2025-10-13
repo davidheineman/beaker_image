@@ -169,28 +169,16 @@ RUN cursor-server \
 RUN cursor-server \
     --install-extension anysphere.cursorpyright || true
 
-# # Remove any preinstalled node/npm that might shadow /usr/bin
-# # (fix typo: node_module -> node_modules)
-# RUN rm -f /usr/local/bin/node /usr/local/bin/npm /usr/local/bin/npx \
-#     && rm -rf /usr/local/lib/node_modules
+# Update system and install dependencies
+RUN apt-get update && apt-get upgrade -y && \
+    apt-get install -y curl && \
+    curl -fsSL https://deb.nodesource.com/setup_20.x | bash - && \
+    apt-get install -y nodejs && \
+    npm install -g @anthropic-ai/claude-code && \
+    rm -rf /var/lib/apt/lists/*
 
-# # Install Node 20 from NodeSource and Claude Code
-# RUN set -eux; \
-#     apt-get update; \
-#     apt-get remove -y libnode-dev nodejs || true; \
-#     apt-get autoremove -y; \
-#     apt-get install -y --no-install-recommends curl ca-certificates gnupg; \
-#     curl -fsSL https://deb.nodesource.com/setup_20.x | bash -; \
-#     apt-get install -y --no-install-recommends nodejs; \
-#     # Ensure the correct binaries are the ones found on PATH
-#     ln -sf /usr/bin/node /usr/local/bin/node; \
-#     ln -sf /usr/bin/npm  /usr/local/bin/npm; \
-#     npm install -g @anthropic-ai/claude-code@latest; \
-#     npm cache clean --force; \
-#     rm -rf /var/lib/apt/lists/*
-
-# # Verify install (and show where node/npm resolve from)
-# RUN node -v && npm -v && which -a node && which -a npm && claude --help
+# Verify installation
+RUN claude --help
 
 # Expose OpenSSH/VS Code and Jupyter ports
 EXPOSE 8080 8888
