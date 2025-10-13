@@ -169,6 +169,10 @@ RUN cursor-server \
 RUN cursor-server \
     --install-extension anysphere.cursorpyright || true
 
+# Remove any preinstalled node/npm that might shadow /usr/bin
+RUN rm -f /usr/local/bin/node /usr/local/bin/npm /usr/local/bin/npx \
+    && rm -rf /usr/local/lib/node_module
+
 # Install NPM + Claude Code
 RUN apt-get update && \
     apt-get remove -y libnode-dev nodejs || true && \
