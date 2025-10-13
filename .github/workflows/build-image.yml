@@ -132,7 +132,6 @@ jobs:
           'ai2/ceres-cirrascale',
           'ai2/phobos-cirrascale',
           'ai2/triton-cirrascale'
-          # 'ai2/titan-cirrascale',
         ]
       fail-fast: false # Allow other clusters to continue even if one fails
     
