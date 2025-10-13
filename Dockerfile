@@ -140,8 +140,9 @@ RUN curl -fsSL https://cursor.blob.core.windows.net/remote-releases/0.11.8-769e5
     tar -xzf /root/.cursor-server/cursor-server.tar.gz -C /root/.cursor-server/bin --strip-components 1 && \
     rm /root/.cursor-server/cursor-server.tar.gz
 
+COPY src/code_extensions.txt /.code_extensions.txt
+
 # Install VSCode Extensions
-# COPY src/code_extensions.txt /.code_extensions.txt
 # RUN while read -r extension; do \
 #     code-server --install-extension "$extension"; \
 # done < /.code_extensions.txt
@@ -167,6 +168,20 @@ RUN cursor-server \
     --uninstall-extension ms-python.vscode-pylance || true
 RUN cursor-server \
     --install-extension anysphere.cursorpyright || true
+
+# Install NPM + Claude Code
+RUN apt-get update && \
+    apt-get remove -y libnode-dev nodejs || true && \
+    apt-get autoremove -y && \
+    apt-get install -y curl ca-certificates gnupg && \
+    curl -fsSL https://deb.nodesource.com/setup_20.x | bash - && \
+    apt-get install -y nodejs && \
+    npm install -g @anthropic-ai/claude-code && \
+    npm cache clean --force && \
+    rm -rf /var/lib/apt/lists/*
+
+# Verify install
+RUN node -v && npm -v && claude --help
 
 # Expose OpenSSH/VS Code and Jupyter ports
 EXPOSE 8080 8888
