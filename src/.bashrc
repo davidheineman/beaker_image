@@ -27,6 +27,9 @@ export PYTHONIOENCODING=utf8
 export PATH="/usr/local/cuda-12.9/bin:$PATH"
 export LD_LIBRARY_PATH="/usr/local/cuda-12.9/lib64:$LD_LIBRARY_PATH"
 
+# Add /root/.local/bin to path (needed for uv)
+export PATH="/root/.local/bin:$PATH"
+
 # Add ChatGPT!
 export PATH="/root/.bin:$PATH"
 
