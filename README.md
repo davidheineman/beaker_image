@@ -11,7 +11,7 @@ Pairs well with [cuvette](https://github.com/davidheineman/cuvette).
 pip install cuvette
 
 # launch interactive session
-bl -c ai2/phobos-cirrascale
+bl -c ai2/phobos
 
 # enter the session
 ssh ai2
@@ -23,7 +23,7 @@ ssh ai2
 ```sh
 beaker session create \
     --name quick-start \
-    --cluster ai2/phobos-cirrascale \
+    --cluster ai2/phobos \
     --image beaker://davidh/davidh-interactive \
     --workspace ai2/davidh \
     --priority normal \

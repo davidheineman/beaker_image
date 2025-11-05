@@ -8,7 +8,7 @@ inputs:
   cluster:
     description: Name of Beaker cluster to test on
     required: true
-    default: "ai2/phobos-cirrascale"
+    default: "ai2/phobos"
 runs:
   using: composite
   steps:
