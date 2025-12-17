@@ -86,6 +86,14 @@ RUN add-apt-repository -y ppa:deadsnakes/ppa && \
     ln -sf /usr/bin/pip3 /usr/bin/pip && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
+# Install dust
+RUN wget https://github.com/bootandy/dust/releases/download/v1.2.2/dust-v1.2.2-x86_64-unknown-linux-gnu.tar.gz && \
+    tar -xzf dust-v1.2.2-x86_64-unknown-linux-gnu.tar.gz && \
+    mv dust-v1.2.2-x86_64-unknown-linux-gnu/dust /usr/local/bin/ && \
+    rm -rf dust-v1.2.2-x86_64-unknown-linux-gnu/ && \
+    rm dust-v1.2.2-x86_64-unknown-linux-gnu.tar.gz && \
+    chmod +x /usr/local/bin/dust
+
 ###########
 # https://github.com/allenai/docker-images/blob/main/cuda/Dockerfile
 ###########
