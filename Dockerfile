@@ -42,6 +42,7 @@ RUN apt-get update && apt-get install -y \
     nano \
     neofetch \
     net-tools \
+    ncdu \
     ninja-build \
     nvtop \
     openssh-server \
