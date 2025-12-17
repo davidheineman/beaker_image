@@ -17,6 +17,10 @@ RUN apt-get update && apt-get install -y cuda-toolkit-12-9 && apt-get clean
 ENV PATH="/usr/local/cuda-12.9/bin:$PATH"
 ENV LD_LIBRARY_PATH=/usr/local/cuda-12.9/lib64:$LD_LIBRARY_PATH
 
+# Install CUDA utils
+RUN apt-get update && apt-get install -y libcusparselt0-cuda-12 libnvshmem3-cuda-12 && apt-get clean
+ENV LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu/libcusparseLt/12:/usr/lib/x86_64-linux-gnu/nvshmem/12:$LD_LIBRARY_PATH
+
 # Disable welcome messages
 RUN chmod -x /etc/update-motd.d/* && touch ~/.hushlogin && touch /root/.hushlogin
 
@@ -154,12 +158,11 @@ done < /.code_extensions.txt
 
 # (Disabled) Install Cursor-only Extensions
 # RUN cursor-server \
-#     --install-extension detachhead.basedpyright || true
+#     --install-extension AnySphere.cursor-pyright || true
 
 # Uninstall some default extensions
 # RUN code-server \
 #     --uninstall-extension davidanson.vscode-markdownlint || true
-
 RUN cursor-server \
     --uninstall-extension davidanson.vscode-markdownlint || true
 
@@ -167,7 +170,7 @@ RUN cursor-server \
 RUN cursor-server \
     --uninstall-extension ms-python.vscode-pylance || true
 RUN cursor-server \
-    --install-extension anysphere.cursorpyright || true
+    --install-extension AnySphere.cursor-pyright || true
 
 # Attempt to install NPM + Claude Code
 # RUN apt-get update && apt-get upgrade -y && \
