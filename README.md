@@ -75,3 +75,17 @@ beaker image create --name davidh-interactive davidh-interactive
 ```
 
 </details>
+
+### check disk space
+
+```sh
+DEPTH=1
+FOLDER=/oe-eval-default
+dust \
+    --print-errors \
+    --no-progress \
+    --limit-filesystem \
+    --reverse \
+    --depth $DEPTH \
+    $FOLDER | tee /output/report.txt
+```
