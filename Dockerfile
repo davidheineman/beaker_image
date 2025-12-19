@@ -51,6 +51,7 @@ RUN apt-get update && apt-get install -y \
     psmisc \
     redis-server \
     rename \
+    rsync \
     sl \
     smem \
     socat \
