@@ -16,5 +16,9 @@ dockerlogin || true
 # nohup code-server --bind-addr 0.0.0.0:8080 --accept-server-license-terms > /tmp/code-server.log 2>&1 &
 # nohup cursor-server --bind-addr 0.0.0.0:8080 --accept-server-license-terms > /tmp/cursor-server.log 2>&1 &
 
-# Start OpenSSH server
-exec /usr/sbin/sshd -D
+# Start OpenSSH server (use CUVETTE_PORT if specified)
+if [ -n "${CUVETTE_PORT}" ]; then
+  exec /usr/sbin/sshd -D -p "${CUVETTE_PORT}"
+else
+  exec /usr/sbin/sshd -D
+fi
