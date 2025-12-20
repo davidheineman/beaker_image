@@ -3,11 +3,11 @@
 source /root/.bashrc
 
 # Authenticate with git
-gitlogin
-gcplogin
+gitlogin || true
+gcplogin || true
 
 # Authenticate with Docker
-dockerlogin
+dockerlogin || true
 
 # Start VS code servers
 # export PATH="/root/.vscode-server/bin:/root/.vscode-server/bin/bin:$PATH"
