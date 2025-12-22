@@ -210,3 +210,6 @@ if command -v cursor &>/dev/null; then
         ) &
     fi
 fi
+
+# alias in case it fails
+alias pyright='cursor --install-extension AnySphere.cursor-pyright &>/dev/null && touch "/tmp/.cursor_pyright_installed"'
