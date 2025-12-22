@@ -196,3 +196,17 @@ if [ -f /root/.ssh/environment_multiline ]; then
     . /root/.ssh/environment_multiline
     set +a
 fi
+
+# Install Cursor PyRight in background (needs GUI install, so must be in ~/.bashrc)
+if command -v cursor &>/dev/null; then
+    INSTALLED_MARKER="/tmp/.cursor_pyright_installed"
+    if [ ! -f "$INSTALLED_MARKER" ]; then
+        (
+            if ! cursor --list-extensions 2>/dev/null | grep -q "AnySphere.cursor-pyright"; then
+                cursor --install-extension AnySphere.cursor-pyright &>/dev/null && touch "$INSTALLED_MARKER"
+            else
+                touch "$INSTALLED_MARKER"
+            fi
+        ) &
+    fi
+fi
