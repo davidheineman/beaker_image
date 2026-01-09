@@ -35,6 +35,7 @@ RUN apt-get update && apt-get install -y \
     htop \
     iproute2 \
     jq \
+    ffmpeg \
     libsentencepiece-dev \
     libsqlite3-dev \
     libssl-dev \
