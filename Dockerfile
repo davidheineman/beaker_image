@@ -58,6 +58,7 @@ RUN apt-get update && apt-get install -y \
     socat \
     software-properties-common \
     tree \
+    tmux \
     wget \
     weka \
     iputils-ping \
