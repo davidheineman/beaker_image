@@ -138,6 +138,9 @@ RUN apt-get update && apt-get install -y curl sudo && \
     curl -s 'https://beaker.org/api/v3/release/cli?os=linux&arch=amd64' | sudo tar -zxv -C /usr/local/bin ./beaker && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
+# Install Ollama
+RUN curl -fsSL https://ollama.com/install.sh | sh
+
 # Install VSCode Server
 # ENV PATH="/root/.vscode-server/bin:/root/.vscode-server/bin/bin:$PATH"
 # RUN mkdir -p /root/.vscode-server
